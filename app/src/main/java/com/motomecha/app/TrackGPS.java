@@ -1,5 +1,6 @@
 package com.motomecha.app;
 
+
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -15,22 +16,22 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class TrackGPS extends Service implements LocationListener {
-    private final Context mContext;
+    Context mContext;
     boolean checkGPS = false;
     boolean checkNetwork = false;
     boolean canGetLocation = false;
     Location loc;
     double latitude;
     double longitude;
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
-    private static final long MIN_TIME_BW_UPDATES = 10000 ;
-    protected LocationManager locationManager;
-
+    final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
+    final long MIN_TIME_BW_UPDATES = 10000;
+    LocationManager locationManager;
+    public TrackGPS() {
+    }
     public TrackGPS(Context mContext) {
         this.mContext = mContext;
         getLocation();
     }
-
     private Location getLocation() {
 
         try {
@@ -69,15 +70,14 @@ public class TrackGPS extends Service implements LocationListener {
                             latitude = loc.getLatitude();
                             longitude = loc.getLongitude();
                         }
-                    }
-                    catch(SecurityException e){
+                    } catch (SecurityException e) {
 
                     }
                 }
             }
             // if GPS Enabled get lat/long using GPS Services
             if (checkGPS) {
-                Toast.makeText(mContext,"GPS",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "GPS", Toast.LENGTH_SHORT).show();
                 if (loc == null) {
                     try {
                         locationManager.requestLocationUpdates(
