@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/home_bar"
+        icon="@drawable/ic_home_tab"
+         />
+    <tab
+        id="@+id/tyre_bar"
+        icon="@drawable/ic_tyre_tab"
+         />
+    <tab
+        id="@+id/battery_bar"
+        icon="@drawable/ic_battery_tab"
+         />
+    <tab
+    id="@+id/more_bar"
+    icon="@drawable/ic_more_tab"
+     />
+</tabs>

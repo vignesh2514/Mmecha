@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_all"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.motomecha.app.OfferPage"
+    tools:showIn="@layout/activity_offer_page">
+<ListView
+    android:id="@+id/offer_list"
+    android:layout_width="match_parent"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0dp"
+    android:layout_height="match_parent"/>
+
+</android.support.constraint.ConstraintLayout>

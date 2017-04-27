@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_all"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.motomecha.app.bike_module.PickService"
+    tools:showIn="@layout/activity_pick_service">
+
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:weightSum="4"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageButton
+                android:id="@+id/general_service"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/general" />
+
+            <ImageButton
+                android:id="@+id/oil_change"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/oilchange" />
+
+            <ImageButton
+                android:id="@+id/repair_jobs"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/repair" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_height="wrap_content"
+            >
+            <ImageButton
+                android:id="@+id/water_wash"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/water" />
+
+            <ImageButton
+                android:id="@+id/tyre_puncture"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+
+                android:layout_weight="1"
+                app:srcCompat="@drawable/tyre" />
+
+            <ImageButton
+                android:id="@+id/breakdown_assit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/breakdown" />
+       </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_height="wrap_content"
+            >
+            <ImageButton
+                android:id="@+id/vehicle_diag"
+                android:layout_width="wrap_content"
+
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/vehicle" />
+
+            <ImageButton
+                android:id="@+id/insurance_ren"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/insurance" />
+
+            <ImageButton
+                android:id="@+id/buy_sell_mod"
+
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/buysell" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_height="wrap_content"
+            >
+            <ImageButton
+                android:id="@+id/nearest_petrol"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/petrol" />
+
+            <ImageButton
+                android:id="@+id/bike_stickern"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/bikesticker" />
+
+            <ImageButton
+                android:id="@+id/cuatomer_supp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/customer" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/servicetype"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/brandtype"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

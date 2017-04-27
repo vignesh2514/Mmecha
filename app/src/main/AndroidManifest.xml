@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.motomecha.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.LOCATION_HARDWARE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <application
+        android:name=".AppController"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".BasicActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name="swarajsaaj.smscodereader.receivers.OtpReader">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".MyFcmId">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".MyService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OtpActivity"
+            android:label="@string/title_activity_otp"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ResgisterActivity"
+            android:label="@string/title_activity_resgister"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".IntroActivity"
+            android:label="@string/title_activity_intro"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GlobalWebPage"
+            android:label="@string/title_activity_global_web_page"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".MyVechicle"
+            android:label="@string/title_activity_my_vechicle"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".OfferPage"
+            android:label="@string/title_activity_offer_page"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".ServiceHistory"
+            android:label="@string/title_activity_service_history"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".bike_module.PickService"
+            android:label="@string/title_activity_pick_service"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".BrandSelect"
+            android:label="@string/title_activity_brand_select"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".SelectVehicle"
+            android:label="@string/title_activity_select_vehicle"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".car_module.Car_service_modes"
+            android:label="@string/title_activity_car_service_modes"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".ModelSelect"
+            android:label="@string/title_activity_model_select"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".Plate_Regiestration"
+            android:label="@string/title_activity_plate__regiestration"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".bike_module.BikeMapActivity"
+            android:label="@string/title_activity_bike_map"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".bike_module.ConfirmBooking"
+            android:label="@string/title_activity_confirm_booking"
+            android:parentActivityName=".bike_module.BikeMapActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.bike_module.BikeMapActivity" />
+        </activity>
+        <activity
+            android:name=".bike_module.LastPage"
+            android:label="@string/title_activity_last_page"
+            android:parentActivityName=".bike_module.ConfirmBooking"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.bike_module.ConfirmBooking" />
+        </activity>
+
+        <service
+            android:name=".TrackGPS"
+            android:enabled="true"
+            android:exported="true"></service>
+    </application>
+
+</manifest>

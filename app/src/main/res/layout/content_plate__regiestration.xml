@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_all"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.motomecha.app.Plate_Regiestration"
+    tools:showIn="@layout/activity_plate__regiestration">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        app:cardCornerRadius="3dp"
+        android:padding="2dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        android:layout_height="200dp"
+        android:id="@+id/cardView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/model_name"
+                android:layout_width="match_parent"
+                android:text="Apache RTR 180 CC"
+                android:gravity="center"
+                android:padding="5dp"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorAccent"
+                android:textSize="28sp"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/liner_check"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/plate"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/tn1"
+                    android:hint="TN"
+
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:padding="5dp"
+
+                    android:backgroundTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/tn2"
+                    android:hint="07"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:textSize="22sp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+                <EditText
+                    android:id="@+id/tn3"
+                    android:hint="AR"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+
+                    android:textSize="22sp"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/tn4"
+                    android:hint="6743"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:textSize="22sp"
+                    android:maxLength="4"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </LinearLayout>
+        </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+<TextView
+    android:id="@+id/vec_type"
+android:visibility="invisible"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/user_uid"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+    android:background="@color/colorPrimary"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Submit"
+    android:id="@+id/submit_register"
+    android:textColor="@color/colorAccent"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="12dp" />
+</RelativeLayout>
