@@ -38,6 +38,8 @@
         android:layout_alignParentRight="true"
         android:background="@null"
         android:text="@string/intro_next"
+        android:textAllCaps="true"
+
         android:textColor="@android:color/white" />
 
     <Button
@@ -48,5 +50,7 @@
         android:layout_alignParentLeft="true"
         android:background="@null"
         android:text="@string/intro_skip"
+        android:textAllCaps="true"
+
         android:textColor="@android:color/white" />
 </RelativeLayout>
