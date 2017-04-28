@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="22sp"
-                android:textAllCaps="true"
+
 
                 />
 

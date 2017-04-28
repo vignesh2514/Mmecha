@@ -95,7 +95,7 @@ Ibike.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), GlobalWebPage.class);
                 intent.putExtra("title1","OUR BLOG");
-                intent.putExtra("wburl", "http://motomecha.com/contact-us.html");
+                intent.putExtra("wburl", "http://blog.motomecha.com/");
                 startActivity(intent);
             }
         });

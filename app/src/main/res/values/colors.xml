@@ -5,7 +5,7 @@
     <color name="colorAccent">#ffba00</color>
     <color name="Yellowlight">#ffffcb</color>
     <color name="white">#FFFFFF</color>
-    <color name="transparent_primary">#7c000000</color>
+    <color name="transparent_primary">#40000000</color>
     <color name="colorRed">#ff1545</color>
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#01ddcb</color>
