@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.motomecha.app.DetailService;
+import com.motomecha.app.GlobalWebPage;
 import com.motomecha.app.MyVechicle;
 import com.motomecha.app.R;
 
 public class Car_service_modes extends AppCompatActivity {
-    String pick_type="car";
+   
     ImageButton Igencar,Iac_repa,Iroad_side,Iwheel,Iinsur,Ioil,Irepai,Itinke,Interir,Idiag,Ibuy,Icar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,6 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
                 intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
@@ -57,7 +58,6 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
                 intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
@@ -65,32 +65,36 @@ public class Car_service_modes extends AppCompatActivity {
         Iroad_side.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
+                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
+                intent.putExtra("servicetype","RSA");
+                intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
         });
         Iwheel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
+                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
+                intent.putExtra("servicetype","WA");
+                intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
         });
         Iinsur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
+                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
+                intent.putExtra("servicetype","IN");
+                intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
         });
         Ioil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
+                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
+                intent.putExtra("servicetype","OC");
+                intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
         });
@@ -98,7 +102,6 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
                 intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
@@ -106,18 +109,17 @@ public class Car_service_modes extends AppCompatActivity {
         Itinke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
+                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
+                intent.putExtra("servicetype","TP");
                 intent.putExtra("vehicletype","car");
-
                 startActivity(intent);
             }
         });
         Interir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
+                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
+                intent.putExtra("servicetype","IC");
                 intent.putExtra("vehicletype","car");
 
                 startActivity(intent);
@@ -126,27 +128,26 @@ public class Car_service_modes extends AppCompatActivity {
         Idiag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
+                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
+                intent.putExtra("servicetype","DI");
                 intent.putExtra("vehicletype","car");
-
                 startActivity(intent);
             }
         });
         Ibuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
-                intent.putExtra("vehicletype","car");
+                Intent intent =new Intent(Car_service_modes.this,GlobalWebPage.class);
+                intent.putExtra("title1","USED CARS");
+                intent.putExtra("wburl"," http://motomecha.com/");
                 startActivity(intent);
             }
         });
         Icar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("brandtype",pick_type);
+                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
+                intent.putExtra("servicetype","CD");
                 intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }

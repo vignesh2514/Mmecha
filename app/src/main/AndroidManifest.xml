@@ -24,7 +24,7 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -141,16 +141,6 @@
                 android:value="com.motomecha.app.BasicActivity" />
         </activity>
         <activity
-            android:name=".SelectVehicle"
-            android:label="@string/title_activity_select_vehicle"
-            android:parentActivityName=".BasicActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
-        </activity>
-        <activity
             android:name=".car_module.Car_service_modes"
             android:label="@string/title_activity_car_service_modes"
             android:parentActivityName=".BasicActivity"
@@ -195,7 +185,8 @@
             android:label="@string/title_activity_confirm_booking"
             android:parentActivityName=".bike_module.BikeMapActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.motomecha.app.bike_module.BikeMapActivity" />
@@ -214,7 +205,48 @@
         <service
             android:name=".TrackGPS"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".VehicleMode"
+            android:label="@string/title_activity_vehicle_mode"
+            android:parentActivityName=".BasicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".ListVechicle"
+            android:label="@string/title_activity_list_vechicle"
+            android:parentActivityName=".VehicleMode"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.VehicleMode" />
+        </activity>
+        <activity
+            android:name=".DetailService"
+            android:label="@string/title_activity_detail_service"
+            android:parentActivityName=".ListVechicle"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.ListVechicle" />
+        </activity>
+        <activity
+            android:name=".CustomerReviews"
+            android:label="@string/title_activity_customer_reviews"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".BasicActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.BasicActivity" />
+        </activity>
     </application>
 
 </manifest>

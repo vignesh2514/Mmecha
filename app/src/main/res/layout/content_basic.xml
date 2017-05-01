@@ -61,7 +61,6 @@ android:orientation="horizontal"
             android:id="@+id/imageButton2"
             android:layout_width="wrap_content"
             android:background="?attr/selectableItemBackground"
-
             android:layout_weight="1"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/bike_new"

@@ -56,7 +56,6 @@ String change_url,uid;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("");
-
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
@@ -71,7 +70,6 @@ String change_url,uid;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>MY</font> <font color=#ffffff>VEHICLE</font>";
         tv.setText(Html.fromHtml(text));
-        brandtype = getIntent().getStringExtra("brandtype");
         vehicletype = getIntent().getStringExtra("vehicletype");
         listView=(ListView) findViewById(R.id.list_new_bikes);
         Baddvec=(ImageButton) findViewById(R.id.button2);
@@ -79,7 +77,7 @@ String change_url,uid;
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MyVechicle.this,BrandSelect.class);
-                intent.putExtra("brandtype",brandtype);
+                intent.putExtra("brandtype",vehicletype);
                 startActivity(intent);
             }
         });

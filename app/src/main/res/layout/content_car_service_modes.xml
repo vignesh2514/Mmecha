@@ -8,113 +8,145 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.motomecha.app.car_module.Car_service_modes"
     tools:showIn="@layout/activity_car_service_modes">
-    <ScrollView
-        android:id="@+id/scroll_vjn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:weightSum="4"
         android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="18dp">
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TableRow>
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_height="wrap_content"
+            >
                 <ImageButton
                     android:id="@+id/general_car"
                     android:background="?android:selectableItemBackground"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
                     app:srcCompat="@drawable/general_car"
                     android:layout_height="match_parent"/>
                 <ImageButton
                     android:id="@+id/ac_repair"
-
-                    android:layout_width="match_parent"
+android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:background="?android:selectableItemBackground"
                     app:srcCompat="@drawable/ac_repair"
                     android:layout_height="match_parent"/>
-                <ImageButton
-                    android:id="@+id/road_side"
-                    android:padding="5dp"
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
-                    android:background="?android:selectableItemBackground"
-                    app:srcCompat="@drawable/road_side_assistance"
-                    android:layout_height="match_parent"/>
-            </TableRow>
-            <TableRow>
+            <ImageButton
+                android:id="@+id/repair_jobs_car"
+                android:layout_weight="1"
+
+                android:layout_width="wrap_content"
+                app:srcCompat="@drawable/repair_jobs_car"
+                android:background="?android:selectableItemBackground"
+                android:layout_height="match_parent"/>
+
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_height="wrap_content"
+            >
                 <ImageButton
                     android:id="@+id/wheel_alignment"
-
-                    android:layout_width="match_parent"
+android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     app:srcCompat="@drawable/wheel_alignment"
                     android:background="?android:selectableItemBackground"
                     android:layout_height="match_parent"/>
                 <ImageButton
                     android:id="@+id/insurance_car"
+                    android:layout_weight="1"
 
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     app:srcCompat="@drawable/insurance_car"
                     android:background="?android:selectableItemBackground"
 
                     android:layout_height="match_parent"/>
                 <ImageButton
                     android:id="@+id/oil_change_car"
+                    android:layout_weight="1"
 
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:background="?android:selectableItemBackground"
                     app:srcCompat="@drawable/oil_change_car"
                     android:layout_height="match_parent"/>
-            </TableRow>
-            <TableRow>
-                <ImageButton
-                    android:id="@+id/repair_jobs_car"
-                    android:layout_width="match_parent"
-                    app:srcCompat="@drawable/repair_jobs_car"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_height="wrap_content"
+            >
+            <ImageButton
+                android:id="@+id/road_side"
+
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:background="?android:selectableItemBackground"
+                app:srcCompat="@drawable/road_side_assistance"
+                android:layout_height="match_parent"/>
+
                 <ImageButton
                     android:id="@+id/tinkering_painting"
+                    android:layout_weight="1"
 
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     app:srcCompat="@drawable/tinkering_painting"
                     android:background="?android:selectableItemBackground"
                     android:layout_height="match_parent"/>
                 <ImageButton
                     android:id="@+id/interior_clearing"
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:background="?android:selectableItemBackground"
                     app:srcCompat="@drawable/interior_cleaning"
                     android:layout_height="match_parent"/>
-            </TableRow>
-            <TableRow>
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_height="wrap_content"
+            >
                 <ImageButton
                     android:id="@+id/diagnosis_car"
+                    android:layout_weight="1"
 
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:background="?android:selectableItemBackground"
                     app:srcCompat="@drawable/diagnosis_car"
                     android:layout_height="match_parent"/>
                 <ImageButton
                     android:id="@+id/buy_sell_car"
+                    android:layout_weight="1"
 
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:background="?android:selectableItemBackground"
                     app:srcCompat="@drawable/buy_sell_car"
                     android:layout_height="match_parent"/>
                 <ImageButton
                     android:id="@+id/car_detailing"
-
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:background="?android:selectableItemBackground"
                     app:srcCompat="@drawable/car_detailing"
                     android:layout_height="match_parent"/>
-            </TableRow>
-        </TableLayout>
+            </LinearLayout>
+
 </LinearLayout>
 
-    </ScrollView>
+
 </RelativeLayout>

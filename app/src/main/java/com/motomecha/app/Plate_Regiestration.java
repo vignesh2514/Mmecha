@@ -10,8 +10,8 @@ import android.text.Html;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +28,7 @@ import java.util.Map;
 
 
 public class Plate_Regiestration extends AppCompatActivity {
-Button Bsubmit;
+ImageButton Bsubmit;
     EditText Etn1,Etn2,Etn3,Etn4;
     String mbtype,uid,Stn1,Stn2,Stn3,Stn4,btype;
     TextView Tbikeview,vtype,Tuser_uid;
@@ -61,7 +61,7 @@ Button Bsubmit;
         Etn3.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         Llightbulb=(LinearLayout) findViewById(R.id.liner_check);
         Tbikeview=(TextView) findViewById(R.id.model_name);
-        Bsubmit=(Button) findViewById(R.id.submit_register);
+        Bsubmit=(ImageButton) findViewById(R.id.submit_register);
         Intent intent = getIntent();
         mbtype = intent.getStringExtra("brand");
         btype = intent.getStringExtra("brand_type");

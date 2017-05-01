@@ -37,6 +37,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_confirm_booking">ConfirmBooking</string>
     <string name="title_activity_last_page">LastPage</string>
+    <string name="title_activity_vehicle_mode">VehicleMode</string>
+    <string name="title_activity_list_vechicle">ListVechicle</string>
+    <string name="title_activity_detail_service">DetailService</string>
+    <string name="title_activity_customer_reviews">CustomerReviews</string>
 
 
 </resources>

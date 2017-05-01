@@ -31,7 +31,14 @@
                 android:textSize="22sp"
 
                 />
-
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                app:srcCompat="@drawable/ic_stat_name"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 

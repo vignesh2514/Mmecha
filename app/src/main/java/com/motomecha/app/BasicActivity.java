@@ -152,7 +152,7 @@ public class BasicActivity extends AppCompatActivity
         if (id == R.id.nav_my_profile) {
 
         } else if (id == R.id.nav_vehicle) {
-            Intent intent =new Intent(BasicActivity.this,MyVechicle.class);
+            Intent intent =new Intent(BasicActivity.this,VehicleMode.class);
             startActivity(intent);
         } else if (id == R.id.nav_service) {
             Intent intent =new Intent(BasicActivity.this,ServiceHistory.class);
@@ -161,7 +161,7 @@ public class BasicActivity extends AppCompatActivity
         else if (id == R.id.nav_buy_sell)
         {
             Intent intent =new Intent(BasicActivity.this,GlobalWebPage.class);
-            intent.putExtra("title1","Used Bikes");
+            intent.putExtra("title1","USED BIKES");
             intent.putExtra("wburl"," http://motomecha.com/");
             startActivity(intent);
         }
@@ -182,6 +182,11 @@ public class BasicActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_logt) {
 logoutUser();
+        }
+        else if (id == R.id.nav_custom_speak)
+        {
+            Intent intent = new Intent(BasicActivity.this, CustomerReviews.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

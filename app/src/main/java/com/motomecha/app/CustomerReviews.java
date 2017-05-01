@@ -36,13 +36,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfferPage extends AppCompatActivity {
-    private  ProgressDialog dialog;
+public class CustomerReviews extends AppCompatActivity {
     ListView menu_list;
+    private  ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offer_page);
+        setContentView(R.layout.activity_customer_reviews);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -55,21 +56,20 @@ public class OfferPage extends AppCompatActivity {
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
-        String text = "<font color=#ff1545>MY</font> <font color=#ffffff>OFFERS</font>";
+        String text = "<font color=#ff1545>CUSTOMER</font> <font color=#ffffff>REVIEW</font>";
         tv.setText(Html.fromHtml(text));
-menu_list=(ListView) findViewById(R.id.offer_list);
-        new JSONTask().execute(GlobalUrlInit.OFFER_SERVICES);
-
+        menu_list=(ListView) findViewById(R.id.offer_list);
+        new JSONTask().execute(GlobalUrlInit.CUSTOMER_REVIEW);
     }
 
     public class MovieAdapter extends ArrayAdapter {
 
-        private List<OfferList> movieModelList;
+        private List<ListCustomReviews> movieModelList;
         private int resource;
         Context context;
         private LayoutInflater inflater;
 
-        public MovieAdapter(Context context, int resource, List<OfferList> objects) {
+        public MovieAdapter(Context context, int resource, List<ListCustomReviews> objects) {
             super(context, resource, objects);
             movieModelList = objects;
             this.context =context;
@@ -96,13 +96,11 @@ menu_list=(ListView) findViewById(R.id.offer_list);
             final ViewHolder holder  ;
 
             if(convertView == null){
-
                 convertView = inflater.inflate(resource,null);
                 holder = new ViewHolder();
                 holder.more_img = (ImageView)convertView.findViewById(R.id.imageView2);
                 holder.mor_title = (TextView)convertView.findViewById(R.id.offer_title);
-                holder.more_des = (TextView)convertView.findViewById(R.id.offer_description);
-                holder.more_ex=(TextView)convertView.findViewById(R.id.offer_validity);
+             
 
                 convertView.setTag(holder);
 
@@ -111,11 +109,10 @@ menu_list=(ListView) findViewById(R.id.offer_list);
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            OfferList more_list_menu= movieModelList.get(position);
-            Glide.with(context).load(more_list_menu.getOffer_image()).error(R.drawable.car_new).into(holder.more_img);
-            holder.mor_title.setText(more_list_menu.getOffer_title());
-            holder.more_des.setText(more_list_menu.getOffer_desc());
-            holder.more_ex.setText(more_list_menu.getOffer_validity());
+            ListCustomReviews more_list_menu= movieModelList.get(position);
+            Glide.with(context).load(more_list_menu.getCr_image()).error(R.drawable.car_new).into(holder.more_img);
+            holder.mor_title.setText(more_list_menu.getCr_title());
+     
 
 
             return convertView;
@@ -124,14 +121,14 @@ menu_list=(ListView) findViewById(R.id.offer_list);
 
         class ViewHolder{
             private ImageView more_img;
-            private TextView mor_title,more_des,more_ex;
+            private TextView mor_title;
 
 
 
         }
 
     }
-    public class JSONTask extends AsyncTask<String,String, List<OfferList>> {
+    public class JSONTask extends AsyncTask<String,String, List<ListCustomReviews>> {
 
         @Override
         protected void onPreExecute() {
@@ -141,7 +138,7 @@ menu_list=(ListView) findViewById(R.id.offer_list);
         }
 
         @Override
-        protected List<OfferList> doInBackground(String... params) {
+        protected List<ListCustomReviews> doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
 
@@ -159,13 +156,11 @@ menu_list=(ListView) findViewById(R.id.offer_list);
                 String finalJson = buffer.toString();
                 JSONObject parentObject = new JSONObject(finalJson);
                 JSONArray parentArray = parentObject.getJSONArray("result");
-                List<OfferList> movieModelList = new ArrayList<>();
+                List<ListCustomReviews> movieModelList = new ArrayList<>();
                 Gson gson = new Gson();
                 for(int i=0; i<parentArray.length(); i++) {
                     JSONObject finalObject = parentArray.getJSONObject(i);
-
-
-                    OfferList homeMenuMon = gson.fromJson(finalObject.toString(), OfferList.class);
+                    ListCustomReviews homeMenuMon = gson.fromJson(finalObject.toString(), ListCustomReviews.class);
                     movieModelList.add(homeMenuMon);
 
                 }
@@ -192,20 +187,21 @@ menu_list=(ListView) findViewById(R.id.offer_list);
         }
 
         @Override
-        protected void onPostExecute(final List<OfferList> movieModelList) {
+        protected void onPostExecute(final List<ListCustomReviews> movieModelList) {
             super.onPostExecute(movieModelList);
             dialog.dismiss();
+
             if(movieModelList != null) {
-                MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_more_fragment,  movieModelList);
+                MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_custom_review,  movieModelList);
                 menu_list.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        OfferList more_list_menu = movieModelList.get(position);
-                        Intent intent = new Intent(OfferPage.this, GlobalWebPage.class);
-                        intent.putExtra("title1",more_list_menu.getOffer_title());
-                        intent.putExtra("wburl", more_list_menu.getOffer_link());
+                        ListCustomReviews more_list_menu = movieModelList.get(position);
+                        Intent intent = new Intent(CustomerReviews.this, GlobalWebPage.class);
+                        intent.putExtra("title1",more_list_menu.getCr_title());
+                        intent.putExtra("wburl", more_list_menu.getCr_link());
                         startActivity(intent);
 
                     }
@@ -216,5 +212,4 @@ menu_list=(ListView) findViewById(R.id.offer_list);
         }
 
     }
-
 }

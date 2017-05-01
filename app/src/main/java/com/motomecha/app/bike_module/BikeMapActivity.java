@@ -1,13 +1,17 @@
 package com.motomecha.app.bike_module;
 
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -16,7 +20,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.droidbyme.dialoglib.AnimUtils;
+import com.droidbyme.dialoglib.DroidDialog;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -38,21 +45,21 @@ import java.util.HashMap;
 
 import static com.motomecha.app.R.id.map;
 
-public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCallback,LocationListener {
 
 
     Location mLocation;
-    String slat,slng;
+    String slat, slng,myplace;
     double latitude, longitude;
     private static final String TAG = BikeMapActivity.class.getSimpleName();
     SupportMapFragment mapFrag;
-GoogleMap Mmap;
-    LocationManager locationManager;
-    boolean GpsStatus;
+    GoogleMap Mmap;
+
     Context context;
-    ImageButton bookingmap,callingmap;
-LatLng laln;
+    ImageButton bookingmap, callingmap;
+    LatLng laln;
     PlaceAutocompleteFragment autocompleteFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +74,14 @@ LatLng laln;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>MY</font> <font color=#ffffff>Map</font>";
         tv.setText(Html.fromHtml(text));
-        context = getApplicationContext();
+        context = this;
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
-        slat=user.get("klati");
-        slng=user.get("klongi");
-        bookingmap=(ImageButton) findViewById(R.id.booknow_map);
-        callingmap=(ImageButton) findViewById(R.id.call_now_map);
-         autocompleteFragment = (PlaceAutocompleteFragment)
+        slat = user.get("klati");
+        slng = user.get("klongi");
+        bookingmap = (ImageButton) findViewById(R.id.booknow_map);
+        callingmap = (ImageButton) findViewById(R.id.call_now_map);
+        autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 //        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
 //                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
@@ -84,20 +91,40 @@ LatLng laln;
         autocompleteFragment.setFilter(filter);
 
         autocompleteFragment.setHint("Search your Location");
-bookingmap.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(BikeMapActivity.this,ConfirmBooking.class);
-        startActivity(intent);
-    }
-});
+        bookingmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DroidDialog.Builder(context)
+                        .icon(R.drawable.ic_stat_name)
+                        .title("GENERAL SERVICE")
+                        .content("Our regular service offering intends to do away with the need of visiting a garage for your general maintenance needs. We perform maintenance tasks like oil change, air filter cleaning, spark plug cleaning, brake cleaning, chain adjustment, and valve clearance check at your doorstep. Keep your bike fit and road ready!\nWe would love to, but it’s not possible for us. For tasks like engine repair (engine making noise?), mag wheel repair, shocker repair, body repair, clutch plate replacement etc., we suggest you take the bike to an authorized service center. They have the right set of tools needed for the job and the quality won’t be compromised!")
+                        .cancelable(true, true)
+                        .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
+                            @Override
+                            public void onPositive(Dialog droidDialog) {
+                                droidDialog.dismiss();
+                                Intent intent = new Intent(BikeMapActivity.this, ConfirmBooking.class);
+                                startActivity(intent);
+                            }
+                        })
 
-        if (slat!=null||slng!=null) {
-            latitude=Double.parseDouble(slat);
-            longitude=Double.parseDouble(slng);
+
+                        .typeface("rama.ttf")
+                        .animation(AnimUtils.AnimZoomInOut)
+                        .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),
+                                ContextCompat.getColor(context, R.color.colorRed))
+                        .divider(true, ContextCompat.getColor(context, R.color.colorAccent))
+                        .show();
+
+            }
+        });
+
+        if (slat != null || slng != null) {
+            latitude = Double.parseDouble(slat);
+            longitude = Double.parseDouble(slng);
         } else {
-            latitude=12.903293;
-            longitude=80.196510;
+            latitude = 12.903293;
+            longitude = 80.196510;
         }
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
         mapFrag.getMapAsync(this);
@@ -105,7 +132,7 @@ bookingmap.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onPlaceSelected(Place place) {
-                laln=place.getLatLng();
+                laln = place.getLatLng();
                 handlenewlocation(laln);
             }
 
@@ -126,6 +153,17 @@ bookingmap.setOnClickListener(new View.OnClickListener() {
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(
                 this, R.raw.style_json);
         Mmap.setMapStyle(style);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Mmap.setMyLocationEnabled(true);
         Mmap.addMarker(new MarkerOptions().position(locateme).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_markf)));
         Mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(locateme,6.5f));
         // map.animateCamera(CameraUpdateFactory.zoomIn());
@@ -172,7 +210,6 @@ bookingmap.setOnClickListener(new View.OnClickListener() {
            Mmap.setMapStyle(style);
            Mmap.addMarker(new MarkerOptions().position(laln).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_markf)));
            Mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(laln,6.5f));
-           // map.animateCamera(CameraUpdateFactory.zoomIn());
            Mmap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
            Circle circle = Mmap.addCircle(new CircleOptions().center(laln).radius(5000).strokeColor(Color.BLUE).strokeWidth(2.0f));
            Mmap.setMaxZoomPreference(14.5f);
@@ -181,6 +218,24 @@ bookingmap.setOnClickListener(new View.OnClickListener() {
        }
    }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        mLocation = location;
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        Mmap.clear();
+        MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(
+                BikeMapActivity.this, R.raw.style_json);
+        Mmap.setMapStyle(style);
+        Mmap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_markf)));
+        Mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(laln,6.5f));
+        // map.animateCamera(CameraUpdateFactory.zoomIn());
+        Mmap.animateCamera(CameraUpdateFactory.zoomTo(12.5f), 2000, null);
+        Circle circle = Mmap.addCircle(new CircleOptions().center(laln).radius(5000).strokeColor(Color.BLUE).strokeWidth(2.0f));
+        Mmap.setMaxZoomPreference(14.5f);
+        Mmap.setMinZoomPreference(6.5f);
+        Mmap.addMarker(new MarkerOptions().position(new LatLng(13.031522,80.201531)).icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin2)));
+
+    }
 
 //    @Override
 //    public void onLocationChanged(Location location) {

@@ -46,11 +46,11 @@
                 <EditText
                     android:id="@+id/tn1"
                     android:hint="TN"
-
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp"
                     android:padding="5dp"
-
+                    android:layout_margin="3dp"
+                    android:background="@color/white"
                     android:backgroundTint="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,10 +60,13 @@
                     android:id="@+id/tn2"
                     android:hint="07"
                     android:padding="5dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:background="@color/white"
                     android:backgroundTint="@color/white"
                     android:layout_width="wrap_content"
                     android:textSize="22sp"
+                    android:layout_margin="3dp"
+
                     android:layout_height="wrap_content"
                     android:inputType="number" />
 
@@ -71,10 +74,12 @@
                     android:id="@+id/tn3"
                     android:hint="AR"
                     android:backgroundTint="@color/white"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
-
+                    android:background="@color/white"
                     android:textSize="22sp"
+                    android:layout_margin="3dp"
+
                     android:padding="5dp"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -83,10 +88,13 @@
                     android:id="@+id/tn4"
                     android:hint="6743"
                     android:backgroundTint="@color/white"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:textSize="22sp"
                     android:maxLength="4"
+                    android:layout_margin="3dp"
+
+                    android:background="@color/white"
                     android:padding="5dp"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
@@ -104,11 +112,11 @@ android:visibility="invisible"
         android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <Button
-    android:background="@color/colorPrimary"
+    <ImageButton
+    android:background="?attr/selectableItemBackgroundBorderless"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Submit"
+  app:srcCompat="@drawable/submit_but"
     android:id="@+id/submit_register"
     android:textColor="@color/colorAccent"
     android:layout_alignParentBottom="true"

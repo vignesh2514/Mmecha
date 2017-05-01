@@ -52,6 +52,8 @@ ListView model_llist;
         Intent intent = getIntent();
         btype = intent.getStringExtra("brand_type");
         mbtype = intent.getStringExtra("brand");
+        btype.toUpperCase();
+        mbtype.toUpperCase();
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         model_llist=(ListView) findViewById(R.id.model_list_new);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");

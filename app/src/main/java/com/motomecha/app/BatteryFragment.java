@@ -2,6 +2,7 @@ package com.motomecha.app;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,6 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -56,12 +61,20 @@ FloatingActionButton Fbooknow;
         Fbooknow=(FloatingActionButton) v.findViewById(R.id.booknow);
         Animation startAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.blink_view);
         Fbooknow.startAnimation(startAnimation);
-        StringRequest stringRequest =new StringRequest(Request.Method.POST, GlobalUrlInit.BATTERY_SERVICE, new Response.Listener<String>() {
+        Fbooknow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),VehicleMode.class);
+                intent.putExtra("servicetype","BATTERY_SERVICE");
+                startActivity(intent);
+            }
+        });
+        StringRequest stringRequest =new StringRequest(Request.Method.POST, GlobalUrlInit.ALLSERVICE_PICK, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    JSONObject user = jObj.getJSONObject("battery_service");
+                    JSONObject user = jObj.getJSONObject("allservicepick");
                     String image_url = user.getString("image_url");
                     String title = user.getString("title");
                     String content_des =user.getString("content_des");
@@ -79,7 +92,14 @@ FloatingActionButton Fbooknow;
             public void onErrorResponse(VolleyError error) {
 
             }
-        }){};
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("service_type", "BS");
+                    return params;
+            }
+        };
         AppController.getInstance().addToRequestQueue(stringRequest);
         return v;
     }
