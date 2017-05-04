@@ -5,7 +5,6 @@ package com.motomecha.app.Global_classes;
  */
 
 public class GlobalUrlInit {
-
     public static String LOGIN_URL="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/login.php";
     public static String SIGN_URL="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/registration.php";
     public  static  String ALLSERVICE_PICK="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/allservicepick.php";

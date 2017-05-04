@@ -2,6 +2,7 @@ package com.motomecha.app.car_module;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,17 +12,21 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.R;
-import com.motomecha.app.Global_classes.carmechantlist;
 import com.motomecha.app.dbhandler.SQLiteHandler;
 
 import org.json.JSONArray;
@@ -43,7 +48,7 @@ public class Car_ServiceProviders extends AppCompatActivity {
     ListView car_module_list;
     private  ProgressDialog dialog;
 String slat,slng,servetype,vehicletype,myurl;
-
+LatLng latLng;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,24 @@ String slat,slng,servetype,vehicletype,myurl;
         AutocompleteFilter filter = new AutocompleteFilter.Builder().setCountry("IN").build();
         autocompleteFragment.setFilter(filter);
         autocompleteFragment.setHint("AREA OR PINCODE");
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+
+            @Override
+            public void onPlaceSelected(Place place) {
+
+latLng=place.getLatLng();
+
+                myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+latLng.latitude+"&slng="+latLng.longitude+"&serve_type="+servetype+"&vehicletype="+vehicletype+"&vehiclemode=car";
+                new JSONTask().execute(myurl);
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+
+            }
+
+        });
 if (vehicletype.contains(" ")) {
     String[] separated = vehicletype.split(" ");
     String vehicletype1 = separated[0]; // this will contain "Fruit"
@@ -130,6 +153,7 @@ myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+slat+"&slng="+slng+"&serve_type="+s
                 holder.display_na=(TextView) convertView.findViewById(R.id.textView10);
                 holder.place=(TextView) convertView.findViewById(R.id.place_db);
                 holder.cost=(TextView) convertView.findViewById(R.id.textView11);
+                holder.like_mer=(TextView) convertView.findViewById(R.id.likes_db) ;
                 convertView.setTag(holder);
 
             }
@@ -140,13 +164,14 @@ myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+slat+"&slng="+slng+"&serve_type="+s
             carmechantlist categorieslist= movieModelList.get(position);
             holder.display_na.setText(categorieslist.getDisplay_name());
             holder.place.setText(categorieslist.getArea_location());
-            holder.cost.setText(categorieslist.getPrice());
+            holder.cost.setText("\u20B9 "+categorieslist.getPrice());
+holder.like_mer.setText(categorieslist.getLikes());
             return convertView;
         }
 
         class ViewHolder{
 
-            private TextView display_na,place,cost;
+            private TextView display_na,place,cost,like_mer;
         }
 
 
@@ -218,17 +243,23 @@ myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+slat+"&slng="+slng+"&serve_type="+s
             if(movieModelList != null){
                 MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_car_merchant, movieModelList);
                 car_module_list.setAdapter(adapter);
-//                car_module_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        /*carmechantlist categorieslist = movieModelList.get(position);
-//                        Intent intent = new Intent(ModelSelect.this, Plate_Regiestration.class);
-//                        intent.putExtra("brand",categorieslist.getModel());
-//                        intent.putExtra("brand_type",btype);
-//                        startActivity(intent);*/
-//
-//                    }
-//                });
+                car_module_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        carmechantlist categorieslist = movieModelList.get(position);
+                        Intent intent = new Intent(Car_ServiceProviders.this, CarServiceProvidersDetail.class);
+                        intent.putExtra("address",categorieslist.getAddress());
+                        intent.putExtra("id",categorieslist.getId());
+                        intent.putExtra("likes",categorieslist.getLikes());
+                        intent.putExtra("price",categorieslist.getPrice());
+                        intent.putExtra("display_name",categorieslist.getDisplay_name());
+                        intent.putExtra("merchant_image",categorieslist.getMerchant_image());
+                        intent.putExtra("service_description",categorieslist.getMerchant_image());
+
+                        startActivity(intent);
+
+                    }
+                });
             }
             else {
                 Toast.makeText(getApplicationContext(),"Please check your internet connection!",Toast.LENGTH_SHORT).show();

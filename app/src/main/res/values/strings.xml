@@ -42,6 +42,8 @@
     <string name="title_activity_detail_service">DetailService</string>
     <string name="title_activity_customer_reviews">CustomerReviews</string>
     <string name="title_activity_car__service_providers">Car_ServiceProviders</string>
+    <string name="title_activity_car_service_providers_detail">CarServiceProvidersDetail</string>
+    <string name="title_activity_insurance_page">InsurancePage</string>
 
 
 </resources>

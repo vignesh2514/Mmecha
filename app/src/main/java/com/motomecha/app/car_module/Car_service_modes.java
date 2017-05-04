@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.motomecha.app.Global_classes.DetailService;
 import com.motomecha.app.Global_classes.GlobalWebPage;
+import com.motomecha.app.Global_classes.InsurancePage;
 import com.motomecha.app.Global_classes.MyVechicle;
 import com.motomecha.app.R;
 
@@ -90,9 +91,9 @@ public class Car_service_modes extends AppCompatActivity {
         Iinsur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","IN");
-                intent.putExtra("vehicletype","car");
+                Intent intent=new Intent(Car_service_modes.this,InsurancePage.class);
+//                intent.putExtra("servicetype","IN");
+//                intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
         });

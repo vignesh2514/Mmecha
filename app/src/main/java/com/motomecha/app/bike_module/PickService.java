@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.motomecha.app.Global_classes.InsurancePage;
 import com.motomecha.app.Global_classes.MyVechicle;
 import com.motomecha.app.R;
 
@@ -124,10 +125,9 @@ Igs.setOnClickListener(new View.OnClickListener() {
         Iinsu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","IR");
-                intent.putExtra("vehicletype","bike");
-
+                Intent intent=new Intent(PickService.this,InsurancePage.class);
+//                intent.putExtra("servicetype","IR");
+//                intent.putExtra("vehicletype","bike");
                 startActivity(intent);
             }
         });

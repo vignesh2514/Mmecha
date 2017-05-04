@@ -255,6 +255,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.motomecha.app.Global_classes.MyVechicle" />
         </activity>
+        <activity
+            android:name=".car_module.CarServiceProvidersDetail"
+            android:label="@string/title_activity_car_service_providers_detail"
+            android:parentActivityName=".car_module.Car_ServiceProviders"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.car_module.Car_ServiceProviders" />
+        </activity>
+        <activity
+            android:name=".Global_classes.InsurancePage"
+            android:label="@string/title_activity_insurance_page"
+            android:parentActivityName=".Global_classes.BasicActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
+        </activity>
     </application>
 
 </manifest>

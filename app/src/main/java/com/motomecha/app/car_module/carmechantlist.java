@@ -1,4 +1,4 @@
-package com.motomecha.app.Global_classes;
+package com.motomecha.app.car_module;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,6 +7,7 @@ import android.os.Parcelable;
  * Created by vignesh2514 on 5/2/2017.
  */
 public class carmechantlist implements Parcelable {
+    String id;
     String display_name;
     String latitu;
     String longitu;
@@ -18,6 +19,18 @@ public class carmechantlist implements Parcelable {
     String timings;
     String likes;
 String area_location;
+String merchant_image;
+
+    String pickup_service;
+    String service_description;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getDisplay_name() {
         return display_name;
@@ -107,11 +120,36 @@ String area_location;
         this.area_location = area_location;
     }
 
+    public String getMerchant_image() {
+        return merchant_image;
+    }
+
+    public void setMerchant_image(String merchant_image) {
+        this.merchant_image = merchant_image;
+    }
+
+    public String getPickup_service() {
+        return pickup_service;
+    }
+
+    public void setPickup_service(String pickup_service) {
+        this.pickup_service = pickup_service;
+    }
+
+    public String getService_description() {
+        return service_description;
+    }
+
+    public void setService_description(String service_description) {
+        this.service_description = service_description;
+    }
+
     public static Creator<carmechantlist> getCREATOR() {
         return CREATOR;
     }
 
     protected carmechantlist(Parcel in) {
+        id = in.readString();
         display_name = in.readString();
         latitu = in.readString();
         longitu = in.readString();
@@ -123,10 +161,14 @@ String area_location;
         timings = in.readString();
         likes = in.readString();
         area_location = in.readString();
+        merchant_image = in.readString();
+        pickup_service = in.readString();
+        service_description = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(display_name);
         dest.writeString(latitu);
         dest.writeString(longitu);
@@ -138,6 +180,9 @@ String area_location;
         dest.writeString(timings);
         dest.writeString(likes);
         dest.writeString(area_location);
+        dest.writeString(merchant_image);
+        dest.writeString(pickup_service);
+        dest.writeString(service_description);
     }
 
     @Override
