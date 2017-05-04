@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.motomecha.app.BasicActivity;
+import com.motomecha.app.Global_classes.BasicActivity;
 import com.motomecha.app.R;
 
 public class LastPage extends AppCompatActivity {
@@ -27,7 +27,12 @@ ImageButton Ibook;
         assert tv != null;
         tv.setTypeface(custom_font);
         setTitle("");
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         String text = "<font color=#ff1545>BOOKING</font> <font color=#ffffff>CONFIRM</font>";
         tv.setText(Html.fromHtml(text));
         Ibook=(ImageButton) findViewById(R.id.imageButton6);

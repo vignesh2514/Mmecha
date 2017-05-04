@@ -19,16 +19,15 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
-        android:name=".AppController"
+        android:name=".Global_classes.AppController"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".BasicActivity"
+            android:name=".Global_classes.BasicActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -39,12 +38,12 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".MyFcmId">
+        <service android:name=".Global_classes.MyFcmId">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyService">
+        <service android:name=".Global_classes.MyService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -55,22 +54,22 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".Global_classes.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".OtpActivity"
+            android:name=".Global_classes.OtpActivity"
             android:label="@string/title_activity_otp"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ResgisterActivity"
+            android:name=".Global_classes.ResgisterActivity"
             android:label="@string/title_activity_resgister"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".IntroActivity"
+            android:name=".Global_classes.IntroActivity"
             android:label="@string/title_activity_intro"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -81,104 +80,104 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GlobalWebPage"
+            android:name=".Global_classes.GlobalWebPage"
             android:label="@string/title_activity_global_web_page"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
-            android:name=".MyVechicle"
+            android:name=".Global_classes.MyVechicle"
             android:label="@string/title_activity_my_vechicle"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
-            android:name=".OfferPage"
+            android:name=".Global_classes.OfferPage"
             android:label="@string/title_activity_offer_page"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
-            android:name=".ServiceHistory"
+            android:name=".Global_classes.ServiceHistory"
             android:label="@string/title_activity_service_history"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
             android:name=".bike_module.PickService"
             android:label="@string/title_activity_pick_service"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
-            android:name=".BrandSelect"
+            android:name=".Global_classes.BrandSelect"
             android:label="@string/title_activity_brand_select"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
             android:name=".car_module.Car_service_modes"
             android:label="@string/title_activity_car_service_modes"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
-            android:name=".ModelSelect"
+            android:name=".Global_classes.ModelSelect"
             android:label="@string/title_activity_model_select"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
-            android:name=".Plate_Regiestration"
+            android:name=".Global_classes.Plate_Regiestration"
             android:label="@string/title_activity_plate__regiestration"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
             android:name=".bike_module.BikeMapActivity"
             android:label="@string/title_activity_bike_map"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
             android:name=".bike_module.ConfirmBooking"
@@ -203,49 +202,58 @@
         </activity>
 
         <service
-            android:name=".TrackGPS"
+            android:name=".Global_classes.TrackGPS"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".VehicleMode"
+            android:name=".Global_classes.VehicleMode"
             android:label="@string/title_activity_vehicle_mode"
-            android:parentActivityName=".BasicActivity"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
         <activity
-            android:name=".ListVechicle"
+            android:name=".Global_classes.ListVechicle"
             android:label="@string/title_activity_list_vechicle"
-            android:parentActivityName=".VehicleMode"
+            android:parentActivityName=".Global_classes.VehicleMode"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.VehicleMode" />
+                android:value="com.motomecha.app.Global_classes.VehicleMode" />
         </activity>
         <activity
-            android:name=".DetailService"
+            android:name=".Global_classes.DetailService"
             android:label="@string/title_activity_detail_service"
-            android:parentActivityName=".ListVechicle"
+            android:parentActivityName=".Global_classes.ListVechicle"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.ListVechicle" />
+                android:value="com.motomecha.app.Global_classes.ListVechicle" />
         </activity>
         <activity
-            android:name=".CustomerReviews"
+            android:name=".Global_classes.CustomerReviews"
             android:label="@string/title_activity_customer_reviews"
+            android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".BasicActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.BasicActivity" />
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".car_module.Car_ServiceProviders"
+            android:label="@string/title_activity_car__service_providers"
+            android:parentActivityName=".Global_classes.MyVechicle"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.Global_classes.MyVechicle" />
         </activity>
     </application>
 

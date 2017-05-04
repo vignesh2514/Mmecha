@@ -17,7 +17,7 @@
     android:orientation="vertical"
     android:layout_height="wrap_content">
 
-        <com.motomecha.app.MyTextView
+        <com.motomecha.app.Global_classes.MyTextView
             android:id="@+id/model_br"
             android:padding="5dp"
             android:textScaleX="1.2"
@@ -28,7 +28,7 @@
             android:text="Apache RtR 180 CC"
             android:textColor="@color/white"
             android:textSize="20sp" />
-    <com.motomecha.app.MyTextView
+    <com.motomecha.app.Global_classes.MyTextView
         android:id="@+id/plate_num"
         android:padding="5dp"
         android:textScaleX="1.2"

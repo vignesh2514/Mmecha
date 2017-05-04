@@ -18,30 +18,29 @@
          />
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_weight=".5"
+    android:layout_weight="1"
 android:orientation="horizontal"
     android:weightSum="2"
     android:layout_height="wrap_content">
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
-
+        android:scaleType="fitXY"
         android:layout_weight="1"
-        android:layout_height="match_parent"
+        android:layout_height="55dp"
         app:srcCompat="@drawable/offer_banner_image"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitXY"
+
 
         />
     <ImageButton
         android:id="@+id/blog_basic"
         android:layout_width="wrap_content"
-
+android:scaleType="fitXY"
         android:layout_weight="1"
-        android:layout_height="match_parent"
+        android:layout_height="55dp"
         app:srcCompat="@drawable/blog_basic"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitXY"
 
         />
 </LinearLayout>
@@ -62,13 +61,14 @@ android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:layout_weight="1"
+            android:layout_gravity="center|top"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/bike_new"
              />
         <ImageButton
             android:id="@+id/imageButton3"
             android:background="?attr/selectableItemBackground"
-
+            android:layout_gravity="center|top"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"

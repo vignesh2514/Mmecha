@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.motomecha.app.LoginActivity"
+    tools:context="com.motomecha.app.Global_classes.LoginActivity"
     android:background="@drawable/background_all"
     tools:showIn="@layout/activity_login">
 <RelativeLayout
@@ -21,7 +21,7 @@
     android:layout_centerHorizontal="true"
     android:id="@+id/relativeLayout">
 
-    <com.motomecha.app.MyTextView
+    <com.motomecha.app.Global_classes.MyTextView
         android:id="@+id/textView2"
         android:layout_width="100dp"
         android:textScaleX="1.2"
@@ -53,7 +53,7 @@ android:textColor="@color/white"
         android:backgroundTint="@color/white"
         android:inputType="phone" />
 
-    <com.motomecha.app.MyTextView
+    <com.motomecha.app.Global_classes.MyTextView
         android:id="@+id/textView3"
         android:textScaleX="1.2"
         android:layout_width="wrap_content"

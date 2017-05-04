@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -49,14 +50,13 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
 
     Location mLocation;
-    String slat, slng,myplace;
+    String slat, slng,myplace,servetype,vehicletype;
     double latitude, longitude;
     private static final String TAG = BikeMapActivity.class.getSimpleName();
     SupportMapFragment mapFrag;
     GoogleMap Mmap;
-
     Context context;
-    ImageButton bookingmap, callingmap;
+    ImageButton bookingmap, callingmap,chatingmap;
     LatLng laln;
     PlaceAutocompleteFragment autocompleteFragment;
 
@@ -69,18 +69,24 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         setTitle("");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
-        String text = "<font color=#ff1545>MY</font> <font color=#ffffff>Map</font>";
+        String text = "<font color=#ff1545>SERVICE</font> <font color=#ffffff>PROVIDERS</font>";
         tv.setText(Html.fromHtml(text));
         context = this;
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
-        slat = user.get("klati");
-        slng = user.get("klongi");
+
         bookingmap = (ImageButton) findViewById(R.id.booknow_map);
         callingmap = (ImageButton) findViewById(R.id.call_now_map);
+        chatingmap = (ImageButton) findViewById(R.id.chat_map);
         autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 //        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
@@ -89,13 +95,14 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         AutocompleteFilter filter =
                 new AutocompleteFilter.Builder().setCountry("IN").build();
         autocompleteFragment.setFilter(filter);
-
-        autocompleteFragment.setHint("Search your Location");
+        servetype = getIntent().getStringExtra("servicetype");
+        vehicletype = getIntent().getStringExtra("vehicletype");
+        autocompleteFragment.setHint("AREA OR PINCODE");
         bookingmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DroidDialog.Builder(context)
-                        .icon(R.drawable.ic_stat_name)
+                        .icon(R.drawable.msingletone_logo)
                         .title("GENERAL SERVICE")
                         .content("Our regular service offering intends to do away with the need of visiting a garage for your general maintenance needs. We perform maintenance tasks like oil change, air filter cleaning, spark plug cleaning, brake cleaning, chain adjustment, and valve clearance check at your doorstep. Keep your bike fit and road ready!\nWe would love to, but it’s not possible for us. For tasks like engine repair (engine making noise?), mag wheel repair, shocker repair, body repair, clutch plate replacement etc., we suggest you take the bike to an authorized service center. They have the right set of tools needed for the job and the quality won’t be compromised!")
                         .cancelable(true, true)
@@ -106,25 +113,27 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                                 Intent intent = new Intent(BikeMapActivity.this, ConfirmBooking.class);
                                 startActivity(intent);
                             }
-                        })
-
-
-                        .typeface("rama.ttf")
-                        .animation(AnimUtils.AnimZoomInOut)
-                        .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),
-                                ContextCompat.getColor(context, R.color.colorRed))
-                        .divider(true, ContextCompat.getColor(context, R.color.colorAccent))
-                        .show();
+                        }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
 
             }
         });
-
-        if (slat != null || slng != null) {
+        callingmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phone ="+919840297628";
+                Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
+                        "tel", phone, null));
+                startActivity(phoneIntent);
+            }
+        });
+        slat = user.get("klati");
+        slng = user.get("klongi");
+        if (slat.equals("null") || slng.equals("null")) {
+            latitude = 12.8711020;
+            longitude = 80.2226490;
+        } else {
             latitude = Double.parseDouble(slat);
             longitude = Double.parseDouble(slng);
-        } else {
-            latitude = 12.903293;
-            longitude = 80.196510;
         }
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
         mapFrag.getMapAsync(this);
@@ -133,6 +142,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onPlaceSelected(Place place) {
                 laln = place.getLatLng();
+
                 handlenewlocation(laln);
             }
 

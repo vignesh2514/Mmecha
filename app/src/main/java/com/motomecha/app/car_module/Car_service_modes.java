@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.motomecha.app.DetailService;
-import com.motomecha.app.GlobalWebPage;
-import com.motomecha.app.MyVechicle;
+import com.motomecha.app.Global_classes.DetailService;
+import com.motomecha.app.Global_classes.GlobalWebPage;
+import com.motomecha.app.Global_classes.MyVechicle;
 import com.motomecha.app.R;
 
 public class Car_service_modes extends AppCompatActivity {
@@ -40,7 +40,12 @@ public class Car_service_modes extends AppCompatActivity {
         Icar=(ImageButton) findViewById(R.id.car_detailing);
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         assert tv != null;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>CAR</font> <font color=#ffffff>SERVICE</font>";
@@ -50,6 +55,7 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
+                intent.putExtra("servicetype","GS");
                 intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
@@ -58,6 +64,7 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
+                intent.putExtra("servicetype","AR");
                 intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
@@ -102,6 +109,7 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
+                intent.putExtra("servicetype","RJ");
                 intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }

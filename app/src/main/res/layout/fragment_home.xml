@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/background_all"
     android:layout_height="match_parent"
-    tools:context="com.motomecha.app.HomeFragment">
+    tools:context="com.motomecha.app.Global_classes.HomeFragment">
 
     <include
 

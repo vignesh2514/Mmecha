@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_all"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.motomecha.app.OfferPage"
+    tools:context="com.motomecha.app.Global_classes.OfferPage"
     tools:showIn="@layout/activity_offer_page">
 <ListView
     android:id="@+id/offer_list"

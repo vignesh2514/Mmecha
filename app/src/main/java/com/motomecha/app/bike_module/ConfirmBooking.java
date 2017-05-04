@@ -36,6 +36,12 @@ public class ConfirmBooking extends AppCompatActivity implements View.OnClickLis
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         String text = "<font color=#ff1545>CONFIRM</font> <font color=#ffffff>BOOKING</font>";
         tv.setText(Html.fromHtml(text));
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());

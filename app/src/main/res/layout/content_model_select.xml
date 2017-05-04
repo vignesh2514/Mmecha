@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_all"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.motomecha.app.ModelSelect"
+    tools:context="com.motomecha.app.Global_classes.ModelSelect"
     tools:showIn="@layout/activity_model_select">
 <ListView
     android:layout_margin="10dp"

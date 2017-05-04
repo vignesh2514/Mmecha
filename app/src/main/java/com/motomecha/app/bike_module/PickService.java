@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.motomecha.app.MyVechicle;
+import com.motomecha.app.Global_classes.MyVechicle;
 import com.motomecha.app.R;
 
 public class PickService extends AppCompatActivity {
@@ -42,9 +42,14 @@ public class PickService extends AppCompatActivity {
 
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
-
         assert tv != null;
         tv.setTypeface(custom_font);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         String text = "<font color=#ff1545>BIKE</font> <font color=#ffffff>SERVICE</font>";
         tv.setText(Html.fromHtml(text));
 
@@ -52,7 +57,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Intent intent=new Intent(PickService.this,MyVechicle.class);
-        
+        intent.putExtra("servicetype","GS");
         intent.putExtra("vehicletype","bike");
         startActivity(intent);
     }
@@ -62,7 +67,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","OC");
                 intent.putExtra("vehicletype","bike");
                 startActivity(intent);
             }
@@ -71,7 +76,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","RJ");
                 intent.putExtra("vehicletype","bike");
                 startActivity(intent);
             }
@@ -80,7 +85,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","WW");
                 intent.putExtra("vehicletype","bike");
 
                 startActivity(intent);
@@ -90,7 +95,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","TP");
                 intent.putExtra("vehicletype","bike");
 
                 startActivity(intent);
@@ -100,7 +105,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","BA");
                 intent.putExtra("vehicletype","bike");
 
                 startActivity(intent);
@@ -110,7 +115,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","VD");
                 intent.putExtra("vehicletype","bike");
 
                 startActivity(intent);
@@ -120,7 +125,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","IR");
                 intent.putExtra("vehicletype","bike");
 
                 startActivity(intent);
@@ -130,7 +135,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","BS");
                 intent.putExtra("vehicletype","bike");
 
                 startActivity(intent);
@@ -139,31 +144,22 @@ Igs.setOnClickListener(new View.OnClickListener() {
         Ipet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
-                intent.putExtra("vehicletype","bike");
 
-                startActivity(intent);
             }
         });
         Ibike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
+                intent.putExtra("servicetype","BSG");
                 intent.putExtra("vehicletype","bike");
-
                 startActivity(intent);
             }
         });
         Icus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-              
-                intent.putExtra("vehicletype","bike");
 
-                startActivity(intent);
             }
         });
 

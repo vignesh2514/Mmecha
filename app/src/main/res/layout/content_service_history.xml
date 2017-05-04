@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_all"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.motomecha.app.ServiceHistory"
+    tools:context="com.motomecha.app.Global_classes.ServiceHistory"
     tools:showIn="@layout/activity_service_history">
 
     <ImageView
