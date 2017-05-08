@@ -14,14 +14,21 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.droidbyme.dialoglib.AnimUtils;
 import com.droidbyme.dialoglib.DroidDialog;
+import com.freshdesk.hotline.Hotline;
+import com.freshdesk.hotline.HotlineConfig;
+import com.freshdesk.hotline.HotlineUser;
 import com.motomecha.app.R;
 import com.motomecha.app.bike_module.ConfirmBooking;
+import com.motomecha.app.dbhandler.SQLiteHandler;
+
+import java.util.HashMap;
 
 public class CarServiceProvidersDetail extends AppCompatActivity {
-String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image;
+String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image,name,email,mobile_number;
     TextView Taddress,Tdisplay_name,Tprice,Tlikes;
     ImageView Imerchant_image;
     ImageButton Ibooknw,Icallnw,Ichatnw;
@@ -67,6 +74,22 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         Taddress.setText(Saddress);
         Tlikes.setText(Slikes);
         Tprice.setText("\u20B9"+Sprice);
+        SQLiteHandler db = new SQLiteHandler(getApplicationContext());
+        final HashMap<String, String> user = db.getUserDetails();
+        name=user.get("name");
+        email=user.get("email");
+        mobile_number=user.get("pnum");
+        HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
+        hotlineConfig.setVoiceMessagingEnabled(true);
+        hotlineConfig.setCameraCaptureEnabled(true);
+        hotlineConfig.setPictureMessagingEnabled(true);
+        Hotline.getInstance(getApplicationContext()).init(hotlineConfig);
+
+        //Update user information
+        HotlineUser user1 = Hotline.getInstance(getApplicationContext()).getUser();
+        user1.setName(name).setEmail(email).setPhone("+91", mobile_number);;
+        Hotline.getInstance(getApplicationContext()).updateUser(user1);
+
         Ibooknw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +115,12 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
                 Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
                         "tel", phone, null));
                 startActivity(phoneIntent);
+            }
+        });
+        Ichatnw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

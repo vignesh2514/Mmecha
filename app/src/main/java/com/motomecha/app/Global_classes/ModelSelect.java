@@ -59,14 +59,12 @@ ListView model_llist;
         Intent intent = getIntent();
         btype = intent.getStringExtra("brand_type");
         mbtype = intent.getStringExtra("brand");
-        btype.toUpperCase();
-        mbtype.toUpperCase();
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         model_llist=(ListView) findViewById(R.id.model_list_new);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
-        String text = "<font color=#ff1545>"+mbtype+"</font> <font color=#ffffff>"+btype+"</font>";
+        String text = "<font color=#ff1545>"+mbtype+"</font>";
         tv.setText(Html.fromHtml(text));
 
         change_url=GlobalUrlInit.VECHILE_LISTING_BIKE;

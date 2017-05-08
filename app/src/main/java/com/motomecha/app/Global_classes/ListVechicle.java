@@ -213,8 +213,9 @@ Context context;
                         new DroidDialog.Builder(context)
                                 .icon(R.drawable.msingletone_logo)
                                 .title("PLEASE CONFIRM YOUR BOOKING")
-                                .content("MOTOMECHA SHALL CHOOSE THE BEST SERVICE PROVIDER FOR YOUR VEHICLE.")
+                                .content("MOTOMECHA WILL RECOGNIZE THE BEST SERVICE PROVIDER FOR YOUR VEHICLE AND GUARANTEE THE BEST SERVICES")
                                 .cancelable(true, true)
+
                                 .positiveButton("CONFIRM YOUR BOOKING", new DroidDialog.onPositiveListener() {
                                     @Override
                                     public void onPositive(Dialog droidDialog) {

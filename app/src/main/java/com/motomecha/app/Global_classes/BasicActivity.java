@@ -114,7 +114,7 @@ public class BasicActivity extends AppCompatActivity
         PackageManager packageManager = context.getPackageManager();
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            if (versionCode >= 3002850) { //newer versions of fb app
+            if (versionCode >= 3002850) {
                 return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
             } else { //older versions of fb app
                 return "fb://page/" + FACEBOOK_PAGE_ID;

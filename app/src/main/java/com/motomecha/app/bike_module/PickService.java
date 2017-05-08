@@ -10,12 +10,18 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.freshdesk.hotline.Hotline;
+import com.freshdesk.hotline.HotlineConfig;
+import com.freshdesk.hotline.HotlineUser;
 import com.motomecha.app.Global_classes.InsurancePage;
 import com.motomecha.app.Global_classes.MyVechicle;
 import com.motomecha.app.R;
+import com.motomecha.app.dbhandler.SQLiteHandler;
+
+import java.util.HashMap;
 
 public class PickService extends AppCompatActivity {
-
+String name,email,mobile_number;
     ImageButton Igs,Ioil,Irep,Iwat,Ityr,Ibrek,Iveh,Iinsu,Ibuy,Ipet,Ibike,Icus;
     TextView Tservicetype,Tbrandtype;
     @Override
@@ -40,7 +46,11 @@ public class PickService extends AppCompatActivity {
         Ibike=(ImageButton) findViewById(R.id.bike_stickern);
         Icus=(ImageButton) findViewById(R.id.cuatomer_supp);
         Tbrandtype=(TextView) findViewById(R.id.brandtype);
-
+        SQLiteHandler db = new SQLiteHandler(getApplicationContext());
+        final HashMap<String, String> user = db.getUserDetails();
+        name=user.get("name");
+        email=user.get("email");
+mobile_number=user.get("pnum");
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
@@ -53,7 +63,16 @@ public class PickService extends AppCompatActivity {
         });
         String text = "<font color=#ff1545>BIKE</font> <font color=#ffffff>SERVICE</font>";
         tv.setText(Html.fromHtml(text));
+        HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
+        hotlineConfig.setVoiceMessagingEnabled(true);
+        hotlineConfig.setCameraCaptureEnabled(true);
+        hotlineConfig.setPictureMessagingEnabled(true);
+        Hotline.getInstance(getApplicationContext()).init(hotlineConfig);
 
+        //Update user information
+        HotlineUser user1 = Hotline.getInstance(getApplicationContext()).getUser();
+        user1.setName(name).setEmail(email).setPhone("+91", mobile_number);;
+        Hotline.getInstance(getApplicationContext()).updateUser(user1);
 Igs.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -159,7 +178,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
         Icus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Hotline.showConversations(PickService.this);
             }
         });
 

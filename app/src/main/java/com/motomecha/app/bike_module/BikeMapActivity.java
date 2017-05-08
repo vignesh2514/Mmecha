@@ -23,6 +23,9 @@ import android.widget.TextView;
 
 import com.droidbyme.dialoglib.AnimUtils;
 import com.droidbyme.dialoglib.DroidDialog;
+import com.freshdesk.hotline.Hotline;
+import com.freshdesk.hotline.HotlineConfig;
+import com.freshdesk.hotline.HotlineUser;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.places.AutocompleteFilter;
@@ -50,7 +53,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
 
     Location mLocation;
-    String slat, slng,myplace,servetype,vehicletype;
+    String slat, slng,myplace,servetype,vehicletype,name,email,mobile_number;
     double latitude, longitude;
     private static final String TAG = BikeMapActivity.class.getSimpleName();
     SupportMapFragment mapFrag;
@@ -83,7 +86,19 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         context = this;
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
+        name=user.get("name");
+        email=user.get("email");
+        mobile_number=user.get("pnum");
+        HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
+        hotlineConfig.setVoiceMessagingEnabled(true);
+        hotlineConfig.setCameraCaptureEnabled(true);
+        hotlineConfig.setPictureMessagingEnabled(true);
+        Hotline.getInstance(getApplicationContext()).init(hotlineConfig);
 
+        //Update user information
+        HotlineUser user1 = Hotline.getInstance(getApplicationContext()).getUser();
+        user1.setName(name).setEmail(email).setPhone("+91", mobile_number);;
+        Hotline.getInstance(getApplicationContext()).updateUser(user1);
         bookingmap = (ImageButton) findViewById(R.id.booknow_map);
         callingmap = (ImageButton) findViewById(R.id.call_now_map);
         chatingmap = (ImageButton) findViewById(R.id.chat_map);
@@ -124,6 +139,12 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
                         "tel", phone, null));
                 startActivity(phoneIntent);
+            }
+        });
+        chatingmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Hotline.showConversations(BikeMapActivity.this);
             }
         });
         slat = user.get("klati");
