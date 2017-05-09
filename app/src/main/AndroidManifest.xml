@@ -189,11 +189,12 @@
         </activity>
         <activity
             android:name=".bike_module.ConfirmBooking"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_confirm_booking"
             android:parentActivityName=".bike_module.BikeMapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.motomecha.app.bike_module.BikeMapActivity" />
@@ -274,6 +275,7 @@
         </activity>
         <activity
             android:name=".Global_classes.InsurancePage"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_insurance_page"
             android:parentActivityName=".Global_classes.BasicActivity"
             android:theme="@style/AppTheme.NoActionBar">

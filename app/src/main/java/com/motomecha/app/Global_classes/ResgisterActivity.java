@@ -84,7 +84,6 @@ public class ResgisterActivity extends AppCompatActivity  {
                     Geocoder geo = new Geocoder(ResgisterActivity.this.getApplicationContext(), Locale.getDefault());
                     addresses = geo.getFromLocation(lat, lng, 1);
                     if (addresses.isEmpty()) {
-                        Eaddress.setHint("Waiting for Location");
                         Tlatittude.setText("12.8711020");
                         Tlongitude.setText("80.2226490");
                     }
@@ -112,7 +111,6 @@ public class ResgisterActivity extends AppCompatActivity  {
             }
             else
             {
-
                 gps.showSettingsAlert();
             }
         } catch (Exception e) {

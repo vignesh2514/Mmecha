@@ -53,7 +53,8 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
 
     Location mLocation;
-    String slat, slng,myplace,servetype,vehicletype,name,email,mobile_number;
+    String slat, slng,myplace,servetype,vehicletype,name,email,mobile_number,kaddress;
+
     double latitude, longitude;
     private static final String TAG = BikeMapActivity.class.getSimpleName();
     SupportMapFragment mapFrag;
@@ -89,6 +90,8 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         name=user.get("name");
         email=user.get("email");
         mobile_number=user.get("pnum");
+        kaddress=user.get("kaddre");
+
         HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
         hotlineConfig.setVoiceMessagingEnabled(true);
         hotlineConfig.setCameraCaptureEnabled(true);
@@ -112,7 +115,21 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         autocompleteFragment.setFilter(filter);
         servetype = getIntent().getStringExtra("servicetype");
         vehicletype = getIntent().getStringExtra("vehicletype");
-        autocompleteFragment.setHint("AREA OR PINCODE");
+        autocompleteFragment.setHint(kaddress);
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                laln = place.getLatLng();
+                handlenewlocation(laln);
+            }
+
+            @Override
+            public void onError(Status status) {
+
+                Log.i(TAG, "An error occurred: " + status);
+            }
+
+        });
         bookingmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +143,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                             public void onPositive(Dialog droidDialog) {
                                 droidDialog.dismiss();
                                 Intent intent = new Intent(BikeMapActivity.this, ConfirmBooking.class);
+                                intent.putExtra("kaddress",kaddress);
                                 startActivity(intent);
                             }
                         }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
@@ -158,22 +176,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
         mapFrag.getMapAsync(this);
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
 
-            @Override
-            public void onPlaceSelected(Place place) {
-                laln = place.getLatLng();
-
-                handlenewlocation(laln);
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: " + status);
-            }
-
-        });
 
 
     }
