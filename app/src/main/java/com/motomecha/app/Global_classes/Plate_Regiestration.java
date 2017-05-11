@@ -53,7 +53,7 @@ ImageButton Bsubmit;
                 onBackPressed();
             }
         });
-        String text = "<font color=#ff1545>PLATE</font> <font color=#ffffff>NO</font>";
+        String text = "<font color=#ff1545>NUMBER</font> <font color=#ffffff>PLATE</font>";
         tv.setText(Html.fromHtml(text));
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
@@ -86,12 +86,14 @@ Stn1=Etn1.getText().toString();
         mbtype=Tbikeview.getText().toString();
         btype=vtype.getText().toString();
 uid=Tuser_uid.getText().toString();
-        if (Stn1.length()>1&&Stn2.length()>1&&Stn3.length()>0&&Stn4.length()>3)
+        if (Stn1.length()==2&&Stn2.length()==2&&Stn3.length()==2&&Stn4.length()==4)
         {
             platenumber(Stn1,Stn2,Stn3,Stn4,uid,mbtype,btype);
+
         }
         else {
-            Toast.makeText(getApplicationContext(),"Please fill All feilds",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"ENTER VALID VEHICLE NUMBER",Toast.LENGTH_SHORT).show();
+
         }
     }
 });
@@ -148,16 +150,13 @@ uid=Tuser_uid.getText().toString();
                 if(Etn3.getText().toString().length()==2)     //size as per your requirement
                 {
                     Llightbulb.setBackground(getResources().getDrawable( R.drawable.plate_three));
-
                     Etn4.requestFocus();
                 }
             }
             public void beforeTextChanged(CharSequence s, int start,
                                           int count, int after) {
                 // TODO Auto-generated method stub
-
             }
-
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
             }
@@ -192,7 +191,7 @@ public void platenumber(final String stn1, final String stn2, final String stn3,
     StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrlInit.PLATE_REGISTRATION, new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
-            Toast.makeText(getApplicationContext(),"Your Plate number has been Registered Successfully",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"YOUR VEHICLE HAS BEEN REGISTER",Toast.LENGTH_SHORT).show();
             Intent intent =new Intent(Plate_Regiestration.this,BasicActivity.class);
             startActivity(intent);
 

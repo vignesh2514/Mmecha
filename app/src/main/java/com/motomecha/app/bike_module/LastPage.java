@@ -15,6 +15,8 @@ import com.motomecha.app.R;
 
 public class LastPage extends AppCompatActivity {
 ImageButton Ibook;
+    String booking_id,servicedate,booking_date;
+    TextView Tbook_id,Tservice_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,12 @@ ImageButton Ibook;
         });
         String text = "<font color=#ff1545>BOOKING</font> <font color=#ffffff>CONFIRM</font>";
         tv.setText(Html.fromHtml(text));
+        booking_id = getIntent().getStringExtra("booking_id");
+        servicedate = getIntent().getStringExtra("servicedate");
+Tservice_date=(TextView) findViewById(R.id.book_date);
+        Tbook_id=(TextView) findViewById(R.id.textView4);
+        Tservice_date.setText(servicedate);
+        Tbook_id.setText(booking_date);
         Ibook=(ImageButton) findViewById(R.id.imageButton6);
         Ibook.setOnClickListener(new View.OnClickListener() {
             @Override

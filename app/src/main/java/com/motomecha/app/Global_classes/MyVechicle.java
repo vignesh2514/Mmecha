@@ -230,6 +230,7 @@ String change_url,uid;
                                 Intent intent = new Intent(MyVechicle.this, BikeMapActivity.class);
                                 intent.putExtra("servicetype",servicetype);
                                 intent.putExtra("vehicletype",categorieslist.getModel_brand());
+                                intent.putExtra("vechicleno",categorieslist.getRegister_number());
                                 startActivity(intent);
                             }
                             else
@@ -237,6 +238,7 @@ String change_url,uid;
                                 Intent intent = new Intent(MyVechicle.this, Car_ServiceProviders.class);
                                 intent.putExtra("servicetype",servicetype);
                                 intent.putExtra("vehicletype",categorieslist.getModel_brand());
+                                intent.putExtra("vechicleno",categorieslist.getRegister_number());
                                 startActivity(intent);
                             }
 

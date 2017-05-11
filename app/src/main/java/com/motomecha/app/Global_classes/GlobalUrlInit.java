@@ -15,4 +15,6 @@ public class GlobalUrlInit {
     public  static  String MY_VEHICLE=" http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/myvehicle.php";
     public  static  String CUSTOMER_REVIEW="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/custom_rw.php";
     public  static  String CAR_MERCHANLIST="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/car_merchant_listing.php";
+    public  static  String BIKE_MERCHANLIST="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/bike_merchants.php";
+
 }

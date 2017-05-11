@@ -46,9 +46,9 @@ Iblog=(ImageButton) v.findViewById(R.id.blog_basic);
 //        webView.loadUrl("http://motomecha.com/mmadmin/slidingme.php");
         // Javascript inabled on webview
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/slidingmenew.php");
+        webView.loadUrl("http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/slidingme.php");
 //        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.loadUrl("http://motomecha.com/mmadmin/slidingme.php");
+//        webView.loadUrl("http://motomecha.com/mmadmin/slidingmwqe.php");
         webView.setWebViewClient(new WebViewClient() {
             ProgressDialog progressDialog;
             @Override
@@ -57,18 +57,13 @@ Iblog=(ImageButton) v.findViewById(R.id.blog_basic);
             }
             public void onLoadResource (WebView view, String url) {
                 if (progressDialog == null) {
-                    // in standard case YourActivity.this
-                    //     imageView.setVisibility(View.VISIBLE);
-                    //   webView.setVisibility(View.GONE);
+
                     progressDialog = new ProgressDialog(getActivity());
                     progressDialog.setMessage("Loading...");
                     progressDialog.show();
                 }
             }
             public void onPageFinished(WebView view, String url) {
-//                imageView.setVisibility(View.GONE);
-//                webView.setVisibility(View.VISIBLE);
-
                 try{
                     if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
@@ -131,7 +126,7 @@ Iblog=(ImageButton) v.findViewById(R.id.blog_basic);
     @Override
     public void onResume(){
         super.onResume();
-        webView.loadUrl("http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/slidingmenew.php");
+        webView.loadUrl("http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/slidingme.php");
     }
 
 }

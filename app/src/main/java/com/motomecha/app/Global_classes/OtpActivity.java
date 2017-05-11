@@ -54,21 +54,24 @@ String Sotpnum,Sotpt,otp,getpass,mobile_number,name,email,address,uid,cfd="0",pi
                 }
                 else
                 {
-                    if(otp.equals(Sotpnum)||getpass.equals(cfd)){
+                    if(otp.equals(Sotpt)&&getpass.equals(cfd)){
                         Intent intent = new Intent(OtpActivity.this, ResgisterActivity.class);
                         intent.putExtra("mobile_number",mobile_number);
                         intent.putExtra("otp",otp);
                         startActivity(intent);
                         finish();
                     }
-                    else
+                    else if (otp.equals(Sotpt)&&getpass.contains("1"))
                     {
                         session.setLogin(true);
                         db.addUser(name, email, uid, mobile_number,address,pincode,slat,slng);
                         Intent intent = new Intent(OtpActivity.this, BasicActivity.class);
                         startActivity(intent);
                         finish();
-
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"ENTER VALID OTP",Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -92,13 +95,17 @@ String Sotpnum,Sotpt,otp,getpass,mobile_number,name,email,address,uid,cfd="0",pi
             startActivity(intent);
             finish();
         }
-        else
+        else if (otp.equals(Sotpt)&&getpass.contains("1"))
         {
             session.setLogin(true);
             db.addUser(name, email, uid, mobile_number,address,pincode,slat,slng);
             Intent intent = new Intent(OtpActivity.this, BasicActivity.class);
             startActivity(intent);
             finish();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"ENTER VALID OTP",Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -47,7 +47,7 @@ public class Car_ServiceProviders extends AppCompatActivity {
     PlaceAutocompleteFragment autocompleteFragment;
     ListView car_module_list;
     private  ProgressDialog dialog;
-String slat,slng,servetype,vehicletype,myurl;
+String slat,slng,servetype,vehicletype,myurl,vehicleno;
 LatLng latLng;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +78,7 @@ LatLng latLng;
         slng = user.get("klongi");
         servetype = getIntent().getStringExtra("servicetype");
         vehicletype = getIntent().getStringExtra("vehicletype");
+        vehicleno = getIntent().getStringExtra("vehicleno");
         String text = "<font color=#ff1545>SERVICE</font> <font color=#ffffff>PROVIDERS</font>";
         tv.setText(Html.fromHtml(text));
         autocompleteFragment = (PlaceAutocompleteFragment)
@@ -92,7 +93,7 @@ LatLng latLng;
 
 latLng=place.getLatLng();
 
-                myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+latLng.latitude+"&slng="+latLng.longitude+"&serve_type="+servetype+"&vehicletype="+vehicletype+"&vehiclemode=car";
+                myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+latLng.latitude+"&slng="+latLng.longitude+"&serve_type="+servetype+"&vehicletype="+vehicletype;
                 new JSONTask().execute(myurl);
             }
 
@@ -110,7 +111,7 @@ if (vehicletype.contains(" ")) {
     vehicletype = vehicletype1 + "%20" + vehicletype2;
 }
 
-myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+slat+"&slng="+slng+"&serve_type="+servetype+"&vehicletype="+vehicletype+"&vehiclemode=car";
+myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+slat+"&slng="+slng+"&serve_type="+servetype+"&vehicletype="+vehicletype;
         new JSONTask().execute(myurl);
     }
 
@@ -254,8 +255,8 @@ holder.like_mer.setText(categorieslist.getLikes());
                         intent.putExtra("price",categorieslist.getPrice());
                         intent.putExtra("display_name",categorieslist.getDisplay_name());
                         intent.putExtra("merchant_image",categorieslist.getMerchant_image());
-                        intent.putExtra("service_description",categorieslist.getMerchant_image());
-
+                        intent.putExtra("service_description",categorieslist.getService_description());
+intent.putExtra("vehicleno",vehicleno);
                         startActivity(intent);
 
                     }

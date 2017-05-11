@@ -65,6 +65,7 @@ FloatingActionButton Fbooknow;
         Tdescrip.setTypeface(custom_font);
         serve_type = getIntent().getStringExtra("servicetype");
         vehicletype= getIntent().getStringExtra("vehicletype");
+
         Fbooknow=(FloatingActionButton) findViewById(R.id.booknow);
         Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_view);
         Fbooknow.startAnimation(startAnimation);

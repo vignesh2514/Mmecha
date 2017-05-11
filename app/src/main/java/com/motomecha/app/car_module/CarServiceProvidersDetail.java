@@ -28,7 +28,7 @@ import com.motomecha.app.dbhandler.SQLiteHandler;
 import java.util.HashMap;
 
 public class CarServiceProvidersDetail extends AppCompatActivity {
-String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image,name,email,mobile_number;
+String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image,name,email,mobile_number,kaddress,vehicleno;
     TextView Taddress,Tdisplay_name,Tprice,Tlikes;
     ImageView Imerchant_image;
     ImageButton Ibooknw,Icallnw,Ichatnw;
@@ -69,6 +69,7 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         Slikes = getIntent().getStringExtra("likes");
         Smerchant_image = getIntent().getStringExtra("merchant_image");
         Sservice_description = getIntent().getStringExtra("service_description");
+        vehicleno = getIntent().getStringExtra("vehicleno");
         Glide.with(context).load(Smerchant_image).into(Imerchant_image);
         Tdisplay_name.setText(Sdisplay_name);
         Taddress.setText(Saddress);
@@ -79,6 +80,7 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         name=user.get("name");
         email=user.get("email");
         mobile_number=user.get("pnum");
+        kaddress=user.get("kaddre");
         HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
         hotlineConfig.setVoiceMessagingEnabled(true);
         hotlineConfig.setCameraCaptureEnabled(true);
@@ -103,6 +105,9 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
                             public void onPositive(Dialog droidDialog) {
                                 droidDialog.dismiss();
                                 Intent intent = new Intent(CarServiceProvidersDetail.this, ConfirmBooking.class);
+                                intent.putExtra("kaddress",kaddress);
+                                intent.putExtra("vechicletype","CAR");
+                                intent.putExtra("vehicleno",vehicleno);
                                 startActivity(intent);
                             }
                         }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();

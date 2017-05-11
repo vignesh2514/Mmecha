@@ -46,13 +46,28 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="95dp"
                 android:backgroundTint="@color/white"
-                android:ems="4"
+               android:padding="10dp"
+                android:maxLength="4"
                 android:hint="@string/otp_hint"
                 android:inputType="phone"
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white" />
+                android:textColorHint="@color/hint_white"
+                />
+            <com.motomecha.app.Global_classes.MyTextView
+                android:id="@+id/textView35"
+                android:textScaleX="1.2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:textAllCaps="true"
+
+                android:layout_below="@+id/otp_text"
+                android:text="ENTER 4-DIGIT CODE"
+                android:textAlignment="center"
+                android:textColor="@color/hint_white"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true" />
 
             <ImageButton
                 android:id="@+id/verify_otp"
@@ -61,7 +76,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/verify_button"
-                android:layout_below="@+id/otp_text"
+                android:layout_below="@+id/textView35"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp" />
 

@@ -1,9 +1,11 @@
 package com.motomecha.app.Global_classes;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -16,6 +18,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.droidbyme.dialoglib.AnimUtils;
+import com.droidbyme.dialoglib.DroidDialog;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
 import com.motomecha.app.dbhandler.SessionManager;
@@ -51,7 +55,26 @@ Emobile_number=(EditText) findViewById(R.id.mobile_text);
                 Smobilenumber=Emobile_number.getText().toString();
                 if (Smobilenumber.length()>9)
                 {
-                    logincheck(Smobilenumber);
+                    new DroidDialog.Builder(context)
+                            .icon(R.drawable.msingletone_logo)
+                            .title("MOBILE NUMBER VERIFICATION")
+                            .content("IS THIS OK,OR WOULD YOU LIKE TO EDIT THE NUMBER?\n\n YOUR MOBILE NUMBER IS +91-"+Smobilenumber)
+                            .cancelable(true, true)
+                            .negativeButton("EDIT", new DroidDialog.onNegativeListener() {
+                                @Override
+                                public void onNegative(Dialog dialog) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .positiveButton("OK", new DroidDialog.onPositiveListener() {
+                                @Override
+                                public void onPositive(Dialog droidDialog) {
+                                    droidDialog.dismiss();
+                                    logincheck(Smobilenumber);
+                                }
+                            }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
+
+
                 }
                 else
                 {

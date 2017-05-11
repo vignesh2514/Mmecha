@@ -64,6 +64,7 @@ dependencies {
     compile 'com.github.freshdesk:hotline-android:1.2.2'
     compile 'com.github.droidbyme:DroidDialog:d4b5af0f48'
     compile 'com.github.florent37:diagonallayout:1.0.4'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

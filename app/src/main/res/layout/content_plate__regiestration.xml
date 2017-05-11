@@ -49,6 +49,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp"
                     android:padding="5dp"
+                    android:maxLength="2"
                     android:layout_margin="3dp"
                     android:background="@color/white"
                     android:backgroundTint="@color/white"
@@ -60,6 +61,7 @@
                     android:id="@+id/tn2"
                     android:hint="07"
                     android:padding="5dp"
+                    android:maxLength="2"
                     android:textColor="@color/colorPrimaryDark"
                     android:background="@color/white"
                     android:backgroundTint="@color/white"
@@ -79,7 +81,7 @@
                     android:background="@color/white"
                     android:textSize="22sp"
                     android:layout_margin="3dp"
-
+                    android:maxLength="2"
                     android:padding="5dp"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -93,7 +95,6 @@
                     android:textSize="22sp"
                     android:maxLength="4"
                     android:layout_margin="3dp"
-
                     android:background="@color/white"
                     android:padding="5dp"
                     android:layout_height="wrap_content"
