@@ -28,7 +28,7 @@ import com.motomecha.app.dbhandler.SQLiteHandler;
 import java.util.HashMap;
 
 public class CarServiceProvidersDetail extends AppCompatActivity {
-String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image,name,email,mobile_number,kaddress,vehicleno;
+String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image,name,email,mobile_number,kaddress,vehicleno,content_descrip;
     TextView Taddress,Tdisplay_name,Tprice,Tlikes;
     ImageView Imerchant_image;
     ImageButton Ibooknw,Icallnw,Ichatnw;
@@ -69,6 +69,12 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         Slikes = getIntent().getStringExtra("likes");
         Smerchant_image = getIntent().getStringExtra("merchant_image");
         Sservice_description = getIntent().getStringExtra("service_description");
+        content_descrip=Sservice_description;
+        content_descrip=content_descrip.replace("<ul>", "");
+        content_descrip=content_descrip.replace("</ul>", "");
+        content_descrip=content_descrip.replace("<li>", "");
+        content_descrip=content_descrip.replace("</li>", "");
+        content_descrip=content_descrip.replace("<br>", "\n");
         vehicleno = getIntent().getStringExtra("vehicleno");
         Glide.with(context).load(Smerchant_image).into(Imerchant_image);
         Tdisplay_name.setText(Sdisplay_name);
@@ -98,7 +104,7 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
                 new DroidDialog.Builder(context)
                         .icon(R.drawable.msingletone_logo)
                         .title("GENERAL SERVICE")
-                        .content("Our regular service offering intends to do away with the need of visiting a garage for your general maintenance needs. We perform maintenance tasks like oil change, air filter cleaning, spark plug cleaning, brake cleaning, chain adjustment, and valve clearance check at your doorstep. Keep your bike fit and road ready!\nWe would love to, but it’s not possible for us. For tasks like engine repair (engine making noise?), mag wheel repair, shocker repair, body repair, clutch plate replacement etc., we suggest you take the bike to an authorized service center. They have the right set of tools needed for the job and the quality won’t be compromised!")
+                        .content(Sservice_description)
                         .cancelable(true, true)
                         .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
                             @Override
@@ -108,6 +114,9 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
                                 intent.putExtra("kaddress",kaddress);
                                 intent.putExtra("vechicletype","CAR");
                                 intent.putExtra("vehicleno",vehicleno);
+                                intent.putExtra("price",Sprice);
+                                intent.putExtra("service_description",Sservice_description);
+
                                 startActivity(intent);
                             }
                         }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();

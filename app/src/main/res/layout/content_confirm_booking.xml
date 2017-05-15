@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:id="@+id/topq_1"
         android:background="@color/transparent_primary"
-        android:layout_height="100dp">
+        android:layout_height="150dp">
 
         <com.motomecha.app.Global_classes.MyTextView
             android:id="@+id/textView"
@@ -30,7 +30,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="17sp"
-            android:text="GENERAL SERVICE" />
+            android:text="SERVICE DETAILS" />
 
         <com.motomecha.app.Global_classes.MyTextView
             android:id="@+id/textView4"
@@ -50,17 +50,16 @@
             android:layout_below="@+id/textView"
             android:layout_alignEnd="@+id/textView4"
             android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content">
-            <com.motomecha.app.Global_classes.MyTextView
+            android:layout_height="match_parent">
+            <org.sufficientlysecure.htmltextview.HtmlTextView
                 android:id="@+id/textView5"
                 android:padding="2dp"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:lineSpacingExtra="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="GENERAL WATER WASH WILL BE DONE \nCOMPLETE MILLEGE CHECKUP "
-                android:textScaleX="1.2"
+
                 android:textColor="@color/white"
                 />
         </ScrollView>
@@ -290,4 +289,5 @@
            android:layout_height="wrap_content" />
    </LinearLayout>
 </android.support.v7.widget.CardView>
+
 </RelativeLayout>

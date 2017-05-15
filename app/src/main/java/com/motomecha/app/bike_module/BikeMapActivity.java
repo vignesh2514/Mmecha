@@ -26,7 +26,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.droidbyme.dialoglib.AnimUtils;
 import com.droidbyme.dialoglib.DroidDialog;
 import com.freshdesk.hotline.Hotline;
@@ -49,6 +55,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.motomecha.app.Global_classes.AppController;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
@@ -66,6 +73,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.motomecha.app.R.id.map;
 
@@ -75,7 +83,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
     ListView bike_modules_list;
 
     Location mLocation;
-    String slat, slng,myplace,servetype,vehicletype,name,email,mobile_number,kaddress,myurl,vehicleno;
+    String slat, slng,myplace,servetype,vehicletype,name,email,mobile_number,kaddress,myurl,vehicleno,service_description,price,content_descrip;
     double latitud, longitud;
     private static final String TAG = BikeMapActivity.class.getSimpleName();
     SupportMapFragment mapFrag;
@@ -141,6 +149,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 new AutocompleteFilter.Builder().setCountry("IN").build();
         autocompleteFragment.setFilter(filter);
         servetype = getIntent().getStringExtra("servicetype");
+        detailsgetmw(servetype);
         vehicletype = getIntent().getStringExtra("vehicletype");
         vehicleno = getIntent().getStringExtra("vechicleno");
         autocompleteFragment.setHint("AREA OR PINCODE");
@@ -195,7 +204,50 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
 
 
+
     }
+
+    private void detailsgetmw(final String servetype) {
+
+        StringRequest stringRequest =new StringRequest(Request.Method.POST, GlobalUrlInit.BIKE_PAGE_DETAILS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                        JSONObject result = jObj.getJSONObject("result");
+                         service_description = result.getString("service_description");
+                    price = result.getString("price");
+                    content_descrip=service_description;
+                    content_descrip=content_descrip.replace("<ul>", "");
+                    content_descrip=content_descrip.replace("</ul>", "");
+                    content_descrip=content_descrip.replace("<li>", "");
+                    content_descrip=content_descrip.replace("</li>", "");
+                    content_descrip=content_descrip.replace("<br>", "\n");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Try again after sometime",Toast.LENGTH_SHORT).show();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String, String>();
+                params.put("servicetype",servetype);
+                return params;
+
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest,"CHECKING");
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -352,36 +404,9 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 Gson gson = new Gson();
                 for(int i=0; i<parentArray.length(); i++) {
                     JSONObject finalObject = parentArray.getJSONObject(i);
-//                   String success=finalObject.getString("success");
-//                    if (success.equals("TRUE"))
-//                    {
                         bikemerchantlist categorieslist = gson.fromJson(finalObject.toString(), bikemerchantlist.class);
                         movieModelList.add(categorieslist);
-  //                  }
-//                   else
-//                    {
-//                        dialog.dismiss();
-//                        new DroidDialog.Builder(context)
-//                                .icon(R.drawable.msingletone_logo)
-//                                .title("WE`LL BE THERE SOON")
-//                                .content("WE AREN`T AVAILABLE IN YOUR LOCALITY YET")
-//                                .cancelable(true, true)
-//                                .negativeButton("EXIT", new DroidDialog.onNegativeListener() {
-//                                    @Override
-//                                    public void onNegative(Dialog dialog) {
-//                                        dialog.dismiss();
-//                                    }
-//                                })
-//                                .positiveButton("CHAT WITH US !", new DroidDialog.onPositiveListener() {
-//                                    @Override
-//                                    public void onPositive(Dialog droidDialog) {
-//                                        droidDialog.dismiss();
-//                                        Hotline.showConversations(BikeMapActivity.this);
-//
-//                                    }
-//
-//                                }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
-//                    }
+
 
                 }
 
@@ -417,8 +442,8 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                     public void onClick(View v) {
                         new DroidDialog.Builder(context)
                                 .icon(R.drawable.msingletone_logo)
-                                .title("GENERAL SERVICE")
-                                .content("Our regular service offering intends to do away with the need of visiting a garage for your general maintenance needs. We perform maintenance tasks like oil change, air filter cleaning, spark plug cleaning, brake cleaning, chain adjustment, and valve clearance check at your doorstep. Keep your bike fit and road ready!\nWe would love to, but it’s not possible for us. For tasks like engine repair (engine making noise?), mag wheel repair, shocker repair, body repair, clutch plate replacement etc., we suggest you take the bike to an authorized service center. They have the right set of tools needed for the job and the quality won’t be compromised!")
+                                .title("SERVICE DETAILS")
+                                .content(content_descrip)
                                 .cancelable(true, true)
                                 .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
                                     @Override
@@ -427,6 +452,8 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                                         Intent intent = new Intent(BikeMapActivity.this, ConfirmBooking.class);
                                         intent.putExtra("kaddress",kaddress);
                                         intent.putExtra("vechicletype","BIKE");
+                                        intent.putExtra("price",price);
+                                        intent.putExtra("service_description",service_description);
                                         intent.putExtra("vehicleno",vehicleno);
                                         startActivity(intent);
                                     }

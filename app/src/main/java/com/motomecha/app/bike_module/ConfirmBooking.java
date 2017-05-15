@@ -17,6 +17,9 @@ import android.widget.TextView;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
 
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
@@ -24,10 +27,11 @@ import java.util.Random;
 public class ConfirmBooking extends AppCompatActivity implements View.OnClickListener{
     ImageButton dateselect;
     private int mYear, mMonth, mDay;
-    TextView Edat,Tvehicleno;
+    TextView Edat,Tvehicleno,total_booking;
     EditText Eotherreq,Eaddress;
     LinearLayout Llinerala;
-    String kaddress,vehicleno,bookig_id;
+    String kaddress,vehicleno,bookig_id,price,service_description;
+    HtmlTextView Tdescrip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,13 +53,20 @@ public class ConfirmBooking extends AppCompatActivity implements View.OnClickLis
         tv.setText(Html.fromHtml(text));
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
-        kaddress = getIntent().getStringExtra("kaddress");
-        vehicleno = getIntent().getStringExtra("vehicleno");
+            kaddress = getIntent().getStringExtra("kaddress");
+            vehicleno = getIntent().getStringExtra("vehicleno");
+            service_description = getIntent().getStringExtra("service_description");
+
+        price = getIntent().getStringExtra("price");
         Eotherreq=(EditText) findViewById(R.id.textView6);
+        Tdescrip=(HtmlTextView) findViewById(R.id.textView5);
+        Tdescrip.setHtml(service_description, new HtmlHttpImageGetter(Tdescrip));
+        total_booking=(TextView) findViewById(R.id.total_booking_price);
         Eaddress=(EditText) findViewById(R.id.address_booking);
         Llinerala=(LinearLayout) findViewById(R.id.bot_lin);
         Tvehicleno=(TextView) findViewById(R.id.textView4);
         Tvehicleno.setText(vehicleno);
+        total_booking.setText("TOTAL - \u20B9" +price);
         Eaddress.setText(kaddress);
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -67,17 +78,15 @@ setTitle("");
         Edat.setText(mDay+"-"+mMonth+"-"+mYear);
          dateselect=(ImageButton) findViewById(R.id.imageButton4);
         dateselect.setOnClickListener(this);
-
+        Random r = new Random();
+        int ri = r.nextInt((99999 - 12345)+1) + 1234;
+        bookig_id= "MM"+ri;
         Llinerala.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Random r = new Random();
-        int ri = r.nextInt((999999 - 12345)-1) + 1234;
-        bookig_id= "MM"+ri;
         Intent intent=new Intent(ConfirmBooking.this, LastPage.class);
         intent.putExtra("booking_id",bookig_id);
         intent.putExtra("servicedate",Edat.getText().toString());
-
         startActivity(intent);
 
     }

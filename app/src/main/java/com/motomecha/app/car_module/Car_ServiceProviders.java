@@ -254,11 +254,10 @@ holder.like_mer.setText(categorieslist.getLikes());
                         intent.putExtra("likes",categorieslist.getLikes());
                         intent.putExtra("price",categorieslist.getPrice());
                         intent.putExtra("display_name",categorieslist.getDisplay_name());
-                        intent.putExtra("merchant_image",categorieslist.getMerchant_image());
                         intent.putExtra("service_description",categorieslist.getService_description());
-intent.putExtra("vehicleno",vehicleno);
+                        intent.putExtra("merchant_image",categorieslist.getMerchant_image());
+                        intent.putExtra("vehicleno",vehicleno);
                         startActivity(intent);
-
                     }
                 });
             }

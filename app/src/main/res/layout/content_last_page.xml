@@ -92,9 +92,10 @@
             android:textSize="18sp"
             android:layout_weight="1"
             app:textAllCaps="true"
+            android:gravity="end"
             android:textColor="@color/white"
             android:textScaleX="1.2"
-            android:text="MM2514" />
+            />
 </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -122,9 +123,9 @@
                 android:textSize="18sp"
                 android:layout_weight="1"
                 app:textAllCaps="true"
+                android:gravity="end"
                 android:textColor="@color/white"
-                android:textScaleX="1.2"
-                android:text="26-12-2017" />
+                android:textScaleX="1.2" />
         </LinearLayout>
     </LinearLayout>
 
