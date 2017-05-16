@@ -88,7 +88,6 @@ public class TyreFragement extends Fragment {
                     Glide.with(c).load(image_url).into(main_image);
                     Ttitle.setText(title);
                     Tdescrip.setHtml(content_des, new HtmlHttpImageGetter(Tdescrip));
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

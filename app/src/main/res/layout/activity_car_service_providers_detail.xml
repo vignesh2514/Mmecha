@@ -36,6 +36,7 @@
                 android:layout_marginLeft="5dp"
                 app:srcCompat="@drawable/ic_stat_name"
                 android:layout_height="40dp"
+                android:id="@+id/dark_home"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>

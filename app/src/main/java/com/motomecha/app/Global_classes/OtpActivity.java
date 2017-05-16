@@ -28,7 +28,6 @@ String Sotpnum,Sotpt,otp,getpass,mobile_number,name,email,address,uid,cfd="0",pi
         setContentView(R.layout.activity_otp);
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
-        try {
             mobile_number = getIntent().getStringExtra("mobile_number");
             otp = getIntent().getStringExtra("otp");
             getpass = getIntent().getStringExtra("getpass");
@@ -39,9 +38,7 @@ String Sotpnum,Sotpt,otp,getpass,mobile_number,name,email,address,uid,cfd="0",pi
             slat = getIntent().getStringExtra("slat");
             slng = getIntent().getStringExtra("slng");
             uid = getIntent().getStringExtra("uid");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         Eotp_check=(EditText) findViewById(R.id.otp_text);
         Iverify=(ImageButton) findViewById(R.id.verify_otp);
         Iverify.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +92,7 @@ String Sotpnum,Sotpt,otp,getpass,mobile_number,name,email,address,uid,cfd="0",pi
             startActivity(intent);
             finish();
         }
-        else if (otp.equals(Sotpt)&&getpass.contains("1"))
+        else if (otp.equals(Sotpnum)&&getpass.contains("1"))
         {
             session.setLogin(true);
             db.addUser(name, email, uid, mobile_number,address,pincode,slat,slng);

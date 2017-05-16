@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.motomecha.app.R;
@@ -33,8 +34,16 @@ ImageButton Iselectbike,Iselectcar;
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
-        String text = "<font color=#ff1545>MY</font> <font color=#ffffff>VEHICLE</font>";
+        String text = "<font color=#ff1545>SELECT</font> <font color=#ffffff>VEHICLE</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(VehicleMode.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         Iselectbike=(ImageButton) findViewById(R.id.imageButton7);
         Iselectcar=(ImageButton) findViewById(R.id.imageButton8);
         service_type = getIntent().getStringExtra("servicetype");

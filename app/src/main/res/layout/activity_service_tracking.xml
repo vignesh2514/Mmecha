@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.motomecha.app.Global_classes.ServiceHistory">
+    tools:context="com.motomecha.app.Global_classes.ServiceTracking">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -37,13 +37,13 @@
                 android:layout_marginLeft="5dp"
                 app:srcCompat="@drawable/ic_stat_name"
                 android:layout_height="40dp"
+                android:id="@+id/dark_home"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_service_history" />
-
+    <include layout="@layout/content_service_tracking" />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.droidbyme.dialoglib.AnimUtils;
@@ -20,6 +21,7 @@ import com.motomecha.app.R;
 public class InsurancePage extends AppCompatActivity {
 FloatingActionButton Fbooknw;
     Context context;
+    String servetype,vehicle_type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,18 @@ FloatingActionButton Fbooknw;
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
+        servetype = getIntent().getStringExtra("servicetype");
+        vehicle_type = getIntent().getStringExtra("vehicletype");
         String text = "<font color=#ff1545>INSURANCE</font> <font color=#ffffff>RENEWAL</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(InsurancePage.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         Fbooknw=(FloatingActionButton) findViewById(R.id.booknow);
 
         Fbooknw.setOnClickListener(new View.OnClickListener() {

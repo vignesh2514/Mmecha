@@ -1,11 +1,13 @@
 package com.motomecha.app.car_module;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -14,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.droidbyme.dialoglib.AnimUtils;
+import com.droidbyme.dialoglib.DroidDialog;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
@@ -25,6 +29,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.motomecha.app.Global_classes.BasicActivity;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
@@ -49,6 +54,8 @@ public class Car_ServiceProviders extends AppCompatActivity {
     private  ProgressDialog dialog;
 String slat,slng,servetype,vehicletype,myurl,vehicleno;
 LatLng latLng;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +78,7 @@ LatLng latLng;
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
+        context = this;
         car_module_list=(ListView) findViewById(R.id.car_module);
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
@@ -81,8 +89,15 @@ LatLng latLng;
         vehicleno = getIntent().getStringExtra("vehicleno");
         String text = "<font color=#ff1545>SERVICE</font> <font color=#ffffff>PROVIDERS</font>";
         tv.setText(Html.fromHtml(text));
-        autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Car_ServiceProviders.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
+        autocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         AutocompleteFilter filter = new AutocompleteFilter.Builder().setCountry("IN").build();
         autocompleteFragment.setFilter(filter);
         autocompleteFragment.setHint("AREA OR PINCODE");
@@ -241,7 +256,7 @@ holder.like_mer.setText(categorieslist.getLikes());
             super.onPostExecute(movieModelList);
             dialog.dismiss();
 
-            if(movieModelList != null){
+            if(movieModelList.size()>0){
                 MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_car_merchant, movieModelList);
                 car_module_list.setAdapter(adapter);
                 car_module_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -253,16 +268,32 @@ holder.like_mer.setText(categorieslist.getLikes());
                         intent.putExtra("id",categorieslist.getId());
                         intent.putExtra("likes",categorieslist.getLikes());
                         intent.putExtra("price",categorieslist.getPrice());
+                        intent.putExtra("servetype",servetype);
                         intent.putExtra("display_name",categorieslist.getDisplay_name());
                         intent.putExtra("service_description",categorieslist.getService_description());
                         intent.putExtra("merchant_image",categorieslist.getMerchant_image());
                         intent.putExtra("vehicleno",vehicleno);
+                        intent.putExtra("number",categorieslist.getCall_number());
+
                         startActivity(intent);
                     }
                 });
             }
             else {
-                Toast.makeText(getApplicationContext(),"Please check your internet connection!",Toast.LENGTH_SHORT).show();
+                new DroidDialog.Builder(context)
+                        .icon(R.drawable.msingletone_logo)
+                        .title("OOPS")
+                        .content("NO SERVICE PROVIDER AVAILABLE IN THIS AREA")
+                        .cancelable(true, true)
+                        .positiveButton("EXIT", new DroidDialog.onPositiveListener() {
+                            @Override
+                            public void onPositive(Dialog droidDialog) {
+                                droidDialog.dismiss();
+                                onBackPressed();
+                            }
+
+                        }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
+
 
             }
 

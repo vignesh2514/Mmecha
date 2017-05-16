@@ -20,9 +20,17 @@ public class carmechantlist implements Parcelable {
     String likes;
 String area_location;
 String merchant_image;
-
+String call_number;
     String pickup_service;
     String service_description;
+
+    public String getCall_number() {
+        return call_number;
+    }
+
+    public void setCall_number(String call_number) {
+        this.call_number = call_number;
+    }
 
     public String getId() {
         return id;

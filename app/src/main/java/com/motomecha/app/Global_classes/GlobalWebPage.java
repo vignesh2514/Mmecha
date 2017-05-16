@@ -9,6 +9,7 @@ import android.text.Html;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.motomecha.app.R;
@@ -25,6 +26,14 @@ WebView webView;
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setTitle("");
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(GlobalWebPage.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         webView=(WebView) findViewById(R.id.global_webview);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

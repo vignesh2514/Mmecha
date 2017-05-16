@@ -66,7 +66,7 @@ FloatingActionButton Fbooknow;
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(),VehicleMode.class);
-                intent.putExtra("servicetype","BATTERY_SERVICE");
+                intent.putExtra("servicetype","BATSERV");
                 startActivity(intent);
             }
         });
@@ -97,7 +97,7 @@ FloatingActionButton Fbooknow;
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("service_type", "BS");
+                    params.put("service_type", "BATSERV");
                     return params;
             }
         };

@@ -21,6 +21,7 @@ import com.droidbyme.dialoglib.DroidDialog;
 import com.freshdesk.hotline.Hotline;
 import com.freshdesk.hotline.HotlineConfig;
 import com.freshdesk.hotline.HotlineUser;
+import com.motomecha.app.Global_classes.BasicActivity;
 import com.motomecha.app.R;
 import com.motomecha.app.bike_module.ConfirmBooking;
 import com.motomecha.app.dbhandler.SQLiteHandler;
@@ -28,7 +29,7 @@ import com.motomecha.app.dbhandler.SQLiteHandler;
 import java.util.HashMap;
 
 public class CarServiceProvidersDetail extends AppCompatActivity {
-String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image,name,email,mobile_number,kaddress,vehicleno,content_descrip;
+String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image,name,Scall_number,email,mobile_number,kaddress,vehicleno,content_descrip,servetype,Smerchant_id;
     TextView Taddress,Tdisplay_name,Tprice,Tlikes;
     ImageView Imerchant_image;
     ImageButton Ibooknw,Icallnw,Ichatnw;
@@ -54,6 +55,14 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         setTitle("");
         String text = "<font color=#ff1545>SERVICE PROVIDER</font> <font color=#ffffff>INFO</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CarServiceProvidersDetail.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         Taddress=(TextView) findViewById(R.id.car_service_addres);
         Tlikes=(TextView) findViewById(R.id.likes_db);
         Tprice=(TextView) findViewById(R.id.price_car_ser);
@@ -66,7 +75,10 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         Sdisplay_name = getIntent().getStringExtra("display_name");
         Sid = getIntent().getStringExtra("id");
         Sprice = getIntent().getStringExtra("price");
+        servetype = getIntent().getStringExtra("servetype");
         Slikes = getIntent().getStringExtra("likes");
+        Smerchant_id = getIntent().getStringExtra("id");
+        Scall_number = getIntent().getStringExtra("number");
         Smerchant_image = getIntent().getStringExtra("merchant_image");
         Sservice_description = getIntent().getStringExtra("service_description");
         content_descrip=Sservice_description;
@@ -104,7 +116,7 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
                 new DroidDialog.Builder(context)
                         .icon(R.drawable.msingletone_logo)
                         .title("GENERAL SERVICE")
-                        .content(Sservice_description)
+                        .content(content_descrip)
                         .cancelable(true, true)
                         .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
                             @Override
@@ -115,8 +127,9 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
                                 intent.putExtra("vechicletype","CAR");
                                 intent.putExtra("vehicleno",vehicleno);
                                 intent.putExtra("price",Sprice);
+                                intent.putExtra("merchant_id",Smerchant_id);
+                                intent.putExtra("servetype",servetype);
                                 intent.putExtra("service_description",Sservice_description);
-
                                 startActivity(intent);
                             }
                         }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
@@ -125,15 +138,15 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         Icallnw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phone ="+919840297628";
                 Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
-                        "tel", phone, null));
+                        "tel", Scall_number, null));
                 startActivity(phoneIntent);
             }
         });
         Ichatnw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Hotline.showConversations(CarServiceProvidersDetail.this);
 
             }
         });

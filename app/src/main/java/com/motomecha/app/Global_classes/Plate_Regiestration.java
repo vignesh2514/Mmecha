@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ public class Plate_Regiestration extends AppCompatActivity {
 ImageButton Bsubmit;
     EditText Etn1,Etn2,Etn3,Etn4;
     String mbtype,uid,Stn1,Stn2,Stn3,Stn4,btype;
-    TextView Tbikeview,vtype,Tuser_uid;
+    TextView Tbikeview,vtype;
     LinearLayout Llightbulb;
 
     @Override
@@ -55,6 +56,14 @@ ImageButton Bsubmit;
         });
         String text = "<font color=#ff1545>NUMBER</font> <font color=#ffffff>PLATE</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Plate_Regiestration.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
         uid=user.get("uid");
@@ -63,7 +72,6 @@ ImageButton Bsubmit;
         Etn3=(EditText) findViewById(R.id.tn3);
         Etn4=(EditText) findViewById(R.id.tn4);
         vtype=(TextView) findViewById(R.id.vec_type);
-        Tuser_uid=(TextView) findViewById(R.id.user_uid);
         Etn1.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         Etn3.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         Llightbulb=(LinearLayout) findViewById(R.id.liner_check);
@@ -74,7 +82,6 @@ ImageButton Bsubmit;
         btype = intent.getStringExtra("brand_type");
         Tbikeview.setText(mbtype);
         vtype.setText(btype);
-        Tuser_uid.setText(uid);
 Bsubmit.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -85,7 +92,6 @@ Stn1=Etn1.getText().toString();
         Stn4=Etn4.getText().toString();
         mbtype=Tbikeview.getText().toString();
         btype=vtype.getText().toString();
-uid=Tuser_uid.getText().toString();
         if (Stn1.length()==2&&Stn2.length()==2&&Stn3.length()==2&&Stn4.length()==4)
         {
             platenumber(Stn1,Stn2,Stn3,Stn4,uid,mbtype,btype);

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,14 @@ ListView model_llist;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>"+mbtype+"</font>";
         tv.setText(Html.fromHtml(text));
-
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ModelSelect.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         change_url=GlobalUrlInit.VECHILE_LISTING_BIKE;
 
         if (btype.equals("bike"))

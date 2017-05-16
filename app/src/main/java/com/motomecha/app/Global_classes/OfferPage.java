@@ -64,6 +64,14 @@ public class OfferPage extends AppCompatActivity {
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>MY</font> <font color=#ffffff>OFFERS</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OfferPage.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
 menu_list=(ListView) findViewById(R.id.offer_list);
         new JSONTask().execute(GlobalUrlInit.OFFER_SERVICES);
 

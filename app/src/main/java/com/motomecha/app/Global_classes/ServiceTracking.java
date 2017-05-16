@@ -6,22 +6,21 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.motomecha.app.R;
+import com.motomecha.app.dbhandler.SQLiteHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,71 +31,75 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class CustomerReviews extends AppCompatActivity {
-    ListView menu_list;
+public class ServiceTracking extends AppCompatActivity {
+ImageView Iimage_view;
     private  ProgressDialog dialog;
-
+    String uid,change_url;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_reviews);
+        setContentView(R.layout.activity_service_tracking);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("");
+        TextView tv = (TextView) findViewById(R.id.text_view_toolb);
+        Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        dialog = new ProgressDialog(this);
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.setMessage("Loading. Please wait...");
-        TextView tv = (TextView) findViewById(R.id.text_view_toolb);
-        Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
-        String text = "<font color=#ff1545>CUSTOMER</font> <font color=#ffffff>REVIEW</font>";
+        String text = "<font color=#ff1545>SERVICE</font> <font color=#ffffff>TRACKING</font>";
         tv.setText(Html.fromHtml(text));
         ImageView imageView=(ImageView) findViewById(R.id.dark_home);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(CustomerReviews.this,BasicActivity.class);
+                Intent intent=new Intent(ServiceTracking.this,BasicActivity.class);
                 startActivity(intent);
             }
         });
-        menu_list=(ListView) findViewById(R.id.offer_list);
-        new JSONTask().execute(GlobalUrlInit.CUSTOMER_REVIEW);
+        dialog = new ProgressDialog(this);
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.setMessage("Loading. Please wait...");
+        SQLiteHandler db = new SQLiteHandler(getApplicationContext());
+        final HashMap<String, String> user = db.getUserDetails();
+        uid=user.get("uid");
+        Iimage_view=(ImageView) findViewById(R.id.imageView3);
+        listView=(ListView) findViewById(R.id.service_track);
+        change_url=GlobalUrlInit.SERVICE_TRACKING_URL+uid;
+        new JSONTask().execute(change_url);
     }
 
     public class MovieAdapter extends ArrayAdapter {
 
-        private List<ListCustomReviews> movieModelList;
+        private List<Service_Tracking_List> movieModelList;
         private int resource;
         Context context;
         private LayoutInflater inflater;
-
-        public MovieAdapter(Context context, int resource, List<ListCustomReviews> objects) {
+        MovieAdapter(Context context, int resource, List<Service_Tracking_List> objects) {
             super(context, resource, objects);
             movieModelList = objects;
             this.context =context;
             this.resource = resource;
-            inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
         }
-
-
         @Override
         public int getViewTypeCount() {
 
-            return getCount();
+            return 1;
         }
 
         @Override
@@ -104,6 +107,7 @@ public class CustomerReviews extends AppCompatActivity {
 
             return position;
         }
+
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -113,9 +117,14 @@ public class CustomerReviews extends AppCompatActivity {
             if(convertView == null){
                 convertView = inflater.inflate(resource,null);
                 holder = new ViewHolder();
-                holder.more_img = (ImageView)convertView.findViewById(R.id.imageView2);
-                holder.mor_title = (TextView)convertView.findViewById(R.id.offer_title);
-             
+                holder.plate_no=(TextView) convertView.findViewById(R.id.regis_number);
+                holder.service_name=(TextView) convertView.findViewById(R.id.service_type);
+                holder.order_statusshort=(TextView) convertView.findViewById(R.id.order_short);
+                holder.order_statu=(TextView) convertView.findViewById(R.id.order_status);
+                holder.curr_date=(TextView) convertView.findViewById(R.id.order_date);
+                holder.first_image=(ImageView) convertView.findViewById(R.id.first_signal);
+                holder.second_image=(ImageView) convertView.findViewById(R.id.second_signal);
+                holder.third_image=(ImageView) convertView.findViewById(R.id.third_signal);
 
                 convertView.setTag(holder);
 
@@ -123,37 +132,49 @@ public class CustomerReviews extends AppCompatActivity {
             else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            Service_Tracking_List categorieslist= movieModelList.get(position);
+            holder.plate_no.setText(categorieslist.getRegNumber());
+            holder.service_name.setText(categorieslist.getServiceType());
+            holder.order_statusshort.setText(categorieslist.getOrder_status_short());
+            holder.order_statu.setText(categorieslist.getOrderStatus());
+            holder.curr_date.setText(categorieslist.getDate_time());
+if ( holder.order_statusshort.getText().toString().contains("CLO"))
+{
+    holder.order_statusshort.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+}
+            if ( holder.order_statu.getText().toString().contains("PROCE"))
+            {
+                holder.second_image.setImageResource(R.drawable.yellow_active);
+            }
+       else if (holder.order_statu.getText().toString().contains("COMPLE"))
+            {
+                holder.second_image.setImageResource(R.drawable.yellow_active);
+                holder.third_image.setImageResource(R.drawable.green_active);
 
-            ListCustomReviews more_list_menu= movieModelList.get(position);
-            Glide.with(context).load(more_list_menu.getCr_image()).error(R.drawable.car_new).into(holder.more_img);
-            holder.mor_title.setText(more_list_menu.getCr_title());
-     
-
+            }
 
             return convertView;
-
         }
 
         class ViewHolder{
-            private ImageView more_img;
-            private TextView mor_title;
 
-
-
+            private TextView plate_no,service_name,order_statu,order_statusshort,curr_date;
+            private  ImageView first_image,second_image,third_image;
         }
 
+
+
     }
-    public class JSONTask extends AsyncTask<String,String, List<ListCustomReviews>> {
+    public class JSONTask extends AsyncTask<String,String, List<Service_Tracking_List>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             dialog.show();
-
         }
 
         @Override
-        protected List<ListCustomReviews> doInBackground(String... params) {
+        protected List<Service_Tracking_List> doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
 
@@ -163,28 +184,29 @@ public class CustomerReviews extends AppCompatActivity {
                 connection.connect();
                 InputStream stream = connection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 String line ="";
                 while ((line = reader.readLine()) != null){
                     buffer.append(line);
                 }
+
                 String finalJson = buffer.toString();
+
                 JSONObject parentObject = new JSONObject(finalJson);
                 JSONArray parentArray = parentObject.getJSONArray("result");
-                List<ListCustomReviews> movieModelList = new ArrayList<>();
+                List<Service_Tracking_List> movieModelList = new ArrayList<>();
                 Gson gson = new Gson();
                 for(int i=0; i<parentArray.length(); i++) {
                     JSONObject finalObject = parentArray.getJSONObject(i);
-                    ListCustomReviews homeMenuMon = gson.fromJson(finalObject.toString(), ListCustomReviews.class);
-                    movieModelList.add(homeMenuMon);
+
+                    Service_Tracking_List categorieslist = gson.fromJson(finalObject.toString(), Service_Tracking_List.class);
+                    movieModelList.add(categorieslist);
 
                 }
+
                 return movieModelList;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+
+            } catch (JSONException | IOException e) {
                 e.printStackTrace();
             } finally {
                 if(connection != null) {
@@ -199,31 +221,28 @@ public class CustomerReviews extends AppCompatActivity {
                 }
             }
             return  null;
+
         }
 
         @Override
-        protected void onPostExecute(final List<ListCustomReviews> movieModelList) {
+        protected void onPostExecute(final List<Service_Tracking_List> movieModelList) {
             super.onPostExecute(movieModelList);
             dialog.dismiss();
 
-            if(movieModelList != null) {
-                MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_custom_review,  movieModelList);
-                menu_list.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ListCustomReviews more_list_menu = movieModelList.get(position);
-                        Intent intent = new Intent(CustomerReviews.this, GlobalWebPage.class);
-                        intent.putExtra("title1",more_list_menu.getCr_title());
-                        intent.putExtra("wburl", more_list_menu.getCr_link());
-                        startActivity(intent);
+            if(movieModelList.size()>0){
+                MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_service_tracking_list, movieModelList);
+                listView.setAdapter(adapter);
 
-                    }
-                });
-            } else {
-                Toast.makeText(getApplicationContext(), "Not able to fetch data from server, please check url.", Toast.LENGTH_SHORT).show();
             }
+            else {
+                Iimage_view.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.INVISIBLE);
+
+
+
+            }
+
+
         }
 
     }

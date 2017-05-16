@@ -196,6 +196,7 @@
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="3"
+                    android:padding="2dp"
                     android:layout_gravity="end"
                     android:layout_height="match_parent">
                     <com.motomecha.app.Global_classes.MyTextView
@@ -205,17 +206,18 @@
                         android:gravity="center"
                         android:layout_weight="2"
                         android:textSize="14sp"
-
                         android:text="25-12-2017"
                         android:textScaleX="1.2" />
                     <ImageButton
                         android:id="@+id/imageButton4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
                         android:layout_weight="1"
                         android:background="?attr/selectableItemBackgroundBorderless"
+                        android:scaleType="fitXY"
                         android:layout_gravity="center|end"
-                        android:src="@drawable/calender1_book"
+                        app:srcCompat="@drawable/calender1_book"
+
                         />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -227,6 +229,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content">
             <CheckBox
+                android:id="@+id/allpick_check"
                 android:checked="true"
                 android:layout_width="wrap_content"
                 android:buttonTint="@color/colorAccent"

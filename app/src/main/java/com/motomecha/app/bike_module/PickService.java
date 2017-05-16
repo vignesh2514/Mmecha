@@ -8,11 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.freshdesk.hotline.Hotline;
 import com.freshdesk.hotline.HotlineConfig;
 import com.freshdesk.hotline.HotlineUser;
+import com.motomecha.app.Global_classes.BasicActivity;
+import com.motomecha.app.Global_classes.GlobalWebPage;
 import com.motomecha.app.Global_classes.InsurancePage;
 import com.motomecha.app.Global_classes.MyVechicle;
 import com.motomecha.app.R;
@@ -63,6 +66,14 @@ mobile_number=user.get("pnum");
         });
         String text = "<font color=#ff1545>BIKE</font> <font color=#ffffff>SERVICE</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(PickService.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
         hotlineConfig.setVoiceMessagingEnabled(true);
         hotlineConfig.setCameraCaptureEnabled(true);
@@ -145,7 +156,7 @@ Igs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(PickService.this,InsurancePage.class);
-//                intent.putExtra("servicetype","IR");
+                intent.putExtra("servicetype","IR");
 //                intent.putExtra("vehicletype","bike");
                 startActivity(intent);
             }
@@ -153,10 +164,9 @@ Igs.setOnClickListener(new View.OnClickListener() {
         Ibuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","BS");
-                intent.putExtra("vehicletype","bike");
-
+                Intent intent=new Intent(PickService.this,GlobalWebPage.class);
+                intent.putExtra("title1","BUY SELL");
+                intent.putExtra("wburl"," http://motomecha.com/");
                 startActivity(intent);
             }
         });

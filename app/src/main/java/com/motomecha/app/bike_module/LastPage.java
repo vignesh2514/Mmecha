@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +34,19 @@ ImageButton Ibook;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+              onBackPressed();
             }
         });
         String text = "<font color=#ff1545>BOOKING</font> <font color=#ffffff>CONFIRM</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(LastPage.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         String aac= tv.getText().toString();
         Toast.makeText(getApplicationContext(),aac,Toast.LENGTH_SHORT).show();
         booking_id = getIntent().getStringExtra("booking_id");
@@ -57,4 +66,10 @@ Tservice_date=(TextView) findViewById(R.id.book_date);
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(LastPage.this,BasicActivity.class);
+        startActivity(intent);
+    }
 }

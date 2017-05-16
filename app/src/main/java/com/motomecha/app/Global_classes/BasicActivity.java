@@ -50,6 +50,7 @@ public class BasicActivity extends AppCompatActivity
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>MOTO</font><font color=#ffffff>MECHA</font>";
         tv.setText(Html.fromHtml(text));
+
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
         FirebaseCrash.log("Activity created");
@@ -156,16 +157,16 @@ public class BasicActivity extends AppCompatActivity
             Intent intent =new Intent(BasicActivity.this,VehicleMode.class);
             startActivity(intent);
         } else if (id == R.id.nav_service) {
-            Intent intent =new Intent(BasicActivity.this,ServiceHistory.class);
+            Intent intent =new Intent(BasicActivity.this,ServiceTracking.class);
             startActivity(intent);
         }
-        else if (id == R.id.nav_buy_sell)
-        {
-            Intent intent =new Intent(BasicActivity.this,GlobalWebPage.class);
-            intent.putExtra("title1","USED BIKES");
-            intent.putExtra("wburl"," http://motomecha.com/");
-            startActivity(intent);
-        }
+//        else if (id == R.id.nav_buy_sell)
+//        {
+//            Intent intent =new Intent(BasicActivity.this,GlobalWebPage.class);
+//            intent.putExtra("title1","USED BIKES");
+//            intent.putExtra("wburl"," http://motomecha.com/");
+//            startActivity(intent);
+//        }
         else if (id == R.id.nav_face) {
             Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
             String facebookUrl = getFacebookPageURL(this);

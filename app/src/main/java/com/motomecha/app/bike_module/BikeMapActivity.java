@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.motomecha.app.Global_classes.AppController;
+import com.motomecha.app.Global_classes.BasicActivity;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
@@ -83,8 +85,8 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
     ListView bike_modules_list;
 
     Location mLocation;
-    String slat, slng,myplace,servetype,vehicletype,name,email,mobile_number,kaddress,myurl,vehicleno,service_description,price,content_descrip;
-    double latitud, longitud;
+    String slat, slng,call_number,servetype,vehicletype,name,email,mobile_number,kaddress,myurl,vehicleno,service_description,price,content_descrip;
+    double latitud, longitud,latitu,longitu;
     private static final String TAG = BikeMapActivity.class.getSimpleName();
     SupportMapFragment mapFrag;
     GoogleMap Mmap;
@@ -112,12 +114,19 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 onBackPressed();
             }
         });
-
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>SERVICE</font> <font color=#ffffff>PROVIDERS</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(BikeMapActivity.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         context = this;
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
@@ -134,7 +143,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         //Update user information
         HotlineUser user1 = Hotline.getInstance(getApplicationContext()).getUser();
-        user1.setName(name).setEmail(email).setPhone("+91", mobile_number);;
+        user1.setName(name).setEmail(email).setPhone("+91", mobile_number);
         Hotline.getInstance(getApplicationContext()).updateUser(user1);
         bike_modules_list=(ListView) findViewById(R.id.bike_module_list);
         bookingmap = (ImageButton) findViewById(R.id.booknow_map);
@@ -151,7 +160,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         servetype = getIntent().getStringExtra("servicetype");
         detailsgetmw(servetype);
         vehicletype = getIntent().getStringExtra("vehicletype");
-        vehicleno = getIntent().getStringExtra("vechicleno");
+        vehicleno = getIntent().getStringExtra("vehicleno");
         autocompleteFragment.setHint("AREA OR PINCODE");
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -171,9 +180,8 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         callingmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phone ="+919840297628";
                 Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
-                        "tel", phone, null));
+                        "tel", call_number, null));
                 startActivity(phoneIntent);
             }
         });
@@ -185,7 +193,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         });
         slat = user.get("klati");
         slng = user.get("klongi");
-        if (slat.equals("null") || slng.equals("null")) {
+        if ((slat.equals("null") && slng.equals("null"))||(slat.isEmpty() && slng.isEmpty())) {
             latitud = 12.8711020;
             longitud = 80.2226490;
         } else {
@@ -216,6 +224,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                     JSONObject jObj = new JSONObject(response);
                         JSONObject result = jObj.getJSONObject("result");
                          service_description = result.getString("service_description");
+                    call_number=result.getString("call_number");
                     price = result.getString("price");
                     content_descrip=service_description;
                     content_descrip=content_descrip.replace("<ul>", "");
@@ -252,6 +261,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Mmap=googleMap;
+        Mmap.clear();
         LatLng locateme = new LatLng(latitud, longitud);
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json);
         Mmap.setMapStyle(style);
@@ -286,9 +296,9 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                    Circle circle = Mmap.addCircle(new CircleOptions().center(laln).radius(5000).strokeColor(Color.BLUE).strokeWidth(2.0f));
                    Mmap.setMaxZoomPreference(14.5f);
                    Mmap.setMinZoomPreference(6.5f);
-                   latitud=laln.latitude;
-                   longitud=laln.longitude;
-                   myurl= GlobalUrlInit.BIKE_MERCHANLIST+"?slat="+latitud+"&slng="+longitud+"&serve_type="+servetype+"&vehicletype="+vehicletype;
+                   latitu=laln.latitude;
+                   longitu=laln.longitude;
+                   myurl= GlobalUrlInit.BIKE_MERCHANLIST+"?slat="+latitu+"&slng="+longitu+"&serve_type="+servetype+"&vehicletype="+vehicletype;
                    new JSONTask().execute(myurl);
 
 
@@ -453,6 +463,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                                         intent.putExtra("kaddress",kaddress);
                                         intent.putExtra("vechicletype","BIKE");
                                         intent.putExtra("price",price);
+                                        intent.putExtra("servetype",servetype);
                                         intent.putExtra("service_description",service_description);
                                         intent.putExtra("vehicleno",vehicleno);
                                         startActivity(intent);
@@ -473,6 +484,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                                     @Override
                                     public void onNegative(Dialog dialog) {
                                         dialog.dismiss();
+onBackPressed();
                                     }
                                 })
                                 .positiveButton("CHAT WITH US !", new DroidDialog.onPositiveListener() {
@@ -490,10 +502,11 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                                 .title("OOPS")
                                 .content("NO SERVICE PROVIDER AVAILABLE IN THIS AREA")
                                 .cancelable(true, true)
-                                .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
+                                .positiveButton("EXIT", new DroidDialog.onPositiveListener() {
                                     @Override
                                     public void onPositive(Dialog droidDialog) {
                                         droidDialog.dismiss();
+                                        onBackPressed();
                                     }
 
                                 }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();

@@ -58,6 +58,14 @@ FloatingActionButton Fbooknow;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>CAR</font> <font color=#ffffff>SERVICE</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(DetailService.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         main_image=(ImageView) findViewById(R.id.imageView);
         Ttitle=(TextView) findViewById(R.id.text_title);
         Ttitle.setTypeface(custom_font);

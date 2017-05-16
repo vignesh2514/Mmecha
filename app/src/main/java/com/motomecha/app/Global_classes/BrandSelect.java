@@ -67,6 +67,14 @@ String change_url,btype;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>SELECT</font> <font color=#ffffff>BRAND</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(BrandSelect.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         change_url=GlobalUrlInit.VECHILE_LISTING_BIKE;
         Intent intent = getIntent();
          btype = intent.getStringExtra("brandtype");

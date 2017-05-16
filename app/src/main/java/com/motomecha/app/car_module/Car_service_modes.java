@@ -8,8 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.motomecha.app.Global_classes.BasicActivity;
 import com.motomecha.app.Global_classes.DetailService;
 import com.motomecha.app.Global_classes.GlobalWebPage;
 import com.motomecha.app.Global_classes.InsurancePage;
@@ -51,7 +53,14 @@ public class Car_service_modes extends AppCompatActivity {
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>CAR</font> <font color=#ffffff>SERVICE</font>";
         tv.setText(Html.fromHtml(text));
-
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Car_service_modes.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
         Igencar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,8 +101,8 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Car_service_modes.this,InsurancePage.class);
-//                intent.putExtra("servicetype","IN");
-//                intent.putExtra("vehicletype","car");
+               intent.putExtra("servicetype","IR");
+                intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
         });
@@ -119,7 +128,7 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","TP");
+                intent.putExtra("servicetype","TAP");
                 intent.putExtra("vehicletype","car");
                 startActivity(intent);
             }
@@ -147,7 +156,7 @@ public class Car_service_modes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent =new Intent(Car_service_modes.this,GlobalWebPage.class);
-                intent.putExtra("title1","USED CARS");
+                intent.putExtra("title1","BUY SELL");
                 intent.putExtra("wburl"," http://motomecha.com/");
                 startActivity(intent);
             }

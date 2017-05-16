@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.motomecha.app.R;
@@ -59,7 +58,7 @@ String change_url,uid;
         setTitle("");
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
@@ -77,6 +76,15 @@ String change_url,uid;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>MY</font> <font color=#ffffff>VEHICLE</font>";
         tv.setText(Html.fromHtml(text));
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MyVechicle.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
+
         vehicletype = getIntent().getStringExtra("vehicletype");
         servicetype = getIntent().getStringExtra("servicetype");
         listView=(ListView) findViewById(R.id.list_new_bikes);
@@ -217,7 +225,7 @@ String change_url,uid;
         protected void onPostExecute(final List<Myvehicle_list> movieModelList) {
             super.onPostExecute(movieModelList);
             dialog.dismiss();
-            if(movieModelList != null){
+            if(movieModelList.size()>0){
                 MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_my_vehicle, movieModelList);
                 listView.setAdapter(adapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -230,14 +238,14 @@ String change_url,uid;
                                 Intent intent = new Intent(MyVechicle.this, BikeMapActivity.class);
                                 intent.putExtra("servicetype",servicetype);
                                 intent.putExtra("vehicletype",categorieslist.getModel_brand());
-                                intent.putExtra("vechicleno",categorieslist.getRegister_number());
+                                intent.putExtra("vehicleno",categorieslist.getRegister_number());
                                 startActivity(intent);
                             }
                             else
                             {
                                 Intent intent = new Intent(MyVechicle.this, Car_ServiceProviders.class);
                                 intent.putExtra("servicetype",servicetype);
-                                intent.putExtra("vechicleno",categorieslist.getRegister_number());
+                                intent.putExtra("vehicleno",categorieslist.getRegister_number());
                                 intent.putExtra("vehicletype",categorieslist.getModel_brand());
                                 startActivity(intent);
                             }
@@ -251,7 +259,7 @@ String change_url,uid;
             else {
                 Inovehicle.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.INVISIBLE);
-                Toast.makeText(getApplicationContext(),"Please check your internet connection!",Toast.LENGTH_SHORT).show();
+
 
             }
 

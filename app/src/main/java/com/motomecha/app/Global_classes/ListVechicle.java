@@ -16,10 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.droidbyme.dialoglib.AnimUtils;
 import com.droidbyme.dialoglib.DroidDialog;
 import com.google.gson.Gson;
@@ -37,14 +44,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class ListVechicle extends AppCompatActivity {
     ListView listView;
     private  ProgressDialog dialog;
-    String uid,vehicletype,change_url,servce_type;
+    String uid,vehicletype,change_url,servce_type,vehicle_no,bookig_id,current_date;
 Context context;
+    TextView date_alltext;
+    ImageView Inovehicle;
+    ImageButton Baddvec;
+    private int mYear, mMonth, mDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +77,9 @@ Context context;
         uid=user.get("uid");
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         listView=(ListView) findViewById(R.id.list_in_way);
+        Inovehicle =(ImageView) findViewById(R.id.imageView4);
+        Baddvec=(ImageButton) findViewById(R.id.button2);
+        date_alltext=(TextView) findViewById(R.id.alltext_date);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
@@ -72,17 +89,99 @@ Context context;
                 onBackPressed();
             }
         });
-        String text = "<font color=#ff1545>MY</font> <font color=#ffffff>VEHICLE</font>";
+        String text = "<font color=#ff1545>SELECT</font> <font color=#ffffff>VEHICLE</font>";
         tv.setText(Html.fromHtml(text));
-        try {
+        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ListVechicle.this,BasicActivity.class);
+                startActivity(intent);
+            }
+        });
             servce_type = getIntent().getStringExtra("servicetype");
             vehicletype = getIntent().getStringExtra("vehicletype");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        Baddvec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ListVechicle.this,BrandSelect.class);
+                intent.putExtra("brandtype",vehicletype);
+                startActivity(intent);
+            }
+        });
         change_url=GlobalUrlInit.MY_VEHICLE+"?uid="+uid+"&vtype="+vehicletype;
         new JSONTask().execute(change_url);
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        mMonth=mMonth+1;
+
     }
+
+    public void getmyotherbooking(final String uid, final String servce_type, final String current_date, final String vehicle_no, final String bookig_id) {
+
+        StringRequest stringRequest =new StringRequest(Request.Method.POST, GlobalUrlInit.OTHER_SERVICE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean exits = jObj.getBoolean("exits");
+                    if (exits)
+                    {new DroidDialog.Builder(context)
+                                .icon(R.drawable.msingletone_logo)
+                                .title("BOOKING CONFIRMED")
+                                .content("YOUR BOOKING HAS BEEN CONFIRMED WE WILL CONTACT YOU SHORTLY!")
+                                .cancelable(true, true)
+                                .positiveButton("OK", new DroidDialog.onPositiveListener() {
+                                    @Override
+                                    public void onPositive(Dialog droidDialog) {
+                                        droidDialog.dismiss();
+                                        Intent intent = new Intent(ListVechicle.this, BasicActivity.class);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .typeface("rama.ttf")
+                                .animation(AnimUtils.AnimZoomInOut)
+                                .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),
+                                        ContextCompat.getColor(context, R.color.colorRed))
+                                .divider(true, ContextCompat.getColor(context, R.color.colorAccent))
+                                .show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"BOOKING HAS BEEN CANCELLED.TRY AGAIN AFTER SOMETIME!",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"TRY AGAIN AFTER SOMETIME",Toast.LENGTH_SHORT).show();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String, String>();
+                params.put("uid",uid);
+                params.put("servetype",servce_type);
+                params.put("current_date",current_date);
+                params.put("vehicleno",vehicle_no);
+                params.put("booking_id",bookig_id);
+
+                return params;
+
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest,"CHECKING");
+
+    }
+
     public class MovieAdapter extends ArrayAdapter {
 
         private List<Myvehicle_list> movieModelList;
@@ -204,63 +303,58 @@ Context context;
         protected void onPostExecute(final List<Myvehicle_list> movieModelList) {
             super.onPostExecute(movieModelList);
             dialog.dismiss();
-            if(movieModelList != null){
-                MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_my_vehicle, movieModelList);
-                listView.setAdapter(adapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        new DroidDialog.Builder(context)
-                                .icon(R.drawable.msingletone_logo)
-                                .title("PLEASE CONFIRM YOUR BOOKING")
-                                .content("MOTOMECHA WILL RECOGNIZE THE BEST SERVICE PROVIDER FOR YOUR VEHICLE AND GUARANTEE THE BEST SERVICES")
-                                .cancelable(true, true)
+            Random r = new Random();
+            int ri = r.nextInt((99999 - 12345)+1) + 1234;
+            bookig_id= "MM"+ri;
+            date_alltext.setText(mDay+"-"+mMonth+"-"+mYear);
+            if(movieModelList.size()>0){
 
-                                .positiveButton("CONFIRM YOUR BOOKING", new DroidDialog.onPositiveListener() {
-                                    @Override
-                                    public void onPositive(Dialog droidDialog) {
-                                        droidDialog.dismiss();
-                                        new DroidDialog.Builder(context)
-                                                .icon(R.drawable.msingletone_logo)
-                                                .title("BOOKING CONFIRMED")
-                                                .content("YOUR BOOKING HAS BEEN CONFIRMED WE WILL CONTACT YOU SHORTLY!")
-                                                .cancelable(true, true)
-                                                .positiveButton("Ok", new DroidDialog.onPositiveListener() {
-                                                    @Override
-                                                    public void onPositive(Dialog droidDialog) {
-                                                        droidDialog.dismiss();
-                                                        Intent intent = new Intent(ListVechicle.this, BasicActivity.class);
-                                                        startActivity(intent);
-                                                    }
-                                                })
-
-
-                                                .typeface("rama.ttf")
-                                                .animation(AnimUtils.AnimZoomInOut)
-                                                .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),
-                                                        ContextCompat.getColor(context, R.color.colorRed))
-                                                .divider(true, ContextCompat.getColor(context, R.color.colorAccent))
-                                                .show();
-                                    }
-                                })
-
-
-                                .typeface("rama.ttf")
-                                .animation(AnimUtils.AnimZoomInOut)
-                                .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),
-                                        ContextCompat.getColor(context, R.color.colorRed))
-                                .divider(true, ContextCompat.getColor(context, R.color.colorAccent))
-                                .show();
-
-                    }
-                });
+    MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_my_vehicle, movieModelList);
+    listView.setAdapter(adapter);
+    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (servce_type!=null) {
+            Myvehicle_list categorieslist = movieModelList.get(position);
+            vehicle_no = categorieslist.getRegister_number();
+            current_date = date_alltext.getText().toString();
+            new DroidDialog.Builder(context)
+                    .icon(R.drawable.msingletone_logo)
+                    .title("PLEASE CONFIRM YOUR BOOKING")
+                    .content("MOTOMECHA WILL RECOGNIZE THE BEST SERVICE PROVIDER FOR YOUR VEHICLE AND GUARANTEE THE BEST SERVICES")
+                    .cancelable(true, true)
+                    .positiveButton("CONFIRM YOUR BOOKING", new DroidDialog.onPositiveListener() {
+                        @Override
+                        public void onPositive(Dialog droidDialog) {
+                            droidDialog.dismiss();
+                            getmyotherbooking(uid, servce_type, current_date, vehicle_no, bookig_id);
+                        }
+                    })
+                    .typeface("rama.ttf")
+                    .animation(AnimUtils.AnimZoomInOut)
+                    .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),
+                            ContextCompat.getColor(context, R.color.colorRed))
+                    .divider(true, ContextCompat.getColor(context, R.color.colorAccent))
+                    .show();
+            }
+            else {
+                Myvehicle_list categorieslist = movieModelList.get(position);
+                vehicle_no = categorieslist.getRegister_number();
+                String bike_model=categorieslist.getModel_brand();
+                Intent intent=new Intent(ListVechicle.this,New_Plate_registration.class);
+                intent.putExtra("vehicle_no",vehicle_no);
+                intent.putExtra("bike_model",bike_model);
+                startActivity(intent);
+            }
+        }
+    });
 
 
             }
             else {
-
+                Inovehicle.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.INVISIBLE);
-                Toast.makeText(getApplicationContext(),"Please check your internet connection!",Toast.LENGTH_SHORT).show();
+
 
             }
 

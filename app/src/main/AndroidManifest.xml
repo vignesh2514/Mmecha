@@ -26,17 +26,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Global_classes.SplashScreen"
-            android:theme="@style/AppTheme.NoTitle"
+        <activity
+            android:name=".Global_classes.SplashScreen"
             android:screenOrientation="portrait"
-
-            >
+            android:theme="@style/AppTheme.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Global_classes.BasicActivity"
@@ -94,9 +92,7 @@
             android:name=".Global_classes.IntroActivity"
             android:label="@string/title_activity_intro"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Global_classes.GlobalWebPage"
             android:label="@string/title_activity_global_web_page"
@@ -120,16 +116,6 @@
         <activity
             android:name=".Global_classes.OfferPage"
             android:label="@string/title_activity_offer_page"
-            android:parentActivityName=".Global_classes.BasicActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.motomecha.app.Global_classes.BasicActivity" />
-        </activity>
-        <activity
-            android:name=".Global_classes.ServiceHistory"
-            android:label="@string/title_activity_service_history"
             android:parentActivityName=".Global_classes.BasicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -292,7 +278,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.motomecha.app.Global_classes.BasicActivity" />
         </activity>
-
+        <activity
+            android:name=".Global_classes.ServiceTracking"
+            android:label="@string/title_activity_service_tracking"
+            android:parentActivityName=".Global_classes.BasicActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.Global_classes.BasicActivity" />
+        </activity>
+        <activity
+            android:name=".Global_classes.New_Plate_registration"
+            android:label="@string/title_activity_new__plate_registration"
+            android:parentActivityName=".Global_classes.ListVechicle"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.motomecha.app.Global_classes.ListVechicle" />
+        </activity>
     </application>
 
 </manifest>
