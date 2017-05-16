@@ -55,7 +55,7 @@ public class Car_ServiceProviders extends AppCompatActivity {
 String slat,slng,servetype,vehicletype,myurl,vehicleno;
 LatLng latLng;
     Context context;
-
+Double latitud,longitud;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +84,13 @@ LatLng latLng;
         final HashMap<String, String> user = db.getUserDetails();
         slat = user.get("klati");
         slng = user.get("klongi");
+        if ((slat.equals("null") && slng.equals("null"))||(slat.isEmpty() && slng.isEmpty())) {
+            latitud = 12.9740492;
+            longitud = 80.2189729;
+        } else {
+            latitud = Double.parseDouble(slat);
+            longitud = Double.parseDouble(slng);
+        }
         servetype = getIntent().getStringExtra("servicetype");
         vehicletype = getIntent().getStringExtra("vehicletype");
         vehicleno = getIntent().getStringExtra("vehicleno");
@@ -126,7 +133,7 @@ if (vehicletype.contains(" ")) {
     vehicletype = vehicletype1 + "%20" + vehicletype2;
 }
 
-        myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+slat+"&slng="+slng+"&serve_type="+servetype+"&vehicletype="+vehicletype;
+        myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+latitud+"&slng="+longitud+"&serve_type="+servetype+"&vehicletype="+vehicletype;
         new JSONTask().execute(myurl);
     }
 

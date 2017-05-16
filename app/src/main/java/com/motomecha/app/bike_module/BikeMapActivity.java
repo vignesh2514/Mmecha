@@ -194,8 +194,8 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         slat = user.get("klati");
         slng = user.get("klongi");
         if ((slat.equals("null") && slng.equals("null"))||(slat.isEmpty() && slng.isEmpty())) {
-            latitud = 12.8711020;
-            longitud = 80.2226490;
+            latitud = 12.9740492;
+            longitud = 80.2189729;
         } else {
             latitud = Double.parseDouble(slat);
             longitud = Double.parseDouble(slng);

@@ -80,8 +80,6 @@ FloatingActionButton Fbooknw;
                                                 startActivity(intent);
                                             }
                                         })
-
-
                                         .typeface("rama.ttf")
                                         .animation(AnimUtils.AnimZoomInOut)
                                         .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),

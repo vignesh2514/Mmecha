@@ -47,8 +47,8 @@ ImageButton Ibook;
                 startActivity(intent);
             }
         });
-        String aac= tv.getText().toString();
-        Toast.makeText(getApplicationContext(),aac,Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(getApplicationContext(),"BOOKING CONFIRMED",Toast.LENGTH_SHORT).show();
         booking_id = getIntent().getStringExtra("booking_id");
         servicedate = getIntent().getStringExtra("servicedate");
 Tservice_date=(TextView) findViewById(R.id.book_date);

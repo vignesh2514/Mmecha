@@ -128,8 +128,13 @@ public class ResgisterActivity extends AppCompatActivity  {
                 Slat = Tlatittude.getText().toString();
                 Slng = Tlongitude.getText().toString();
                 if (Sname.isEmpty() || Semail.isEmpty() || Saddress.isEmpty() || Spincode.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter all fields", Toast.LENGTH_SHORT).show();
-                } else {
+                    Toast.makeText(getApplicationContext(), "PLEASE FILL ALL FIELDS", Toast.LENGTH_SHORT).show();
+                }
+                else if(Spincode.length()<5)
+                {
+                    Toast.makeText(getApplicationContext(), "PLEASE ENTER CORRECT PINCODE", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     registerme(Sname, Semail, Saddress, mobile_number, otp, Spincode, Slat, Slng);
                 }
             }
