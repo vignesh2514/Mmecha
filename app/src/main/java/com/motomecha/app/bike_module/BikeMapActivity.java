@@ -484,7 +484,6 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                                     @Override
                                     public void onNegative(Dialog dialog) {
                                         dialog.dismiss();
-onBackPressed();
                                     }
                                 })
                                 .positiveButton("CHAT WITH US !", new DroidDialog.onPositiveListener() {
@@ -506,7 +505,7 @@ onBackPressed();
                                     @Override
                                     public void onPositive(Dialog droidDialog) {
                                         droidDialog.dismiss();
-                                        onBackPressed();
+
                                     }
 
                                 }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();

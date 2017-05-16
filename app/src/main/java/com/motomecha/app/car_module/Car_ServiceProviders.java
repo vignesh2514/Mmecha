@@ -126,7 +126,7 @@ if (vehicletype.contains(" ")) {
     vehicletype = vehicletype1 + "%20" + vehicletype2;
 }
 
-myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+slat+"&slng="+slng+"&serve_type="+servetype+"&vehicletype="+vehicletype;
+        myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+slat+"&slng="+slng+"&serve_type="+servetype+"&vehicletype="+vehicletype;
         new JSONTask().execute(myurl);
     }
 
@@ -274,7 +274,6 @@ holder.like_mer.setText(categorieslist.getLikes());
                         intent.putExtra("merchant_image",categorieslist.getMerchant_image());
                         intent.putExtra("vehicleno",vehicleno);
                         intent.putExtra("number",categorieslist.getCall_number());
-
                         startActivity(intent);
                     }
                 });
@@ -289,7 +288,6 @@ holder.like_mer.setText(categorieslist.getLikes());
                             @Override
                             public void onPositive(Dialog droidDialog) {
                                 droidDialog.dismiss();
-                                onBackPressed();
                             }
 
                         }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();

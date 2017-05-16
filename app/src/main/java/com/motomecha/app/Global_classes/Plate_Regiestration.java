@@ -197,7 +197,7 @@ public void platenumber(final String stn1, final String stn2, final String stn3,
     StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalUrlInit.PLATE_REGISTRATION, new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
-            Toast.makeText(getApplicationContext(),"YOUR VEHICLE HAS BEEN REGISTER",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"YOUR VEHICLE HAS BEEN REGISTERED",Toast.LENGTH_SHORT).show();
             Intent intent =new Intent(Plate_Regiestration.this,BasicActivity.class);
             startActivity(intent);
 
@@ -223,6 +223,10 @@ public void platenumber(final String stn1, final String stn2, final String stn3,
     };
     AppController.getInstance().addToRequestQueue(stringRequest);
 }
+    @Override
+    public void onBackPressed() {
+       Intent intent=new Intent(Plate_Regiestration.this,BasicActivity.class);
+        startActivity(intent);
 
-
+    }
 }
