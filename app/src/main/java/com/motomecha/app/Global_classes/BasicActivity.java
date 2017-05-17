@@ -19,6 +19,9 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.freshdesk.hotline.Hotline;
+import com.freshdesk.hotline.HotlineConfig;
+import com.freshdesk.hotline.HotlineUser;
 import com.google.firebase.crash.FirebaseCrash;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
@@ -26,10 +29,13 @@ import com.motomecha.app.dbhandler.SessionManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import java.util.HashMap;
+
 public class BasicActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private SessionManager session;
-    private SQLiteHandler db;
+  String name,email,mobile_number;
+    SQLiteHandler db;
     BottomBar bottomBar;
     public static String FACEBOOK_URL = "https://www.facebook.com/app.motomecha";
     public static String FACEBOOK_PAGE_ID = "app.motomecha";
@@ -52,7 +58,23 @@ public class BasicActivity extends AppCompatActivity
         tv.setText(Html.fromHtml(text));
 
         session = new SessionManager(getApplicationContext());
-        db = new SQLiteHandler(getApplicationContext());
+
+        SQLiteHandler db = new SQLiteHandler(getApplicationContext());
+        final HashMap<String, String> user = db.getUserDetails();
+        name=user.get("name");
+        email=user.get("email");
+        mobile_number=user.get("pnum");
+
+        HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
+        hotlineConfig.setVoiceMessagingEnabled(true);
+        hotlineConfig.setCameraCaptureEnabled(true);
+        hotlineConfig.setPictureMessagingEnabled(true);
+        Hotline.getInstance(getApplicationContext()).init(hotlineConfig);
+
+        //Update user information
+        HotlineUser user1 = Hotline.getInstance(getApplicationContext()).getUser();
+        user1.setName(name).setEmail(email).setPhone("+91", mobile_number);
+        Hotline.getInstance(getApplicationContext()).updateUser(user1);
         FirebaseCrash.log("Activity created");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

@@ -24,6 +24,14 @@
             android:icon="@drawable/ic_custom_speak"
             android:title="CUSTOMER REVIEWS" />
         <item
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_log_out"
+            android:title="CHAT" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share_out"
+            android:title="SHARE" />
+        <item
             android:id="@+id/nav_face"
             android:icon="@drawable/ic_facebook_hme"
             android:title="FACEBOOK" />
@@ -31,16 +39,18 @@
             android:id="@+id/nav_you_tube"
             android:icon="@drawable/ic_you_tube"
             android:title="YOUTUBE" />
-        <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_share_out"
-            android:title="SHARE" />
+
         <item
             android:id="@+id/nav_logt"
             android:icon="@drawable/ic_log_out"
             android:title="LOGOUT" />
-    </group>
-
-
-
+            <item
+                android:id="@+id/nav_email"
+                android:icon="@drawable/ic_close_envelope_andro"
+                android:title="EMAIL:GORIDE@GMAIL.COM" />
+            <item
+                android:id="@+id/nav_mobile"
+                android:icon="@drawable/ic_smartphone_mobile"
+                android:title="MOBILE:+91 96770 86686" />
+   </group>
 </menu>

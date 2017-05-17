@@ -101,7 +101,6 @@ Context context;
         });
             servce_type = getIntent().getStringExtra("servicetype");
             vehicletype = getIntent().getStringExtra("vehicletype");
-
         Baddvec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
