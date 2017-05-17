@@ -22,6 +22,6 @@ public class GlobalUrlInit {
     public  static  String SERVICE_TRACKING_URL= "http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/service_tracking.php?uid=";
     public  static  String UPDATE_PLATE_REGIST="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/update_plate_registration.php";
     public  static  String INSURANCE_POST="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/insurance_post.php";
-
+    public  static  String WEB_ADVERTISE="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/slidingme.php";
 
 }

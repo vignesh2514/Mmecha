@@ -30,25 +30,15 @@ ImageView imageView;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-    //    webView = (WebView) v.findViewById(R.id.webView);
         Ioffers=(ImageButton) v.findViewById(R.id.imageButton);
-      //  webView.getSettings().setJavaScriptEnabled(true);
-Ibike=(ImageButton) v.findViewById(R.id.imageButton2);
-        Icar=(ImageButton) v.findViewById(R.id.imageButton3);
-//imageView=(ImageView) v.findViewById(R.id.imageview19);
+Ibike=(ImageButton) v.findViewById(R.id.imageButton2);Icar=(ImageButton) v.findViewById(R.id.imageButton3);
 Iblog=(ImageButton) v.findViewById(R.id.blog_basic);
         webView = (WebView) v.findViewById(R.id.webView);
-//        webView.setWebChromeClient(new WebChromeClient());
-//        webView.setWebViewClient(new WebViewClient());
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.loadUrl("http://motomecha.com/mmadmin/slidingme.php");
-        // Javascript inabled on webview
+
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/slidingme.php");
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.loadUrl("http://motomecha.com/mmadmin/slidingmwqe.php");
+        webView.loadUrl(GlobalUrlInit.WEB_ADVERTISE);
+
         webView.setWebViewClient(new WebViewClient() {
             ProgressDialog progressDialog;
             @Override
@@ -126,7 +116,7 @@ Iblog=(ImageButton) v.findViewById(R.id.blog_basic);
     @Override
     public void onResume(){
         super.onResume();
-        webView.loadUrl("http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/slidingme.php");
+        webView.loadUrl(GlobalUrlInit.WEB_ADVERTISE);
     }
 
 }

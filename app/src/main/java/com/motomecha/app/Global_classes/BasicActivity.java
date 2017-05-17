@@ -1,5 +1,6 @@
 package com.motomecha.app.Global_classes;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,7 +20,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.os.Handler;
 
+import com.droidbyme.dialoglib.AnimUtils;
+import com.droidbyme.dialoglib.DroidDialog;
 import com.freshdesk.hotline.Hotline;
 import com.freshdesk.hotline.HotlineConfig;
 import com.freshdesk.hotline.HotlineUser;
@@ -40,7 +46,7 @@ public class BasicActivity extends AppCompatActivity
     public static String FACEBOOK_URL = "https://www.facebook.com/app.motomecha";
     public static String FACEBOOK_PAGE_ID = "app.motomecha";
     ConnectionDetector c;
-
+Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +55,7 @@ public class BasicActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         c=new ConnectionDetector(BasicActivity.this);
         setTitle("");
+        context=BasicActivity.this;
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
@@ -119,6 +126,7 @@ public class BasicActivity extends AppCompatActivity
 
 
     }
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
@@ -126,11 +134,23 @@ public class BasicActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
-            Intent a = new Intent(Intent.ACTION_MAIN);
-            a.addCategory(Intent.CATEGORY_HOME);
-            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(a);
+            if (doubleBackToExitPressedOnce) {
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "PLEASE CLICK BACK AGAIN TO EXIT", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
 
         }
 
@@ -217,17 +237,54 @@ logoutUser();
             Intent intent = new Intent(BasicActivity.this, CustomerReviews.class);
             startActivity(intent);
         }
+        else if (id == R.id.nav_email)
+        {
+         Intent   intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"goride@gmail.com"});
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, "Select Email Sending App :"));
+        }
+        else if (id == R.id.nav_mobile)
+        {
+            Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
+                    "tel", "9677086686", null));
+            startActivity(phoneIntent);
+        }
+        else if (id == R.id.nav_chat)
+        {
+            Hotline.showConversations(BasicActivity.this);
+
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
     private void logoutUser() {
-        session.setLogin(false);
-        db.deleteUsers();
-        Intent intent = new Intent(BasicActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        new DroidDialog.Builder(context)
+                .icon(R.drawable.msingletone_logo)
+                .title("ARE YOU SURE !")
+                .content("DO YOU WANT TO LOGOUT?")
+                .cancelable(true, true)
+                .negativeButton("YES", new DroidDialog.onNegativeListener() {
+                    @Override
+                    public void onNegative(Dialog dialog) {
+                        session.setLogin(false);
+                        db.deleteUsers();
+                        Intent intent = new Intent(BasicActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .positiveButton("NO", new DroidDialog.onPositiveListener() {
+                    @Override
+                    public void onPositive(Dialog droidDialog) {
+                        droidDialog.dismiss();
+                    }
+
+                }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
+
+
     }
 
 }
