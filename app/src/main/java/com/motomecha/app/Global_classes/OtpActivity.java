@@ -47,7 +47,7 @@ String Sotpnum,Sotpt,otp,getpass,mobile_number,name,email,address,uid,cfd="0",pi
                 Sotpt=Eotp_check.getText().toString();
                 if (Sotpt.isEmpty())
                 {
-                    Toast.makeText(OtpActivity.this,"Please enter your OTP ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OtpActivity.this,"PLEASE ENTER YOUR OTP ",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {

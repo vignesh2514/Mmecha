@@ -92,7 +92,7 @@ Stn1=Etn1.getText().toString();
         Stn4=Etn4.getText().toString();
         mbtype=Tbikeview.getText().toString();
         btype=vtype.getText().toString();
-        if (Stn1.length()==2&&Stn2.length()==2&&Stn3.length()==2&&Stn4.length()==4)
+        if (Stn1.length()==2&&Stn2.length()==2&&Stn3.length()<=2&&Stn4.length()==4)
         {
             platenumber(Stn1,Stn2,Stn3,Stn4,uid,mbtype,btype);
 

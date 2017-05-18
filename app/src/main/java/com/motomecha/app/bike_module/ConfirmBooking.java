@@ -98,7 +98,7 @@ public class ConfirmBooking extends AppCompatActivity implements View.OnClickLis
         Llinerala=(LinearLayout) findViewById(R.id.bot_lin);
         Tvehicleno=(TextView) findViewById(R.id.textView4);
         Tvehicleno.setText(vehicleno);
-        total_booking.setText("TOTAL - \u20B9" +price +"*");
+        total_booking.setText("ESTIMATE - \u20B9" +price +"*");
         Eaddress.setText(kaddress);
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);

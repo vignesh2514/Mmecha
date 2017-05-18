@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.motomecha.app.Global_classes.NearestPetrol"
+    tools:showIn="@layout/activity_nearest_petrol">
+    <fragment
+        android:id="@+id/googleMap"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+
+        class="com.google.android.gms.maps.SupportMapFragment"
+        />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewParse"
+        android:layout_below="@+id/googleMap"
+        android:divider="@null"
+        android:layout_margin="5dp"
+        />
+</RelativeLayout>

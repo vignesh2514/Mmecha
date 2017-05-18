@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,6 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Handler;
 
 import com.droidbyme.dialoglib.AnimUtils;
 import com.droidbyme.dialoglib.DroidDialog;
@@ -41,7 +41,8 @@ public class BasicActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private SessionManager session;
   String name,email,mobile_number;
-    SQLiteHandler db;
+    private SQLiteHandler db;
+
     BottomBar bottomBar;
     public static String FACEBOOK_URL = "https://www.facebook.com/app.motomecha";
     public static String FACEBOOK_PAGE_ID = "app.motomecha";
@@ -65,8 +66,14 @@ Context context;
         tv.setText(Html.fromHtml(text));
 
         session = new SessionManager(getApplicationContext());
-
-        SQLiteHandler db = new SQLiteHandler(getApplicationContext());
+         db = new SQLiteHandler(getApplicationContext());
+        if (!session.isLoggedIn()) {
+            session.setLogin(false);
+            db.deleteUsers();
+            Intent intent = new Intent(BasicActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
         final HashMap<String, String> user = db.getUserDetails();
         name=user.get("name");
         email=user.get("email");
@@ -90,10 +97,7 @@ Context context;
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        session = new SessionManager(getApplicationContext());
-        if (!session.isLoggedIn()) {
-            logoutUser();
-        }
+
 
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -237,6 +241,13 @@ logoutUser();
             Intent intent = new Intent(BasicActivity.this, CustomerReviews.class);
             startActivity(intent);
         }
+        else if (id == R.id.nav_shop)
+        {
+            Intent intent=new Intent(BasicActivity.this,GlobalWebPage.class);
+            intent.putExtra("title1","MM SHOPING");
+            intent.putExtra("wburl"," http://motomecha.com/");
+            startActivity(intent);
+        }
         else if (id == R.id.nav_email)
         {
          Intent   intent = new Intent(Intent.ACTION_SEND);
@@ -266,9 +277,9 @@ logoutUser();
                 .title("ARE YOU SURE !")
                 .content("DO YOU WANT TO LOGOUT?")
                 .cancelable(true, true)
-                .negativeButton("YES", new DroidDialog.onNegativeListener() {
+                .positiveButton("YES", new DroidDialog.onPositiveListener() {
                     @Override
-                    public void onNegative(Dialog dialog) {
+                    public void onPositive(Dialog dialog) {
                         session.setLogin(false);
                         db.deleteUsers();
                         Intent intent = new Intent(BasicActivity.this, LoginActivity.class);
@@ -276,9 +287,9 @@ logoutUser();
                         finish();
                     }
                 })
-                .positiveButton("NO", new DroidDialog.onPositiveListener() {
+                .negativeButton("NO", new DroidDialog.onNegativeListener() {
                     @Override
-                    public void onPositive(Dialog droidDialog) {
+                    public void onNegative(Dialog droidDialog) {
                         droidDialog.dismiss();
                     }
 

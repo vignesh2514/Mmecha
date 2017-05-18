@@ -46,12 +46,13 @@
         android:layout_marginTop="95dp"
         android:ems="10"
         android:maxLength="10"
+        android:digits="0123456789"
         android:maxLines="1"
         android:textColorHint="@color/hint_white"
 android:textColor="@color/white"
         android:hint="@string/mobile_number"
         android:backgroundTint="@color/white"
-        android:inputType="phone" />
+        android:inputType="number" />
 
     <com.motomecha.app.Global_classes.MyTextView
         android:id="@+id/textView3"

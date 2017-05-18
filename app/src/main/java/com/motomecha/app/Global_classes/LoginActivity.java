@@ -48,12 +48,21 @@ Emobile_number=(EditText) findViewById(R.id.mobile_text);
         String mPhoneNumber = tMgr.getLine1Number();
         Emobile_number.setText(mPhoneNumber);
         Ilogin_continue=(ImageButton) findViewById(R.id.login_continue);
+        db = new SQLiteHandler(getApplicationContext());
+        session = new SessionManager(getApplicationContext());
+
+
+        if (session.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, BasicActivity.class);
+            startActivity(intent);
+        }
         Ilogin_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Smobilenumber=Emobile_number.getText().toString();
-                if (Smobilenumber.length()>9)
+
+                 if (Smobilenumber.length()>9)
                 {
                     new DroidDialog.Builder(context)
                             .icon(R.drawable.msingletone_logo)
@@ -74,23 +83,16 @@ Emobile_number=(EditText) findViewById(R.id.mobile_text);
                                 }
                             }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
 
-
                 }
+
                 else
                 {
-                    Toast.makeText(LoginActivity.this, "Enter valid mobile number", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "ENTER  VALID MOBILE NUMBER", Toast.LENGTH_LONG).show();
                 }
             }
         });
         CheckEnableGPS();
-        db = new SQLiteHandler(getApplicationContext());
-        session = new SessionManager(getApplicationContext());
 
-
-        if (session.isLoggedIn()) {
-            Intent intent = new Intent(LoginActivity.this, BasicActivity.class);
-            startActivity(intent);
-        }
     }
     public  void logincheck(final String smobilenumber)
     {
@@ -105,7 +107,7 @@ Emobile_number=(EditText) findViewById(R.id.mobile_text);
                         String mobile_number = user.getString("mobile_number");
                         String otp = user.getString("otp");
                         String getpass =user.getString("getpass");
-                        Toast.makeText(LoginActivity.this, "Otp has been sent to registered mobile number.!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "OTP HAS BEEN SENT TO REGISTERED MOBILE NUMBER.!", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, OtpActivity.class);
                         intent.putExtra("mobile_number",mobile_number);
                         intent.putExtra("otp",otp);
@@ -125,7 +127,7 @@ Emobile_number=(EditText) findViewById(R.id.mobile_text);
                         String kpincode = user.getString("pincode");
                         String klat = user.getString("slat");
                         String klng = user.getString("slng");
-                        Toast.makeText(LoginActivity.this, "Otp has been sent to registered mobile number.!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "OTP HAS BEEN SENT TO REGISTERED MOBILE NUMBER.!", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, OtpActivity.class);
                         intent.putExtra("mobile_number",mobile_number);
                         intent.putExtra("otp",otp);
@@ -149,7 +151,7 @@ Emobile_number=(EditText) findViewById(R.id.mobile_text);
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),"Try again after sometime",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"TRY AGAIN AFTER SOMETIME",Toast.LENGTH_SHORT).show();
 
             }
         }){
@@ -174,4 +176,12 @@ Emobile_number=(EditText) findViewById(R.id.mobile_text);
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
 }

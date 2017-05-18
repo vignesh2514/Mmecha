@@ -18,6 +18,7 @@ import com.motomecha.app.Global_classes.BasicActivity;
 import com.motomecha.app.Global_classes.GlobalWebPage;
 import com.motomecha.app.Global_classes.InsurancePage;
 import com.motomecha.app.Global_classes.MyVechicle;
+import com.motomecha.app.Global_classes.NearestPetrol;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
 
@@ -173,7 +174,9 @@ Igs.setOnClickListener(new View.OnClickListener() {
         Ipet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent(PickService.this,NearestPetrol.class);
 
+                startActivity(intent);
             }
         });
         Ibike.setOnClickListener(new View.OnClickListener() {

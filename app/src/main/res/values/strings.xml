@@ -48,6 +48,7 @@
     <string name="title_activity_insurance_page">InsurancePage</string>
     <string name="title_activity_service_tracking">ServiceTracking</string>
     <string name="title_activity_new__plate_registration">New_Plate_registration</string>
+    <string name="title_activity_nearest_petrol">NearestPetrol</string>
 
 
 </resources>
