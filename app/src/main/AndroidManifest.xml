@@ -337,6 +337,7 @@
             android:name=".Global_classes.Profile_page"
             android:label="@string/title_activity_profile_page"
             android:parentActivityName=".Global_classes.BasicActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

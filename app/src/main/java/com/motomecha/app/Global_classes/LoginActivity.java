@@ -37,7 +37,7 @@ EditText Emobile_number;
     Context context=LoginActivity.this;
     private SessionManager session;
     private SQLiteHandler db;
-
+    ConnectionDetector c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,42 +56,51 @@ Emobile_number=(EditText) findViewById(R.id.mobile_text);
             Intent intent = new Intent(LoginActivity.this, BasicActivity.class);
             startActivity(intent);
         }
-        Ilogin_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Smobilenumber=Emobile_number.getText().toString();
-
-                 if (Smobilenumber.length()>9)
-                {
-                    new DroidDialog.Builder(context)
-                            .icon(R.drawable.msingletone_logo)
-                            .title("MOBILE NUMBER VERIFICATION")
-                            .content("IS THIS OK,OR WOULD YOU LIKE TO EDIT THE NUMBER?\n\n YOUR MOBILE NUMBER IS +91-"+Smobilenumber)
-                            .cancelable(true, true)
-                            .negativeButton("EDIT", new DroidDialog.onNegativeListener() {
-                                @Override
-                                public void onNegative(Dialog dialog) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .positiveButton("OK", new DroidDialog.onPositiveListener() {
-                                @Override
-                                public void onPositive(Dialog droidDialog) {
-                                    droidDialog.dismiss();
-                                    logincheck(Smobilenumber);
-                                }
-                            }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
-
-                }
-
-                else
-                {
-                    Toast.makeText(LoginActivity.this, "ENTER  VALID MOBILE NUMBER", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
         CheckEnableGPS();
+        c=new ConnectionDetector(LoginActivity.this);
+        if (c.isConnect())
+        {
+            Ilogin_continue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Smobilenumber=Emobile_number.getText().toString();
+
+                    if (Smobilenumber.length()>9)
+                    {
+                        new DroidDialog.Builder(context)
+                                .icon(R.drawable.msingletone_logo)
+                                .title("MOBILE NUMBER VERIFICATION")
+                                .content("IS THIS OK,OR WOULD YOU LIKE TO EDIT THE NUMBER?\n\n YOUR MOBILE NUMBER IS +91-"+Smobilenumber)
+                                .cancelable(true, true)
+                                .negativeButton("EDIT", new DroidDialog.onNegativeListener() {
+                                    @Override
+                                    public void onNegative(Dialog dialog) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .positiveButton("OK", new DroidDialog.onPositiveListener() {
+                                    @Override
+                                    public void onPositive(Dialog droidDialog) {
+                                        droidDialog.dismiss();
+                                        logincheck(Smobilenumber);
+                                    }
+                                }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
+
+                    }
+
+                    else
+                    {
+                        Toast.makeText(LoginActivity.this, "ENTER  VALID MOBILE NUMBER", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTION",Toast.LENGTH_SHORT).show();
+        }
+
 
     }
     public  void logincheck(final String smobilenumber)

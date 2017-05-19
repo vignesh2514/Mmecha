@@ -38,8 +38,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -333,9 +331,6 @@ public class NearestPetrol extends AppCompatActivity implements OnMapReadyCallba
             final Location loc1 = new Location("A");
             loc1.setLatitude(lat1);
             loc1.setLongitude(lon1);
-            LatLng latLng = new LatLng(lat1, lon1);
-
-            Circle circle = Mmap.addCircle(new CircleOptions().center(latLng).radius(5000).strokeColor(Color.BLUE).strokeWidth(2.0f));
             lat2= Double.parseDouble(application.getLa());
             lon2= Double.parseDouble(application.getLn());
 

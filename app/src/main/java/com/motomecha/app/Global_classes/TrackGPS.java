@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 public class TrackGPS extends Service implements LocationListener {
     Context mContext;
@@ -77,7 +76,7 @@ public class TrackGPS extends Service implements LocationListener {
             }
             // if GPS Enabled get lat/long using GPS Services
             if (checkGPS) {
-                Toast.makeText(mContext, "GPS", Toast.LENGTH_SHORT).show();
+
                 if (loc == null) {
                     try {
                         locationManager.requestLocationUpdates(

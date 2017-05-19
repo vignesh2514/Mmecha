@@ -59,6 +59,7 @@ import com.google.gson.Gson;
 import com.motomecha.app.Global_classes.AppController;
 import com.motomecha.app.Global_classes.BasicActivity;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
+import com.motomecha.app.Global_classes.TrackGPS;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
 
@@ -94,6 +95,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
     ImageButton bookingmap, callingmap,chatingmap;
     LatLng laln;
     PlaceAutocompleteFragment autocompleteFragment;
+    private TrackGPS gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +136,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         email=user.get("email");
         mobile_number=user.get("pnum");
         kaddress=user.get("kaddre");
+        gps = new TrackGPS(BikeMapActivity.this);
 
         HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
         hotlineConfig.setVoiceMessagingEnabled(true);
@@ -270,6 +273,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
             return;
         }
         Mmap.setMyLocationEnabled(true);
+
         Mmap.addMarker(new MarkerOptions().position(locateme).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_markf)));
         Mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(locateme,6.5f));
         // map.animateCamera(CameraUpdateFactory.zoomIn());
@@ -281,7 +285,24 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
     //    Mmap.addMarker(new MarkerOptions().position(new LatLng(13.031522,80.201531)).icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin2)));
         myurl= GlobalUrlInit.BIKE_MERCHANLIST+"?slat="+latitud+"&slng="+longitud+"&serve_type="+servetype+"&vehicletype="+vehicletype;
         new JSONTask().execute(myurl);
+        Mmap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
 
+                if(gps.canGetLocation()) {
+                    Double lat = gps.getLatitude();
+                    Double lng = gps.getLongitude();
+                    LatLng locateme = new LatLng(lat, lng);
+                    handlenewlocation(locateme);
+
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"SOORY WE COULDN`T TRACK YOUR LOCATION",Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
     }
 
    public void handlenewlocation(final LatLng laln)
@@ -515,4 +536,5 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
             }
         }
     }
+
 }

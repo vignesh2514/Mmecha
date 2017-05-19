@@ -11,7 +11,8 @@
     android:layout_margin="5dp"
     android:weightSum="3"
     android:id="@+id/aas"
-    android:padding="3dp"
+    android:orientation="horizontal"
+    android:padding="15dp"
     android:background="@color/transparent_primary"
     android:layout_height="wrap_content">
 
@@ -35,7 +36,7 @@
         <com.motomecha.app.Global_classes.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-android:text="PENTROL BUNK"
+
             android:maxLines="1"
             android:textColor="@color/colorAccent"
             android:textSize="15sp"
@@ -47,7 +48,7 @@ android:text="PENTROL BUNK"
         <com.motomecha.app.Global_classes.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-android:text="2.5 KM AWAY"
+
             android:layout_weight="1"
             android:textScaleX="1.2"
             android:textColor="@color/white"

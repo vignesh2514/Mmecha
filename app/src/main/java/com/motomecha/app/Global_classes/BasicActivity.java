@@ -99,6 +99,8 @@ Context context;
         navigationView.setNavigationItemSelectedListener(this);
 
 
+
+
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -175,26 +177,6 @@ Context context;
             return FACEBOOK_URL; //normal web url
         }
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.basic, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-////        if (id == R.id.action_settings) {
-////            return true;
-////        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -212,13 +194,7 @@ Context context;
             Intent intent =new Intent(BasicActivity.this,ServiceTracking.class);
             startActivity(intent);
         }
-//        else if (id == R.id.nav_buy_sell)
-//        {
-//            Intent intent =new Intent(BasicActivity.this,GlobalWebPage.class);
-//            intent.putExtra("title1","USED BIKES");
-//            intent.putExtra("wburl"," http://motomecha.com/");
-//            startActivity(intent);
-//        }
+
         else if (id == R.id.nav_face) {
             Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
             String facebookUrl = getFacebookPageURL(this);

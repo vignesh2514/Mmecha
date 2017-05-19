@@ -32,10 +32,8 @@ public class SplashScreen extends AppCompatActivity {
                 public void run() {
                     editor.putBoolean("first",false);
                     editor.apply();
-
                     Intent i = new Intent(SplashScreen.this, IntroActivity.class);
                     startActivity(i);
-
                     finish();
                 }
             }, SPLASH_TIME_OUT);
