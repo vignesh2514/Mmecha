@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.motomecha.app.R;
 
 public class SplashScreen extends AppCompatActivity {
-    private static int SPLASH_TIME_OUT = 3500;
+    private static int SPLASH_TIME_OUT = 2500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

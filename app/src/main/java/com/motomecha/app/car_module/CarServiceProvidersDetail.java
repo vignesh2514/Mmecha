@@ -1,18 +1,24 @@
 package com.motomecha.app.car_module;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,19 +27,35 @@ import com.droidbyme.dialoglib.DroidDialog;
 import com.freshdesk.hotline.Hotline;
 import com.freshdesk.hotline.HotlineConfig;
 import com.freshdesk.hotline.HotlineUser;
+import com.google.gson.Gson;
 import com.motomecha.app.Global_classes.BasicActivity;
+import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.R;
 import com.motomecha.app.bike_module.ConfirmBooking;
 import com.motomecha.app.dbhandler.SQLiteHandler;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CarServiceProvidersDetail extends AppCompatActivity {
 String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_image,name,Scall_number,email,mobile_number,kaddress,vehicleno,content_descrip,servetype,Smerchant_id;
     TextView Taddress,Tdisplay_name,Tprice,Tlikes;
     ImageView Imerchant_image;
     ImageButton Ibooknw,Icallnw,Ichatnw;
+    private  ProgressDialog dialog;
     Context context;
+    ListView car_review_new;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +65,10 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         context=CarServiceProvidersDetail.this;
+        dialog = new ProgressDialog(this);
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.setMessage("Loading. Please wait...");
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +97,7 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         Ibooknw=(ImageButton) findViewById(R.id.booknow_map);
         Icallnw=(ImageButton) findViewById(R.id.call_now_map);
         Ichatnw=(ImageButton) findViewById(R.id.chat_map);
+        car_review_new=(ListView) findViewById(R.id.car_rev) ;
         Saddress = getIntent().getStringExtra("address");
         Sdisplay_name = getIntent().getStringExtra("display_name");
         Sid = getIntent().getStringExtra("id");
@@ -151,6 +178,144 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
             }
         });
 
+        new JSONTask().execute(GlobalUrlInit.CAR_REVIWES);
+    }
+
+    public class MovieAdapter extends ArrayAdapter {
+
+        private List<car_reviews> movieModelList;
+        private int resource;
+        Context context;
+        private LayoutInflater inflater;
+        MovieAdapter(Context context, int resource, List<car_reviews> objects) {
+            super(context, resource, objects);
+            movieModelList = objects;
+            this.context =context;
+            this.resource = resource;
+            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        }
+        @Override
+        public int getViewTypeCount() {
+
+            return 1;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+
+            return position;
+        }
+
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            final ViewHolder holder  ;
+
+            if(convertView == null){
+                convertView = inflater.inflate(resource,null);
+                holder = new ViewHolder();
+                holder.display_name=(TextView) convertView.findViewById(R.id.review_name);
+                holder.display_company=(TextView) convertView.findViewById(R.id.review_dom);
+                holder.display_description=(TextView) convertView.findViewById(R.id.review_desc);
+
+                convertView.setTag(holder);
+
+            }
+            else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            car_reviews categorieslist= movieModelList.get(position);
+            holder.display_name.setText(categorieslist.getName());
+            holder.display_company.setText(categorieslist.getReview_domain());
+            holder.display_description.setText(categorieslist.getReview_message());
+
+            return convertView;
+        }
+
+        class ViewHolder{
+
+            private TextView display_name,display_company,display_description;
+        }
+
+
+
+    }
+    public class JSONTask extends AsyncTask<String,String, List<car_reviews>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
+
+        @Override
+        protected List<car_reviews> doInBackground(String... params) {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuilder buffer = new StringBuilder();
+                String line ="";
+                while ((line = reader.readLine()) != null){
+                    buffer.append(line);
+                }
+
+                String finalJson = buffer.toString();
+
+                JSONObject parentObject = new JSONObject(finalJson);
+                JSONArray parentArray = parentObject.getJSONArray("result");
+                List<car_reviews> movieModelList = new ArrayList<>();
+                Gson gson = new Gson();
+                for(int i=0; i<parentArray.length(); i++) {
+                    JSONObject finalObject = parentArray.getJSONObject(i);
+                    car_reviews categorieslist = gson.fromJson(finalObject.toString(), car_reviews.class);
+                    movieModelList.add(categorieslist);
+
+                }
+
+                return movieModelList;
+
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+            } finally {
+                if(connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if(reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return  null;
+
+        }
+
+        @Override
+        protected void onPostExecute(final List<car_reviews> movieModelList) {
+            super.onPostExecute(movieModelList);
+            dialog.dismiss();
+            if(movieModelList.size()>0) {
+                MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_car_reviews, movieModelList);
+                car_review_new.setAdapter(adapter);
+            }
+            else
+            {
+                car_review_new.setVisibility(View.INVISIBLE);
+
+            }
+
+        }
 
     }
 

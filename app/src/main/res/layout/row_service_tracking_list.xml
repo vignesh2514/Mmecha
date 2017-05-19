@@ -87,8 +87,12 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/first_signal"
-
                 app:srcCompat="@drawable/red_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/fourth_signal"
+                app:srcCompat="@drawable/blue_inactive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView

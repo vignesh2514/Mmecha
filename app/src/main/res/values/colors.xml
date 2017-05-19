@@ -8,6 +8,8 @@
     <color name="hint_white">#C1C1C1</color>
 
     <color name="transparent_primary">#40000000</color>
+    <color name="transparent_nav">#4a000000</color>
+
     <color name="colorRed">#ff1545</color>
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#01ddcb</color>

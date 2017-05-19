@@ -118,7 +118,6 @@ android:visibility="invisible"
     android:layout_height="wrap_content"
   app:srcCompat="@drawable/submit_but"
     android:id="@+id/submit_register"
-    android:textColor="@color/colorAccent"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
     android:layout_marginBottom="12dp" />

@@ -203,7 +203,8 @@ Context context;
         int id = item.getItemId();
 
         if (id == R.id.nav_my_profile) {
-
+            Intent intent =new Intent(BasicActivity.this,Profile_page.class);
+            startActivity(intent);
         } else if (id == R.id.nav_vehicle) {
             Intent intent =new Intent(BasicActivity.this,VehicleMode.class);
             startActivity(intent);
@@ -228,7 +229,7 @@ Context context;
         } else if (id == R.id.nav_share) {
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            String shareBody = "I AM HAPPY WITH MOTOMECHA";
+            String shareBody = "I AM IMPRESSED WITH MY BIKE SERVICE WITH MOTOMECHA TRY AT https://play.google.com/store/apps/details?id=com.motomecha.app";
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "RIDE via"));

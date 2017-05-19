@@ -109,6 +109,15 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+    <ListView
+        android:id="@+id/car_rev"
+        android:layout_below="@+id/car_details_sp"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/two_button"
+        android:layout_height="wrap_content">
+
+
+    </ListView>
 
     <LinearLayout
         android:id="@+id/two_button"

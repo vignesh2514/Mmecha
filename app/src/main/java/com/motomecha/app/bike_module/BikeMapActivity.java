@@ -492,7 +492,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
                                         droidDialog.dismiss();
                                         Hotline.showConversations(BikeMapActivity.this);
                                     }
-                                }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).show();
+                                }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
                 bookingmap.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

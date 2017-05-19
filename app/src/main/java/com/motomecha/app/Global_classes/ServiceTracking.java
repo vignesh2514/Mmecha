@@ -125,7 +125,7 @@ ImageView Iimage_view;
                 holder.first_image=(ImageView) convertView.findViewById(R.id.first_signal);
                 holder.second_image=(ImageView) convertView.findViewById(R.id.second_signal);
                 holder.third_image=(ImageView) convertView.findViewById(R.id.third_signal);
-
+holder.fourth_image=(ImageView) convertView.findViewById(R.id.fourth_signal);
                 convertView.setTag(holder);
 
             }
@@ -142,16 +142,26 @@ if ( holder.order_statusshort.getText().toString().contains("CLO"))
 {
     holder.order_statusshort.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
 }
+
+else if (holder.order_statu.getText().toString().contains("CONFIRM"))
+{
+    holder.fourth_image.setImageResource(R.drawable.blue_active);
+
+}
             if ( holder.order_statu.getText().toString().contains("PROCE"))
             {
+                holder.fourth_image.setImageResource(R.drawable.blue_active);
                 holder.second_image.setImageResource(R.drawable.yellow_active);
+
             }
        else if (holder.order_statu.getText().toString().contains("COMPLE"))
             {
+                holder.fourth_image.setImageResource(R.drawable.blue_active);
                 holder.second_image.setImageResource(R.drawable.yellow_active);
                 holder.third_image.setImageResource(R.drawable.green_active);
 
             }
+
 
             return convertView;
         }
@@ -159,7 +169,7 @@ if ( holder.order_statusshort.getText().toString().contains("CLO"))
         class ViewHolder{
 
             private TextView plate_no,service_name,order_statu,order_statusshort,curr_date;
-            private  ImageView first_image,second_image,third_image;
+            private  ImageView first_image,second_image,third_image,fourth_image;
         }
 
 

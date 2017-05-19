@@ -38,6 +38,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -64,7 +66,7 @@ public class NearestPetrol extends AppCompatActivity implements OnMapReadyCallba
     private static final String GOOGLE_API_KEY = "AIzaSyDvk_Tb5IabOrKIg5Z1cgEKfW5z_tQnBug";
     GoogleMap Mmap;
     SupportMapFragment supportMapFragment;
-    private int PROXIMITY_RADIUS = 3000;
+    private int PROXIMITY_RADIUS = 5000;
     private double latitu;
     private double longitu;
     private  String type="gas_station";
@@ -122,7 +124,7 @@ public class NearestPetrol extends AppCompatActivity implements OnMapReadyCallba
         latitu = location.getLatitude();
         longitu = location.getLongitude();
         LatLng latLng = new LatLng(latitu, longitu);
-        Mmap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin2)));
+        Mmap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.nearest_petrol_pin)));
         Mmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
         Mmap.animateCamera(CameraUpdateFactory.zoomTo(13));
 
@@ -331,7 +333,9 @@ public class NearestPetrol extends AppCompatActivity implements OnMapReadyCallba
             final Location loc1 = new Location("A");
             loc1.setLatitude(lat1);
             loc1.setLongitude(lon1);
+            LatLng latLng = new LatLng(lat1, lon1);
 
+            Circle circle = Mmap.addCircle(new CircleOptions().center(latLng).radius(5000).strokeColor(Color.BLUE).strokeWidth(2.0f));
             lat2= Double.parseDouble(application.getLa());
             lon2= Double.parseDouble(application.getLn());
 
@@ -379,7 +383,7 @@ public class NearestPetrol extends AppCompatActivity implements OnMapReadyCallba
                     LatLng origin=new LatLng(lat1,lon1);
                     LatLng dest=new LatLng(lat2,lon2);
                     Mmap.addMarker(new MarkerOptions().position(dest)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin2))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.nearest_petrol_pin))
                             .title(name.getText().toString()));
                     String url = getDirectionsUrl(origin, dest);
 

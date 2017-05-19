@@ -49,6 +49,7 @@
     <string name="title_activity_service_tracking">ServiceTracking</string>
     <string name="title_activity_new__plate_registration">New_Plate_registration</string>
     <string name="title_activity_nearest_petrol">NearestPetrol</string>
+    <string name="title_activity_profile_page">Profile_page</string>
 
 
 </resources>

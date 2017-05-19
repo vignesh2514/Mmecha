@@ -52,7 +52,7 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, List<HashMap<S
             LatLng latLng = new LatLng(lat, lng);
             markerOptions.position(latLng);
             markerOptions.title(placeName + " : " + vicinity);
-            googleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin2)));
+            googleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.nearest_petrol_pin)));
 
         }
         }

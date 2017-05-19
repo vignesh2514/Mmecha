@@ -175,7 +175,7 @@ Edat=(TextView) findViewById(R.id.textView8);
                 if(Etn4.getText().toString().length()==4)     //size as per your requirement
                 {
 
-                    Fbooknw.requestFocus();
+                    Eyear.requestFocus();
                 }
             }
             public void beforeTextChanged(CharSequence s, int start,

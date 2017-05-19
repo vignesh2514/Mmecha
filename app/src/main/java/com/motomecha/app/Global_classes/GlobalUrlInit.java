@@ -23,5 +23,8 @@ public class GlobalUrlInit {
     public  static  String UPDATE_PLATE_REGIST="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/update_plate_registration.php";
     public  static  String INSURANCE_POST="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/insurance_post.php";
     public  static  String WEB_ADVERTISE="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/slidingme.php";
+    public  static  String CAR_REVIWES="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/mm_reviews.php";
+    public  static  String GET_OTP="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/getmyotp_profile.php";
+    public  static  String CONFIR_UPDATE="http://gettalentsapp.com/vignesh2514/motomecha/mmandroadmin/update_users.php";
 
 }
