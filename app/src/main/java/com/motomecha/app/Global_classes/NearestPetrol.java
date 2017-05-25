@@ -76,6 +76,7 @@ public class NearestPetrol extends AppCompatActivity implements OnMapReadyCallba
     Button btn;
     Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
+    ConnectionDetector c;
 
 
     @Override
@@ -197,9 +198,18 @@ public class NearestPetrol extends AppCompatActivity implements OnMapReadyCallba
         toPass[0] = Mmap;
         toPass[1] = googlePlacesUrl.toString();
         googlePlacesReadTask.execute(toPass);
-        Url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitu + "," + longitu + "&radius=" + PROXIMITY_RADIUS + "&types=" + type + "&sensor=true&key=" + GOOGLE_API_KEY + "";
+        c = new ConnectionDetector(NearestPetrol.this);
+        if (c.isConnect()) {
+
+            Url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitu + "," + longitu + "&radius=" + PROXIMITY_RADIUS + "&types=" + type + "&sensor=true&key=" + GOOGLE_API_KEY + "";
 
         new JsonTask().execute(Url);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
 
@@ -270,10 +280,20 @@ public class NearestPetrol extends AppCompatActivity implements OnMapReadyCallba
         protected void onPostExecute(List<PetrolList> result) {
             super.onPostExecute(result);
             dialog.dismiss();
-            listApps = (ListView) findViewById(R.id.listViewParse);
-            CustomAdapter customAdapter = new CustomAdapter(NearestPetrol.this, result);
-            // Log.d("MapsActivity", String.valueOf(customAdapter));
-            listApps.setAdapter(customAdapter);
+            c = new ConnectionDetector(NearestPetrol.this);
+            if (c.isConnect()) {
+
+                listApps = (ListView) findViewById(R.id.listViewParse);
+                CustomAdapter customAdapter = new CustomAdapter(NearestPetrol.this, result);
+                // Log.d("MapsActivity", String.valueOf(customAdapter));
+                listApps.setAdapter(customAdapter);
+            }
+
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
         }
 
     }

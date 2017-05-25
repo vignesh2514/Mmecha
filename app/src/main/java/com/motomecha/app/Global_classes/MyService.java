@@ -31,5 +31,6 @@ public class  MyService extends FirebaseMessagingService {
         notifica.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0,notifica.build());
+
     }
 }

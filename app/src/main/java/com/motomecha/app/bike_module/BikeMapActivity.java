@@ -58,6 +58,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.motomecha.app.Global_classes.AppController;
 import com.motomecha.app.Global_classes.BasicActivity;
+import com.motomecha.app.Global_classes.ConnectionDetector;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.Global_classes.TrackGPS;
 import com.motomecha.app.R;
@@ -96,7 +97,7 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
     LatLng laln;
     PlaceAutocompleteFragment autocompleteFragment;
     private TrackGPS gps;
-
+    ConnectionDetector c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,69 +153,77 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         bookingmap = (ImageButton) findViewById(R.id.booknow_map);
         callingmap = (ImageButton) findViewById(R.id.call_now_map);
         chatingmap = (ImageButton) findViewById(R.id.chat_map);
+
         autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 //        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
 //                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
 //                .build();
-        AutocompleteFilter filter =
-                new AutocompleteFilter.Builder().setCountry("IN").build();
-        autocompleteFragment.setFilter(filter);
-        servetype = getIntent().getStringExtra("servicetype");
-        detailsgetmw(servetype);
-        vehicletype = getIntent().getStringExtra("vehicletype");
-        vehicleno = getIntent().getStringExtra("vehicleno");
-        autocompleteFragment.setHint("AREA OR PINCODE");
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                laln = place.getLatLng();
-                handlenewlocation(laln);
+        c = new ConnectionDetector(BikeMapActivity.this);
+        if (c.isConnect()) {
+
+            AutocompleteFilter filter =
+                    new AutocompleteFilter.Builder().setCountry("IN").build();
+            autocompleteFragment.setFilter(filter);
+            servetype = getIntent().getStringExtra("servicetype");
+            detailsgetmw(servetype);
+            vehicletype = getIntent().getStringExtra("vehicletype");
+            vehicleno = getIntent().getStringExtra("vehicleno");
+            autocompleteFragment.setHint("AREA OR PINCODE");
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(Place place) {
+                    laln = place.getLatLng();
+                    handlenewlocation(laln);
+                }
+
+                @Override
+                public void onError(Status status) {
+
+                    Log.i(TAG, "An error occurred: " + status);
+                }
+
+            });
+
+            callingmap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
+                            "tel", call_number, null));
+                    startActivity(phoneIntent);
+                }
+            });
+            chatingmap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Hotline.showConversations(BikeMapActivity.this);
+                }
+            });
+            slat = user.get("klati");
+            slng = user.get("klongi");
+            if ((slat.equals("null") && slng.equals("null")) || (slat.isEmpty() && slng.isEmpty())) {
+                latitud = 12.9740492;
+                longitud = 80.2189729;
+            } else {
+                latitud = Double.parseDouble(slat);
+                longitud = Double.parseDouble(slng);
+            }
+            mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
+            mapFrag.getMapAsync(this);
+
+            if (vehicletype.contains(" ")) {
+                String[] separated = vehicletype.split(" ");
+                String vehicletype1 = separated[0];
+                String vehicletype2 = separated[1];
+                vehicletype = vehicletype1 + "%20" + vehicletype2;
             }
 
-            @Override
-            public void onError(Status status) {
-
-                Log.i(TAG, "An error occurred: " + status);
-            }
-
-        });
-
-        callingmap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
-                        "tel", call_number, null));
-                startActivity(phoneIntent);
-            }
-        });
-        chatingmap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Hotline.showConversations(BikeMapActivity.this);
-            }
-        });
-        slat = user.get("klati");
-        slng = user.get("klongi");
-        if ((slat.equals("null") && slng.equals("null"))||(slat.isEmpty() && slng.isEmpty())) {
-            latitud = 12.9740492;
-            longitud = 80.2189729;
-        } else {
-            latitud = Double.parseDouble(slat);
-            longitud = Double.parseDouble(slng);
         }
-        mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
-        mapFrag.getMapAsync(this);
+else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
 
-        if (vehicletype.contains(" ")) {
-            String[] separated = vehicletype.split(" ");
-            String vehicletype1 = separated[0];
-            String vehicletype2 = separated[1];
-            vehicletype = vehicletype1 + "%20" + vehicletype2;
         }
-
-
-
 
     }
 
@@ -465,76 +474,83 @@ public class BikeMapActivity extends AppCompatActivity implements OnMapReadyCall
         protected void onPostExecute(final List<bikemerchantlist> movieModelList) {
             super.onPostExecute(movieModelList);
             dialog.dismiss();
-            if(movieModelList.size()>=1){
-                MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_bike_merchant, movieModelList);
-                bike_modules_list.setAdapter(adapter);
-                bookingmap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new DroidDialog.Builder(context)
-                                .icon(R.drawable.msingletone_logo)
-                                .title("SERVICE DETAILS")
-                                .content(content_descrip)
-                                .cancelable(true, true)
-                                .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
-                                    @Override
-                                    public void onPositive(Dialog droidDialog) {
-                                        droidDialog.dismiss();
-                                        Intent intent = new Intent(BikeMapActivity.this, ConfirmBooking.class);
-                                        intent.putExtra("kaddress",kaddress);
-                                        intent.putExtra("vechicletype","BIKE");
-                                        intent.putExtra("price",price);
-                                        intent.putExtra("servetype",servetype);
-                                        intent.putExtra("service_description",service_description);
-                                        intent.putExtra("vehicleno",vehicleno);
-                                        startActivity(intent);
-                                    }
+            c = new ConnectionDetector(BikeMapActivity.this);
+            if (c.isConnect()) {
+                if (movieModelList.size() >= 1) {
+                    MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_bike_merchant, movieModelList);
+                    bike_modules_list.setAdapter(adapter);
+                    bookingmap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new DroidDialog.Builder(context)
+                                    .icon(R.drawable.msingletone_logo)
+                                    .title("SERVICE DETAILS")
+                                    .content(content_descrip)
+                                    .cancelable(true, true)
+                                    .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
+                                        @Override
+                                        public void onPositive(Dialog droidDialog) {
+                                            droidDialog.dismiss();
+                                            Intent intent = new Intent(BikeMapActivity.this, ConfirmBooking.class);
+                                            intent.putExtra("kaddress", kaddress);
+                                            intent.putExtra("vechicletype", "BIKE");
+                                            intent.putExtra("price", price);
+                                            intent.putExtra("servetype", servetype);
+                                            intent.putExtra("service_description", service_description);
+                                            intent.putExtra("vehicleno", vehicleno);
+                                            startActivity(intent);
+                                        }
 
-                                }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
+                                    }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
 
-                    }
-                });
+                        }
+                    });
+                } else {
+                    new DroidDialog.Builder(context)
+                            .icon(R.drawable.msingletone_logo)
+                            .title("WE`LL BE THERE SOON")
+                            .content("WE AREN`T AVAILABLE IN YOUR LOCALITY YET")
+                            .cancelable(true, true)
+                            .negativeButton("EXIT", new DroidDialog.onNegativeListener() {
+                                @Override
+                                public void onNegative(Dialog dialog) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .positiveButton("CHAT WITH US !", new DroidDialog.onPositiveListener() {
+                                @Override
+                                public void onPositive(Dialog droidDialog) {
+                                    droidDialog.dismiss();
+                                    Hotline.showConversations(BikeMapActivity.this);
+                                }
+                            }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
+                    bookingmap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new DroidDialog.Builder(context)
+                                    .icon(R.drawable.msingletone_logo)
+                                    .title("OOPS")
+                                    .content("NO SERVICE PROVIDER AVAILABLE IN THIS AREA")
+                                    .cancelable(true, true)
+                                    .positiveButton("EXIT", new DroidDialog.onPositiveListener() {
+                                        @Override
+                                        public void onPositive(Dialog droidDialog) {
+                                            droidDialog.dismiss();
+
+                                        }
+
+                                    }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
+
+                        }
+                    });
+                }
             }
-            else {
-                new DroidDialog.Builder(context)
-                                .icon(R.drawable.msingletone_logo)
-                                .title("WE`LL BE THERE SOON")
-                                .content("WE AREN`T AVAILABLE IN YOUR LOCALITY YET")
-                                .cancelable(true, true)
-                                .negativeButton("EXIT", new DroidDialog.onNegativeListener() {
-                                    @Override
-                                    public void onNegative(Dialog dialog) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .positiveButton("CHAT WITH US !", new DroidDialog.onPositiveListener() {
-                                    @Override
-                                    public void onPositive(Dialog droidDialog) {
-                                        droidDialog.dismiss();
-                                        Hotline.showConversations(BikeMapActivity.this);
-                                    }
-                                }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
-                bookingmap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new DroidDialog.Builder(context)
-                                .icon(R.drawable.msingletone_logo)
-                                .title("OOPS")
-                                .content("NO SERVICE PROVIDER AVAILABLE IN THIS AREA")
-                                .cancelable(true, true)
-                                .positiveButton("EXIT", new DroidDialog.onPositiveListener() {
-                                    @Override
-                                    public void onPositive(Dialog droidDialog) {
-                                        droidDialog.dismiss();
-
-                                    }
-
-                                }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
-
-                    }
-                });
+            else
+            {
+                Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 
 }

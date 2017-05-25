@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.motomecha.app.R;
 import com.motomecha.app.bike_module.PickService;
@@ -43,7 +44,8 @@ Iblog=(ImageButton) v.findViewById(R.id.blog_basic);
             ProgressDialog progressDialog;
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-
+                webView.setVisibility(View.INVISIBLE);
+                Toast.makeText(getActivity(),"PLEASE CHECK YOUR INTERNET CONNECTION",Toast.LENGTH_SHORT).show();
             }
             public void onLoadResource (WebView view, String url) {
                 if (progressDialog == null) {
@@ -65,7 +67,6 @@ Iblog=(ImageButton) v.findViewById(R.id.blog_basic);
             }
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
 
                     Intent intent = new Intent(getActivity(), GlobalWebPage.class);
                     intent.putExtra("title1","OFFERS PAGE");

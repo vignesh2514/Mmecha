@@ -35,6 +35,7 @@ ImageButton Bsubmit;
     String mbtype,uid,Stn1,Stn2,Stn3,Stn4,btype;
     TextView Tbikeview,vtype;
     LinearLayout Llightbulb;
+    ConnectionDetector c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,10 @@ ImageButton Bsubmit;
         btype = intent.getStringExtra("brand_type");
         Tbikeview.setText(mbtype);
         vtype.setText(btype);
-Bsubmit.setOnClickListener(new View.OnClickListener() {
+        c = new ConnectionDetector(Plate_Regiestration.this);
+        if (c.isConnect()) {
+
+            Bsubmit.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
 Stn1=Etn1.getText().toString();
@@ -103,6 +107,12 @@ Stn1=Etn1.getText().toString();
         }
     }
 });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
         Etn1.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start,int before, int count)

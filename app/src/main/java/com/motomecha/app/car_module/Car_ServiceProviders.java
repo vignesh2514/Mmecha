@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.droidbyme.dialoglib.AnimUtils;
 import com.droidbyme.dialoglib.DroidDialog;
@@ -30,6 +31,7 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.motomecha.app.Global_classes.BasicActivity;
+import com.motomecha.app.Global_classes.ConnectionDetector;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
@@ -56,6 +58,8 @@ String slat,slng,servetype,vehicletype,myurl,vehicleno;
 LatLng latLng;
     Context context;
 Double latitud,longitud;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,44 +101,53 @@ Double latitud,longitud;
         String text = "<font color=#ff1545>SERVICE</font> <font color=#ffffff>PROVIDERS</font>";
         tv.setText(Html.fromHtml(text));
         ImageView imageView=(ImageView) findViewById(R.id.dark_home);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_ServiceProviders.this,BasicActivity.class);
-                startActivity(intent);
+        c = new ConnectionDetector(Car_ServiceProviders.this);
+        if (c.isConnect()) {
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_ServiceProviders.this, BasicActivity.class);
+                    startActivity(intent);
+                }
+            });
+            autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+            AutocompleteFilter filter = new AutocompleteFilter.Builder().setCountry("IN").build();
+            autocompleteFragment.setFilter(filter);
+            autocompleteFragment.setHint("AREA OR PINCODE");
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+
+                @Override
+                public void onPlaceSelected(Place place) {
+
+                    latLng = place.getLatLng();
+
+                    myurl = GlobalUrlInit.CAR_MERCHANLIST + "?slat=" + latLng.latitude + "&slng=" + latLng.longitude + "&serve_type=" + servetype + "&vehicletype=" + vehicletype;
+                    new JSONTask().execute(myurl);
+                }
+
+                @Override
+                public void onError(Status status) {
+                    // TODO: Handle the error.
+
+                }
+
+            });
+            if (vehicletype.contains(" ")) {
+                String[] separated = vehicletype.split(" ");
+                String vehicletype1 = separated[0]; // this will contain "Fruit"
+                String vehicletype2 = separated[1];
+                vehicletype = vehicletype1 + "%20" + vehicletype2;
             }
-        });
-        autocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        AutocompleteFilter filter = new AutocompleteFilter.Builder().setCountry("IN").build();
-        autocompleteFragment.setFilter(filter);
-        autocompleteFragment.setHint("AREA OR PINCODE");
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
 
-            @Override
-            public void onPlaceSelected(Place place) {
+            myurl = GlobalUrlInit.CAR_MERCHANLIST + "?slat=" + latitud + "&slng=" + longitud + "&serve_type=" + servetype + "&vehicletype=" + vehicletype;
+            new JSONTask().execute(myurl);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
 
-latLng=place.getLatLng();
-
-                myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+latLng.latitude+"&slng="+latLng.longitude+"&serve_type="+servetype+"&vehicletype="+vehicletype;
-                new JSONTask().execute(myurl);
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-
-            }
-
-        });
-if (vehicletype.contains(" ")) {
-    String[] separated = vehicletype.split(" ");
-    String vehicletype1 = separated[0]; // this will contain "Fruit"
-    String vehicletype2 = separated[1];
-    vehicletype = vehicletype1 + "%20" + vehicletype2;
-}
-
-        myurl=GlobalUrlInit.CAR_MERCHANLIST+"?slat="+latitud+"&slng="+longitud+"&serve_type="+servetype+"&vehicletype="+vehicletype;
-        new JSONTask().execute(myurl);
+        }
     }
 
 

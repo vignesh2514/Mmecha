@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.motomecha.app.R;
@@ -47,6 +48,7 @@ ImageButton Baddvec;
 String change_url,uid;
     ImageView Inovehicle;
 
+    ConnectionDetector c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ String change_url,uid;
         dialog.setMessage("Loading. Please wait...");
         SQLiteHandler db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
-        uid=user.get("uid");
+        uid = user.get("uid");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,37 +72,44 @@ String change_url,uid;
             }
         });
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
-        Inovehicle =(ImageView) findViewById(R.id.imageView4);
+        Inovehicle = (ImageView) findViewById(R.id.imageView4);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
         tv.setTypeface(custom_font);
         String text = "<font color=#ff1545>MY</font> <font color=#ffffff>VEHICLE</font>";
         tv.setText(Html.fromHtml(text));
-        ImageView imageView=(ImageView) findViewById(R.id.dark_home);
+        ImageView imageView = (ImageView) findViewById(R.id.dark_home);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MyVechicle.this,BasicActivity.class);
+                Intent intent = new Intent(MyVechicle.this, BasicActivity.class);
                 startActivity(intent);
             }
         });
+        c = new ConnectionDetector(MyVechicle.this);
+        if (c.isConnect()) {
+
 
         vehicletype = getIntent().getStringExtra("vehicletype");
         servicetype = getIntent().getStringExtra("servicetype");
-        listView=(ListView) findViewById(R.id.list_new_bikes);
-        Baddvec=(ImageButton) findViewById(R.id.button2);
+        listView = (ListView) findViewById(R.id.list_new_bikes);
+        Baddvec = (ImageButton) findViewById(R.id.button2);
         Baddvec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MyVechicle.this,BrandSelect.class);
-                intent.putExtra("brandtype",vehicletype);
+                Intent intent = new Intent(MyVechicle.this, BrandSelect.class);
+                intent.putExtra("brandtype", vehicletype);
                 startActivity(intent);
             }
         });
-        change_url=GlobalUrlInit.MY_VEHICLE+"?uid="+uid+"&vtype="+vehicletype;
+
+        change_url = GlobalUrlInit.MY_VEHICLE + "?uid=" + uid + "&vtype=" + vehicletype;
         new JSONTask().execute(change_url);
-
-
+    }
+else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+        }
 
     }
 

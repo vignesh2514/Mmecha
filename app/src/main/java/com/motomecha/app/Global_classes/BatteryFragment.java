@@ -41,6 +41,8 @@ public class BatteryFragment extends Fragment {
     TextView Ttitle;
     HtmlTextView Tdescrip;
 FloatingActionButton Fbooknow;
+    ConnectionDetector c;
+
     public static BatteryFragment newInstance() {
         BatteryFragment fragment = new BatteryFragment();
         return fragment;
@@ -62,7 +64,9 @@ FloatingActionButton Fbooknow;
         Fbooknow=(FloatingActionButton) v.findViewById(R.id.booknow);
         Animation startAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.blink_view);
         Fbooknow.startAnimation(startAnimation);
-        Fbooknow.setOnClickListener(new View.OnClickListener() {
+
+
+            Fbooknow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(),VehicleMode.class);

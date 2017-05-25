@@ -49,6 +49,7 @@ FloatingActionButton Fbooknw;
     private int mYear, mMonth, mDay;
 TextView Edat;
     ImageView imageVie;
+    ConnectionDetector cdr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,6 +191,8 @@ Edat=(TextView) findViewById(R.id.textView8);
             }
 
         });
+        cdr = new ConnectionDetector(InsurancePage.this);
+        if (cdr.isConnect()) {
 
         Fbooknw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,6 +248,12 @@ Edat=(TextView) findViewById(R.id.textView8);
 
             }
         });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     private void getimage_insur() {

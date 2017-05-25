@@ -40,6 +40,7 @@ import java.util.List;
 public class CustomerReviews extends AppCompatActivity {
     ListView menu_list;
     private  ProgressDialog dialog;
+    ConnectionDetector c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,17 @@ public class CustomerReviews extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        menu_list=(ListView) findViewById(R.id.offer_list);
+        c = new ConnectionDetector(CustomerReviews.this);
+        if (c.isConnect()) {
+
+            menu_list=(ListView) findViewById(R.id.offer_list);
         new JSONTask().execute(GlobalUrlInit.CUSTOMER_REVIEW);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public class MovieAdapter extends ArrayAdapter {

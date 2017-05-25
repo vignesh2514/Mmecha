@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.motomecha.app.R;
@@ -41,6 +42,7 @@ ImageView Iimage_view;
     private  ProgressDialog dialog;
     String uid,change_url;
     ListView listView;
+    ConnectionDetector c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +80,18 @@ ImageView Iimage_view;
         uid=user.get("uid");
         Iimage_view=(ImageView) findViewById(R.id.imageView3);
         listView=(ListView) findViewById(R.id.service_track);
-        change_url=GlobalUrlInit.SERVICE_TRACKING_URL+uid;
-        new JSONTask().execute(change_url);
+        c = new ConnectionDetector(ServiceTracking.this);
+        if (c.isConnect()) {
+
+            change_url = GlobalUrlInit.SERVICE_TRACKING_URL + uid;
+            new JSONTask().execute(change_url);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
     public class MovieAdapter extends ArrayAdapter {

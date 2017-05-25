@@ -40,6 +40,8 @@ import java.util.List;
 public class OfferPage extends AppCompatActivity {
     private  ProgressDialog dialog;
     ListView menu_list;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +74,17 @@ public class OfferPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-menu_list=(ListView) findViewById(R.id.offer_list);
-        new JSONTask().execute(GlobalUrlInit.OFFER_SERVICES);
+        c = new ConnectionDetector(OfferPage.this);
+        if (c.isConnect()) {
+
+            menu_list = (ListView) findViewById(R.id.offer_list);
+            new JSONTask().execute(GlobalUrlInit.OFFER_SERVICES);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 
@@ -210,7 +221,8 @@ menu_list=(ListView) findViewById(R.id.offer_list);
         protected void onPostExecute(final List<OfferList> movieModelList) {
             super.onPostExecute(movieModelList);
             dialog.dismiss();
-            if(movieModelList != null) {
+
+            if(movieModelList.size() >0) {
                 MovieAdapter adapter = new MovieAdapter(getApplicationContext(), R.layout.row_more_fragment,  movieModelList);
                 menu_list.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -226,7 +238,7 @@ menu_list=(ListView) findViewById(R.id.offer_list);
                     }
                 });
             } else {
-                Toast.makeText(getApplicationContext(), "Not able to fetch data from server, please check url.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "NO OFFERS RIGHT NOW", Toast.LENGTH_SHORT).show();
             }
         }
 

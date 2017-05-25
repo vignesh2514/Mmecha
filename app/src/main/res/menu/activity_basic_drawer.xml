@@ -55,6 +55,6 @@
             <item
                 android:id="@+id/nav_mobile"
                 android:icon="@drawable/ic_smartphone_mobile"
-                android:title="MOBILE: +91 96770 86686" />
+                android:title="MOBILE: +91 99629 86686" />
    </group>
 </menu>

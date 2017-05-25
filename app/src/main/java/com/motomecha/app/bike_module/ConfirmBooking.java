@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.motomecha.app.Global_classes.AppController;
 import com.motomecha.app.Global_classes.BasicActivity;
+import com.motomecha.app.Global_classes.ConnectionDetector;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.R;
 import com.motomecha.app.dbhandler.SQLiteHandler;
@@ -51,6 +52,8 @@ public class ConfirmBooking extends AppCompatActivity implements View.OnClickLis
     CheckBox Cpickup;
     CardView cardView;
     Context context;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,63 +85,70 @@ public class ConfirmBooking extends AppCompatActivity implements View.OnClickLis
         final HashMap<String, String> user = db.getUserDetails();
         uid=user.get("uid");
         context=this;
+        c = new ConnectionDetector(ConfirmBooking.this);
+        if (c.isConnect()) {
+
             kaddress = getIntent().getStringExtra("kaddress");
             vehicleno = getIntent().getStringExtra("vehicleno");
-        servetype = getIntent().getStringExtra("servetype");
-        merchant_id = getIntent().getStringExtra("merchant_id");
-        service_description = getIntent().getStringExtra("service_description");
-        price = getIntent().getStringExtra("price");
-        Eotherreq=(EditText) findViewById(R.id.textView6);
-        Tdescrip=(HtmlTextView) findViewById(R.id.textView5);
-        cardView=(CardView) findViewById(R.id.linearLayout2);
-        Cpickup=(CheckBox) findViewById(R.id.allpick_check);
-        Tdescrip.setHtml(service_description, new HtmlHttpImageGetter(Tdescrip));
-        total_booking=(TextView) findViewById(R.id.total_booking_price);
-        Eaddress=(EditText) findViewById(R.id.address_booking);
-        Llinerala=(LinearLayout) findViewById(R.id.bot_lin);
-        Tvehicleno=(TextView) findViewById(R.id.textView4);
-        Tvehicleno.setText(vehicleno);
-        total_booking.setText("ESTIMATE - \u20B9" +price +"*");
-        Eaddress.setText(kaddress);
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-setTitle("");
-        mMonth=mMonth+1;
-        Edat=(TextView) findViewById(R.id.textView8);
-        Edat.setText(mDay+"-"+mMonth+"-"+mYear);
-         dateselect=(ImageButton) findViewById(R.id.imageButton4);
-        dateselect.setOnClickListener(this);
+            servetype = getIntent().getStringExtra("servetype");
+            merchant_id = getIntent().getStringExtra("merchant_id");
+            service_description = getIntent().getStringExtra("service_description");
+            price = getIntent().getStringExtra("price");
+            Eotherreq = (EditText) findViewById(R.id.textView6);
+            Tdescrip = (HtmlTextView) findViewById(R.id.textView5);
+            cardView = (CardView) findViewById(R.id.linearLayout2);
+            Cpickup = (CheckBox) findViewById(R.id.allpick_check);
+            Tdescrip.setHtml(service_description, new HtmlHttpImageGetter(Tdescrip));
+            total_booking = (TextView) findViewById(R.id.total_booking_price);
+            Eaddress = (EditText) findViewById(R.id.address_booking);
+            Llinerala = (LinearLayout) findViewById(R.id.bot_lin);
+            Tvehicleno = (TextView) findViewById(R.id.textView4);
+            Tvehicleno.setText(vehicleno);
+            total_booking.setText("ESTIMATE - \u20B9" + price + "*");
+            Eaddress.setText(kaddress);
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+            setTitle("");
+            mMonth = mMonth + 1;
+            Edat = (TextView) findViewById(R.id.textView8);
+            Edat.setText(mDay + "-" + mMonth + "-" + mYear);
+            dateselect = (ImageButton) findViewById(R.id.imageButton4);
+            dateselect.setOnClickListener(this);
 
-        if (merchant_id==null)
-        {
-            merchant_id="bike";
-        }
+            if (merchant_id == null) {
+                merchant_id = "bike";
+            }
 
-        Llinerala.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
+            Llinerala.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.Yellowlight));
-        if(Cpickup.isChecked())
+                    if (Cpickup.isChecked()) {
+                        pick_u = "YES";
+                    } else {
+                        pick_u = "NO";
+
+                    }
+                    Random r = new Random();
+                    int ri = r.nextInt((99999 - 12345) + 1) + 1234;
+                    bookig_id = "MM" + ri;
+                    String sother_req = Eotherreq.getText().toString();
+                    String faddress = Eaddress.getText().toString();
+                    String current_date = mDay + "-" + mMonth + "-" + mYear;
+                    String scheduled_date = Edat.getText().toString();
+                    mybookingconfirmed(uid, price, faddress, vehicleno, bookig_id, current_date, scheduled_date, servetype, sother_req, merchant_id, pick_u);
+
+
+                }
+            });
+        }
+        else
         {
-            pick_u="YES";
-        }
-            else {
-            pick_u="NO";
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
 
         }
-        Random r = new Random();
-        int ri = r.nextInt((99999 - 12345)+1) + 1234;
-        bookig_id= "MM"+ri;
-        String sother_req=Eotherreq.getText().toString();
-        String faddress=Eaddress.getText().toString();
-        String current_date=mDay+"-"+mMonth+"-"+mYear;
-        String scheduled_date=Edat.getText().toString();
-        mybookingconfirmed(uid,price,faddress,vehicleno,bookig_id,current_date,scheduled_date,servetype,sother_req,merchant_id,pick_u);
-
-    }
-});
     }
 
     public void mybookingconfirmed(final String uid, final String price, final String faddress, final String vehicleno, final String bookig_id, final String current_date, final String scheduled_date, final String servetype, final String sother_req, final String merchant_id, final String pick_u)

@@ -4,6 +4,8 @@ package com.motomecha.app.Global_classes;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -56,7 +58,16 @@ ProgressDialog dialog;
         dialog.setCancelable(false);
         dialog.setMessage("Loading. Please wait...");
         menu_list =(ListView) v.findViewById(android.R.id.list);
-        new JSONTask().execute(GlobalUrlInit.MORE_SERVICES);
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new JSONTask().execute(GlobalUrlInit.MORE_SERVICES);
+
+        } else {
+           Toast.makeText(getActivity(),"PLEASE CHECK YOUR INTERNET CONNECTION",Toast.LENGTH_SHORT).show();
+        }
         return v;
     }
     public class MovieAdapter extends ArrayAdapter {
@@ -191,7 +202,7 @@ ProgressDialog dialog;
         protected void onPostExecute(final List<More_list_menu> movieModelList) {
             super.onPostExecute(movieModelList);
             dialog.dismiss();
-            if(movieModelList != null) {
+            if(movieModelList.size()>0) {
                 MovieAdapter adapter = new MovieAdapter(getActivity(), R.layout.row_more_fragment,  movieModelList);
                 menu_list.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -207,7 +218,7 @@ ProgressDialog dialog;
                     }
                 });
             } else {
-                Toast.makeText(getActivity(), "Not able to fetch data from server, please check url.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "NO UPCOMING DEALS RIGHT NOW", Toast.LENGTH_SHORT).show();
             }
         }
 

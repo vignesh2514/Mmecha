@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.motomecha.app.Global_classes.BasicActivity;
+import com.motomecha.app.Global_classes.ConnectionDetector;
 import com.motomecha.app.Global_classes.DetailService;
 import com.motomecha.app.Global_classes.GlobalWebPage;
 import com.motomecha.app.Global_classes.InsurancePage;
@@ -21,6 +23,8 @@ import com.motomecha.app.R;
 public class Car_service_modes extends AppCompatActivity {
    
     ImageButton Igencar,Iac_repa,Iroad_side,Iwheel,Iinsur,Ioil,Irepai,Itinke,Interir,Idiag,Ibuy,Icar;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,123 +58,130 @@ public class Car_service_modes extends AppCompatActivity {
         String text = "<font color=#ff1545>CAR</font> <font color=#ffffff>SERVICE</font>";
         tv.setText(Html.fromHtml(text));
         ImageView imageView=(ImageView) findViewById(R.id.dark_home);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,BasicActivity.class);
-                startActivity(intent);
-            }
-        });
-        Igencar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("servicetype","GS");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Iac_repa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("servicetype","AR");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Iroad_side.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","RSA");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Iwheel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","WA");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Iinsur.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,InsurancePage.class);
-               intent.putExtra("servicetype","IR");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Ioil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","OC");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Irepai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,MyVechicle.class);
-                intent.putExtra("servicetype","RJ");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Itinke.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","TAP");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Interir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","IC");
-                intent.putExtra("vehicletype","car");
+        c = new ConnectionDetector(Car_service_modes.this);
+        if (c.isConnect()) {
 
-                startActivity(intent);
-            }
-        });
-        Idiag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","DI");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
-        Ibuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(Car_service_modes.this,GlobalWebPage.class);
-                intent.putExtra("title1","BUY SELL");
-                intent.putExtra("wburl"," http://motomecha.com/");
-                startActivity(intent);
-            }
-        });
-        Icar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Car_service_modes.this,DetailService.class);
-                intent.putExtra("servicetype","CD");
-                intent.putExtra("vehicletype","car");
-                startActivity(intent);
-            }
-        });
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, BasicActivity.class);
+                    startActivity(intent);
+                }
+            });
+            Igencar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "GS");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Iac_repa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "AR");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Iroad_side.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, DetailService.class);
+                    intent.putExtra("servicetype", "RSA");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Iwheel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, DetailService.class);
+                    intent.putExtra("servicetype", "WA");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Iinsur.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, InsurancePage.class);
+                    intent.putExtra("servicetype", "IR");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Ioil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, DetailService.class);
+                    intent.putExtra("servicetype", "OC");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Irepai.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "RJ");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Itinke.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, DetailService.class);
+                    intent.putExtra("servicetype", "TAP");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Interir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, DetailService.class);
+                    intent.putExtra("servicetype", "IC");
+                    intent.putExtra("vehicletype", "car");
 
+                    startActivity(intent);
+                }
+            });
+            Idiag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, DetailService.class);
+                    intent.putExtra("servicetype", "DI");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+            Ibuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, GlobalWebPage.class);
+                    intent.putExtra("title1", "BUY SELL");
+                    intent.putExtra("wburl", " http://motomecha.com/");
+                    startActivity(intent);
+                }
+            });
+            Icar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Car_service_modes.this, DetailService.class);
+                    intent.putExtra("servicetype", "CD");
+                    intent.putExtra("vehicletype", "car");
+                    startActivity(intent);
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

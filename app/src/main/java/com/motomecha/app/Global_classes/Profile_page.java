@@ -44,6 +44,7 @@ Context context;
     SQLiteHandler db;
     ImageButton Iupdate_profile;
     TextView Tmy_otp;
+    ConnectionDetector c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,10 @@ Context context;
                 startActivity(intent);
             }
         });
-        Iupdate_profile=(ImageButton) findViewById(R.id.imageButton5);
+        c = new ConnectionDetector(Profile_page.this);
+
+
+            Iupdate_profile=(ImageButton) findViewById(R.id.imageButton5);
          db = new SQLiteHandler(getApplicationContext());
         final HashMap<String, String> user = db.getUserDetails();
         Ename=(EditText) findViewById(R.id.name_text);
@@ -119,49 +123,50 @@ Context context;
             }
 
         });
-Iupdate_profile.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        name=Ename.getText().toString();
-        mob_num=Emobi.getText().toString();
-        email_id=Eemail.getText().toString();
-        Saddre=Eaddres.getText().toString();
-        Spincod=Epincode.getText().toString();
-         if(mob_num.length()<9)
-        {
-           Toast.makeText(getApplicationContext(),"ENTER VALID MOBILE NUMBER",Toast.LENGTH_SHORT).show();
+        if (c.isConnect()) {
+            Iupdate_profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    name = Ename.getText().toString();
+                    mob_num = Emobi.getText().toString();
+                    email_id = Eemail.getText().toString();
+                    Saddre = Eaddres.getText().toString();
+                    Spincod = Epincode.getText().toString();
+                    if (mob_num.length() < 9) {
+                        Toast.makeText(getApplicationContext(), "ENTER VALID MOBILE NUMBER", Toast.LENGTH_SHORT).show();
+                    } else if (Spincod.length() < 5) {
+                        Toast.makeText(getApplicationContext(), "ENTER VALID PINCODE", Toast.LENGTH_SHORT).show();
+                    } else {
+                        new DroidDialog.Builder(context)
+                                .icon(R.drawable.msingletone_logo)
+                                .title("CONFIRM MOBILE NUMBER")
+                                .content("YOUR INFORMATION WILL BE UPDATED AFTER OTP VERIFICATION")
+                                .cancelable(true, true)
+                                .positiveButton("OK", new DroidDialog.onPositiveListener() {
+                                    @Override
+                                    public void onPositive(Dialog droidDialog) {
+                                        droidDialog.dismiss();
+                                        getmyotp(uid, mob_num);
+                                    }
+                                })
+                                .typeface("rama.ttf")
+                                .animation(AnimUtils.AnimZoomInOut)
+                                .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),
+                                        ContextCompat.getColor(context, R.color.colorRed))
+                                .divider(true, ContextCompat.getColor(context, R.color.colorAccent))
+                                .show();
+                    }
+
+
+                }
+            });
         }
-        else if (Spincod.length()<5)
-         {
-             Toast.makeText(getApplicationContext(),"ENTER VALID PINCODE",Toast.LENGTH_SHORT).show();
-         }
-         else
-         {
-             new DroidDialog.Builder(context)
-                     .icon(R.drawable.msingletone_logo)
-                     .title("CONFIRM MOBILE NUMBER")
-                     .content("YOUR INFORMATION WILL BE UPDATED AFTER OTP VERIFICATION")
-                     .cancelable(true, true)
-                     .positiveButton("OK", new DroidDialog.onPositiveListener() {
-                         @Override
-                         public void onPositive(Dialog droidDialog) {
-                             droidDialog.dismiss();
-                             getmyotp(uid,mob_num);
-                         }
-                     })
-                     .typeface("rama.ttf")
-                     .animation(AnimUtils.AnimZoomInOut)
-                     .color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white),
-                             ContextCompat.getColor(context, R.color.colorRed))
-                     .divider(true, ContextCompat.getColor(context, R.color.colorAccent))
-                     .show();
-         }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
 
-
-
-    }
-});
-        OtpReader.bind(this,"MMECHA");
+        }
+        OtpReader.bind(this, "MMECHA");
 
     }
 

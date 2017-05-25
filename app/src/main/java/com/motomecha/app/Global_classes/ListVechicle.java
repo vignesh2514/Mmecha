@@ -59,6 +59,8 @@ Context context;
     ImageView Inovehicle;
     ImageButton Baddvec;
     private int mYear, mMonth, mDay;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,22 +103,30 @@ Context context;
         });
             servce_type = getIntent().getStringExtra("servicetype");
             vehicletype = getIntent().getStringExtra("vehicletype");
-        Baddvec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(ListVechicle.this,BrandSelect.class);
-                intent.putExtra("brandtype",vehicletype);
-                startActivity(intent);
-            }
-        });
-        change_url=GlobalUrlInit.MY_VEHICLE+"?uid="+uid+"&vtype="+vehicletype;
-        new JSONTask().execute(change_url);
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-        mMonth=mMonth+1;
+        c = new ConnectionDetector(ListVechicle.this);
+        if (c.isConnect()) {
 
+            Baddvec.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ListVechicle.this, BrandSelect.class);
+                    intent.putExtra("brandtype", vehicletype);
+                    startActivity(intent);
+                }
+            });
+            change_url = GlobalUrlInit.MY_VEHICLE + "?uid=" + uid + "&vtype=" + vehicletype;
+            new JSONTask().execute(change_url);
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+            mMonth = mMonth + 1;
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public void getmyotherbooking(final String uid, final String servce_type, final String current_date, final String vehicle_no, final String bookig_id) {

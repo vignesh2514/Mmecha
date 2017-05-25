@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.droidbyme.dialoglib.AnimUtils;
@@ -29,6 +30,7 @@ import com.freshdesk.hotline.HotlineConfig;
 import com.freshdesk.hotline.HotlineUser;
 import com.google.gson.Gson;
 import com.motomecha.app.Global_classes.BasicActivity;
+import com.motomecha.app.Global_classes.ConnectionDetector;
 import com.motomecha.app.Global_classes.GlobalUrlInit;
 import com.motomecha.app.R;
 import com.motomecha.app.bike_module.ConfirmBooking;
@@ -56,6 +58,7 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
     private  ProgressDialog dialog;
     Context context;
     ListView car_review_new;
+    ConnectionDetector c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,70 +118,79 @@ String Saddress,Sdisplay_name,Sid,Sprice,Slikes,Sservice_description,Smerchant_i
         content_descrip=content_descrip.replace("</li>", "");
         content_descrip=content_descrip.replace("<br>", "\n");
         vehicleno = getIntent().getStringExtra("vehicleno");
-        Glide.with(context).load(Smerchant_image).into(Imerchant_image);
-        Tdisplay_name.setText(Sdisplay_name);
-        Taddress.setText(Saddress);
-        Tlikes.setText(Slikes);
-        Tprice.setText("\u20B9"+Sprice);
-        SQLiteHandler db = new SQLiteHandler(getApplicationContext());
-        final HashMap<String, String> user = db.getUserDetails();
-        name=user.get("name");
-        email=user.get("email");
-        mobile_number=user.get("pnum");
-        kaddress=user.get("kaddre");
-        HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
-        hotlineConfig.setVoiceMessagingEnabled(true);
-        hotlineConfig.setCameraCaptureEnabled(true);
-        hotlineConfig.setPictureMessagingEnabled(true);
-        Hotline.getInstance(getApplicationContext()).init(hotlineConfig);
+        c = new ConnectionDetector(CarServiceProvidersDetail.this);
+        if (c.isConnect()) {
 
-        //Update user information
-        HotlineUser user1 = Hotline.getInstance(getApplicationContext()).getUser();
-        user1.setName(name).setEmail(email).setPhone("+91", mobile_number);;
-        Hotline.getInstance(getApplicationContext()).updateUser(user1);
+            Glide.with(context).load(Smerchant_image).into(Imerchant_image);
+            Tdisplay_name.setText(Sdisplay_name);
+            Taddress.setText(Saddress);
+            Tlikes.setText(Slikes);
+            Tprice.setText("\u20B9" + Sprice);
+            SQLiteHandler db = new SQLiteHandler(getApplicationContext());
+            final HashMap<String, String> user = db.getUserDetails();
+            name = user.get("name");
+            email = user.get("email");
+            mobile_number = user.get("pnum");
+            kaddress = user.get("kaddre");
+            HotlineConfig hotlineConfig = new HotlineConfig("a77f9cdb-24d2-441a-a950-c6a2ee3a97da", "79e50529-54c3-4bd3-a6ff-add1bcfafbb8");
+            hotlineConfig.setVoiceMessagingEnabled(true);
+            hotlineConfig.setCameraCaptureEnabled(true);
+            hotlineConfig.setPictureMessagingEnabled(true);
+            Hotline.getInstance(getApplicationContext()).init(hotlineConfig);
 
-        Ibooknw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DroidDialog.Builder(context)
-                        .icon(R.drawable.msingletone_logo)
-                        .title("GENERAL SERVICE")
-                        .content(content_descrip)
-                        .cancelable(true, true)
-                        .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
-                            @Override
-                            public void onPositive(Dialog droidDialog) {
-                                droidDialog.dismiss();
-                                Intent intent = new Intent(CarServiceProvidersDetail.this, ConfirmBooking.class);
-                                intent.putExtra("kaddress",kaddress);
-                                intent.putExtra("vechicletype","CAR");
-                                intent.putExtra("vehicleno",vehicleno);
-                                intent.putExtra("price",Sprice);
-                                intent.putExtra("merchant_id",Smerchant_id);
-                                intent.putExtra("servetype",servetype);
-                                intent.putExtra("service_description",Sservice_description);
-                                startActivity(intent);
-                            }
-                        }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
-            }
-        });
-        Icallnw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
-                        "tel", Scall_number, null));
-                startActivity(phoneIntent);
-            }
-        });
-        Ichatnw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Hotline.showConversations(CarServiceProvidersDetail.this);
+            //Update user information
+            HotlineUser user1 = Hotline.getInstance(getApplicationContext()).getUser();
+            user1.setName(name).setEmail(email).setPhone("+91", mobile_number);
+            ;
+            Hotline.getInstance(getApplicationContext()).updateUser(user1);
 
-            }
-        });
+            Ibooknw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new DroidDialog.Builder(context)
+                            .icon(R.drawable.msingletone_logo)
+                            .title("GENERAL SERVICE")
+                            .content(content_descrip)
+                            .cancelable(true, true)
+                            .positiveButton("BOOK NOW", new DroidDialog.onPositiveListener() {
+                                @Override
+                                public void onPositive(Dialog droidDialog) {
+                                    droidDialog.dismiss();
+                                    Intent intent = new Intent(CarServiceProvidersDetail.this, ConfirmBooking.class);
+                                    intent.putExtra("kaddress", kaddress);
+                                    intent.putExtra("vechicletype", "CAR");
+                                    intent.putExtra("vehicleno", vehicleno);
+                                    intent.putExtra("price", Sprice);
+                                    intent.putExtra("merchant_id", Smerchant_id);
+                                    intent.putExtra("servetype", servetype);
+                                    intent.putExtra("service_description", Sservice_description);
+                                    startActivity(intent);
+                                }
+                            }).typeface("rama.ttf").animation(AnimUtils.AnimZoomInOut).color(ContextCompat.getColor(context, R.color.colorRed), ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.colorRed)).divider(true, ContextCompat.getColor(context, R.color.colorAccent)).show();
+                }
+            });
+            Icallnw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
+                            "tel", Scall_number, null));
+                    startActivity(phoneIntent);
+                }
+            });
+            Ichatnw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Hotline.showConversations(CarServiceProvidersDetail.this);
 
-        new JSONTask().execute(GlobalUrlInit.CAR_REVIWES);
+                }
+            });
+
+            new JSONTask().execute(GlobalUrlInit.CAR_REVIWES);
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public class MovieAdapter extends ArrayAdapter {

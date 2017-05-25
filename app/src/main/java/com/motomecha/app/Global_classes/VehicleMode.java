@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.motomecha.app.R;
 
 public class VehicleMode extends AppCompatActivity {
 ImageButton Iselectbike,Iselectcar;
     String service_type;
+    ConnectionDetector c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,10 @@ ImageButton Iselectbike,Iselectcar;
         Iselectbike=(ImageButton) findViewById(R.id.imageButton7);
         Iselectcar=(ImageButton) findViewById(R.id.imageButton8);
         service_type = getIntent().getStringExtra("servicetype");
-        Iselectbike.setOnClickListener(new View.OnClickListener() {
+        c = new ConnectionDetector(VehicleMode.this);
+        if (c.isConnect()) {
+
+            Iselectbike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(VehicleMode.this,ListVechicle.class);
@@ -67,6 +72,12 @@ ImageButton Iselectbike,Iselectcar;
 
             }
         });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
 }

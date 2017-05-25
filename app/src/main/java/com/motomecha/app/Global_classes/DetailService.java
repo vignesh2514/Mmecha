@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,6 +38,8 @@ FloatingActionButton Fbooknow;
     HtmlTextView Tdescrip;
     Context context;
     String serve_type,vehicletype;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,20 +76,29 @@ FloatingActionButton Fbooknow;
         Tdescrip.setTypeface(custom_font);
         serve_type = getIntent().getStringExtra("servicetype");
         vehicletype= getIntent().getStringExtra("vehicletype");
+        c = new ConnectionDetector(DetailService.this);
+        if (c.isConnect()) {
 
-        Fbooknow=(FloatingActionButton) findViewById(R.id.booknow);
-        Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_view);
-        Fbooknow.startAnimation(startAnimation);
-        loadmyservice(serve_type);
-        Fbooknow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(DetailService.this,ListVechicle.class);
-                intent.putExtra("servicetype",serve_type);
-                intent.putExtra("vehicletype",vehicletype);
-                startActivity(intent);
-            }
-        });
+            Fbooknow = (FloatingActionButton) findViewById(R.id.booknow);
+            Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_view);
+            Fbooknow.startAnimation(startAnimation);
+            loadmyservice(serve_type);
+            Fbooknow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(DetailService.this, ListVechicle.class);
+                    intent.putExtra("servicetype", serve_type);
+                    intent.putExtra("vehicletype", vehicletype);
+                    startActivity(intent);
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
+
 }
 public  void loadmyservice(final String serve_type)
 {

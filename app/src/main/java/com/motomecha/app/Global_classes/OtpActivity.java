@@ -22,6 +22,8 @@ String Sotpnum,Sotpt,otp,getpass,mobile_number,name,email,address,uid,cfd="0",pi
     ImageButton Iverify;
     private SessionManager session;
     private SQLiteHandler db;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,40 +43,42 @@ String Sotpnum,Sotpt,otp,getpass,mobile_number,name,email,address,uid,cfd="0",pi
 
         Eotp_check=(EditText) findViewById(R.id.otp_text);
         Iverify=(ImageButton) findViewById(R.id.verify_otp);
-        Iverify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Sotpt=Eotp_check.getText().toString();
-                if (Sotpt.isEmpty())
-                {
-                    Toast.makeText(OtpActivity.this,"PLEASE ENTER YOUR OTP ",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    if(otp.equals(Sotpt)&&getpass.equals(cfd)){
-                        Intent intent = new Intent(OtpActivity.this, ResgisterActivity.class);
-                        intent.putExtra("mobile_number",mobile_number);
-                        intent.putExtra("otp",otp);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else if (otp.equals(Sotpt)&&getpass.contains("1"))
-                    {
-                        session.setLogin(true);
-                        db.addUser(name, email, uid, mobile_number,address,pincode,slat,slng);
-                        Intent intent = new Intent(OtpActivity.this, BasicActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(),"ENTER VALID OTP",Toast.LENGTH_SHORT).show();
-                    }
-                }
+        c = new ConnectionDetector(OtpActivity.this);
+        if (c.isConnect()) {
 
-            }
-        });
-        OtpReader.bind(this,"MMECHA");
+            Iverify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Sotpt = Eotp_check.getText().toString();
+                    if (Sotpt.isEmpty()) {
+                        Toast.makeText(OtpActivity.this, "PLEASE ENTER YOUR OTP ", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (otp.equals(Sotpt) && getpass.equals(cfd)) {
+                            Intent intent = new Intent(OtpActivity.this, ResgisterActivity.class);
+                            intent.putExtra("mobile_number", mobile_number);
+                            intent.putExtra("otp", otp);
+                            startActivity(intent);
+                            finish();
+                        } else if (otp.equals(Sotpt) && getpass.contains("1")) {
+                            session.setLogin(true);
+                            db.addUser(name, email, uid, mobile_number, address, pincode, slat, slng);
+                            Intent intent = new Intent(OtpActivity.this, BasicActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "ENTER VALID OTP", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
+        OtpReader.bind(this, "MMECHA");
 
     }
     @Override

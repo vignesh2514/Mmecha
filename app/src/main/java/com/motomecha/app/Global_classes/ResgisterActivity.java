@@ -43,6 +43,8 @@ public class ResgisterActivity extends AppCompatActivity  {
     private TrackGPS gps;
     double lat;
     double lng;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +118,8 @@ public class ResgisterActivity extends AppCompatActivity  {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        c = new ConnectionDetector(ResgisterActivity.this);
+        if (c.isConnect()) {
 
 
         Iproceed.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +143,12 @@ public class ResgisterActivity extends AppCompatActivity  {
                 }
             }
         });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public void registerme(final String sname, final String semail, final String saddress, final String mobile_number, final String otp, final String spincode,final String slat,final String slng) {

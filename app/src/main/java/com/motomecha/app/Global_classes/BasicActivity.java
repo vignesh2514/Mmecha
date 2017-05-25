@@ -99,36 +99,28 @@ Context context;
         navigationView.setNavigationItemSelectedListener(this);
 
 
+            bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+                @Override
+                public void onTabSelected(@IdRes int tabId) {
+                    Fragment selectedFragment = null;
 
+                    if (tabId == R.id.home_bar) {
+                        selectedFragment = HomeFragment.newInstance();
+                    } else if (tabId == R.id.tyre_bar) {
+                        selectedFragment = TyreFragement.newInstance();
+                    } else if (tabId == R.id.battery_bar) {
+                        selectedFragment = BatteryFragment.newInstance();
+                    } else if (tabId == R.id.more_bar) {
+                        selectedFragment = MoreFragment.newInstance();
+                    }
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame_layout, selectedFragment);
+                    transaction.commit();
 
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                Fragment selectedFragment = null;
+                }
 
-           if (tabId == R.id.home_bar)
-           {
-               selectedFragment = HomeFragment.newInstance();
-           }
-               else if (tabId == R.id.tyre_bar)
-           {
-               selectedFragment = TyreFragement.newInstance();
-           }
-           else if (tabId == R.id.battery_bar)
-           {
-               selectedFragment = BatteryFragment.newInstance();
-           }
-           else if (tabId == R.id.more_bar)
-           {
-               selectedFragment = MoreFragment.newInstance();
-           }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.frame_layout, selectedFragment);
-                transaction.commit();
+            });
 
-            }
-
-        });
 
 
     }
@@ -222,7 +214,7 @@ logoutUser();
         {
             Intent intent=new Intent(BasicActivity.this,GlobalWebPage.class);
             intent.putExtra("title1","MM SHOPING");
-            intent.putExtra("wburl"," http://motomecha.com/");
+            intent.putExtra("wburl","https://www.motogarage.in/");
             startActivity(intent);
         }
         else if (id == R.id.nav_email)

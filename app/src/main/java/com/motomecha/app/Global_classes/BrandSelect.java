@@ -41,6 +41,7 @@ public class BrandSelect extends AppCompatActivity {
     private ProgressDialog dialog;
     GridView cate_list;
 String change_url,btype;
+    ConnectionDetector c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,23 +76,29 @@ String change_url,btype;
                 startActivity(intent);
             }
         });
-        change_url=GlobalUrlInit.VECHILE_LISTING_BIKE;
-        Intent intent = getIntent();
-         btype = intent.getStringExtra("brandtype");
-        try {
-            if (btype.equals("bike"))
-            {
-                change_url=change_url+"brand_select_bike.php";
-            }
-            else
-            {
-                change_url=change_url+"brand_select_car.php";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        c = new ConnectionDetector(BrandSelect.this);
+        if (c.isConnect()) {
 
-        new JSONTask().execute(change_url);
+            change_url = GlobalUrlInit.VECHILE_LISTING_BIKE;
+            Intent intent = getIntent();
+            btype = intent.getStringExtra("brandtype");
+            try {
+                if (btype.equals("bike")) {
+                    change_url = change_url + "brand_select_bike.php";
+                } else {
+                    change_url = change_url + "brand_select_car.php";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            new JSONTask().execute(change_url);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
     public class MovieAdapter extends ArrayAdapter {
 

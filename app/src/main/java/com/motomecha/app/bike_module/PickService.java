@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.freshdesk.hotline.Hotline;
 import com.freshdesk.hotline.HotlineConfig;
 import com.freshdesk.hotline.HotlineUser;
 import com.motomecha.app.Global_classes.BasicActivity;
+import com.motomecha.app.Global_classes.ConnectionDetector;
 import com.motomecha.app.Global_classes.GlobalWebPage;
 import com.motomecha.app.Global_classes.InsurancePage;
 import com.motomecha.app.Global_classes.MyVechicle;
@@ -28,6 +30,8 @@ public class PickService extends AppCompatActivity {
 String name,email,mobile_number;
     ImageButton Igs,Ioil,Irep,Iwat,Ityr,Ibrek,Iveh,Iinsu,Ibuy,Ipet,Ibike,Icus;
     TextView Tservicetype,Tbrandtype;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,7 @@ String name,email,mobile_number;
         name=user.get("name");
         email=user.get("email");
 mobile_number=user.get("pnum");
+
         TextView tv = (TextView) findViewById(R.id.text_view_toolb);
         Typeface custom_font = Typeface.createFromAsset(getApplication().getAssets(), "fonts/rama.ttf");
         assert tv != null;
@@ -85,117 +90,123 @@ mobile_number=user.get("pnum");
         HotlineUser user1 = Hotline.getInstance(getApplicationContext()).getUser();
         user1.setName(name).setEmail(email).setPhone("+91", mobile_number);;
         Hotline.getInstance(getApplicationContext()).updateUser(user1);
-Igs.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(PickService.this,MyVechicle.class);
-        intent.putExtra("servicetype","GS");
-        intent.putExtra("vehicletype","bike");
-        startActivity(intent);
-    }
-});
+        c=new ConnectionDetector(PickService.this);
+        if (c.isConnect()) {
+            Igs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "GS");
+                    intent.putExtra("vehicletype", "bike");
+                    startActivity(intent);
+                }
+            });
 
-        Ioil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","OC");
-                intent.putExtra("vehicletype","bike");
-                startActivity(intent);
-            }
-        });
-        Irep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","RJ");
-                intent.putExtra("vehicletype","bike");
-                startActivity(intent);
-            }
-        });
-        Iwat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","WW");
-                intent.putExtra("vehicletype","bike");
+            Ioil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "OC");
+                    intent.putExtra("vehicletype", "bike");
+                    startActivity(intent);
+                }
+            });
+            Irep.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "RJ");
+                    intent.putExtra("vehicletype", "bike");
+                    startActivity(intent);
+                }
+            });
+            Iwat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "WW");
+                    intent.putExtra("vehicletype", "bike");
 
-                startActivity(intent);
-            }
-        });
-        Ityr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","TP");
-                intent.putExtra("vehicletype","bike");
+                    startActivity(intent);
+                }
+            });
+            Ityr.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "TP");
+                    intent.putExtra("vehicletype", "bike");
 
-                startActivity(intent);
-            }
-        });
-        Ibrek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","BA");
-                intent.putExtra("vehicletype","bike");
+                    startActivity(intent);
+                }
+            });
+            Ibrek.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "BA");
+                    intent.putExtra("vehicletype", "bike");
 
-                startActivity(intent);
-            }
-        });
-        Iveh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","VD");
-                intent.putExtra("vehicletype","bike");
+                    startActivity(intent);
+                }
+            });
+            Iveh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "VD");
+                    intent.putExtra("vehicletype", "bike");
 
-                startActivity(intent);
-            }
-        });
-        Iinsu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,InsurancePage.class);
-                intent.putExtra("servicetype","IR");
+                    startActivity(intent);
+                }
+            });
+            Iinsu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, InsurancePage.class);
+                    intent.putExtra("servicetype", "IR");
 //                intent.putExtra("vehicletype","bike");
-                startActivity(intent);
-            }
-        });
-        Ibuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,GlobalWebPage.class);
-                intent.putExtra("title1","BUY SELL");
-                intent.putExtra("wburl"," http://motomecha.com/");
-                startActivity(intent);
-            }
-        });
-        Ipet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,NearestPetrol.class);
+                    startActivity(intent);
+                }
+            });
+            Ibuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, GlobalWebPage.class);
+                    intent.putExtra("title1", "BUY SELL");
+                    intent.putExtra("wburl", " http://motomecha.com/");
+                    startActivity(intent);
+                }
+            });
+            Ipet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, NearestPetrol.class);
 
-                startActivity(intent);
-            }
-        });
-        Ibike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PickService.this,MyVechicle.class);
-                intent.putExtra("servicetype","BSG");
-                intent.putExtra("vehicletype","bike");
-                startActivity(intent);
-            }
-        });
-        Icus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Hotline.showConversations(PickService.this);
-            }
-        });
+                    startActivity(intent);
+                }
+            });
+            Ibike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PickService.this, MyVechicle.class);
+                    intent.putExtra("servicetype", "BSG");
+                    intent.putExtra("vehicletype", "bike");
+                    startActivity(intent);
+                }
+            });
+            Icus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Hotline.showConversations(PickService.this);
+                }
+            });
 
-
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

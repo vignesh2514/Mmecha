@@ -34,6 +34,8 @@ public class New_Plate_registration extends AppCompatActivity {
     String vehicle_no,uid,Stn1,Stn2,Stn3,Stn4,bike_model;
     TextView Tbikeview;
     LinearLayout Llightbulb;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,25 +90,32 @@ public class New_Plate_registration extends AppCompatActivity {
         Etn4.setText(part4);
         bike_model = intent.getStringExtra("bike_model");
         Tbikeview.setText(bike_model);
-        Bsubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Stn1=Etn1.getText().toString();
-                Stn2=Etn2.getText().toString();
-                Stn3=Etn3.getText().toString();
-                Stn1=Etn1.getText().toString();
-                Stn4=Etn4.getText().toString();
+        c = new ConnectionDetector(New_Plate_registration.this);
+        if (c.isConnect()) {
 
-                if (Stn1.length()==2&&Stn2.length()==2&&Stn3.length()==2&&Stn4.length()==4)
-                {
-                    platenumber(Stn1,Stn2,Stn3,Stn4,uid,vehicle_no);
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),"ENTER VALID VEHICLE NUMBER",Toast.LENGTH_SHORT).show();
+            Bsubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Stn1 = Etn1.getText().toString();
+                    Stn2 = Etn2.getText().toString();
+                    Stn3 = Etn3.getText().toString();
+                    Stn1 = Etn1.getText().toString();
+                    Stn4 = Etn4.getText().toString();
 
+                    if (Stn1.length() == 2 && Stn2.length() == 2 && Stn3.length() <= 2 && Stn4.length() == 4) {
+                        platenumber(Stn1, Stn2, Stn3, Stn4, uid, vehicle_no);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "ENTER VALID VEHICLE NUMBER", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
-            }
-        });
+            });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
         Etn1.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start,int before, int count)

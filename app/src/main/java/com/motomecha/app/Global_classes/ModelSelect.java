@@ -39,6 +39,8 @@ public class ModelSelect extends AppCompatActivity {
 ListView model_llist;
     private  ProgressDialog dialog;
     String btype,mbtype,change_url;
+    ConnectionDetector c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,10 @@ ListView model_llist;
                 startActivity(intent);
             }
         });
-        change_url=GlobalUrlInit.VECHILE_LISTING_BIKE;
+        c = new ConnectionDetector(ModelSelect.this);
+        if (c.isConnect()) {
+
+            change_url=GlobalUrlInit.VECHILE_LISTING_BIKE;
 
         if (btype.equals("bike"))
         {
@@ -88,6 +93,12 @@ ListView model_llist;
         }
 
         new JSONTask().execute(change_url);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"PLEASE CHECK YOUR INTERNET CONNECTIVITY",Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public class MovieAdapter extends ArrayAdapter {
